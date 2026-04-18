@@ -124,6 +124,81 @@
       transition: all 0.3s;
     }
 
+    /* DONATION TRACKER */
+    .donation-tracker {
+      position: absolute;
+      right: 4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,212,255,0.05);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      min-width: 220px;
+      backdrop-filter: blur(10px);
+    }
+
+    .tracker-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .tracker-amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.8rem;
+    }
+
+    .tracker-amount span {
+      color: var(--accent);
+    }
+
+    .tracker-bar-wrap {
+      background: rgba(255,255,255,0.07);
+      border-radius: 100px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+    }
+
+    .tracker-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, #00aaff, #00d4ff);
+      transition: width 1.5s ease;
+    }
+
+    .tracker-goal {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tracker-donors {
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .tracker-donors strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1100px) {
+      .donation-tracker { display: none; }
+    }
+
     /* HERO */
     #home {
       min-height: 100vh;
@@ -677,7 +752,7 @@
   </nav>
 
   <!-- HERO -->
-  <section id="home">
+  <section id="home" style="position: relative;">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="hero-content">
@@ -687,6 +762,22 @@
       <div class="hero-buttons">
         <a href="#programs" class="btn-primary">Our Programs</a>
         <a href="#apply" class="btn-secondary">Get Involved →</a>
+      </div>
+    </div>
+
+    <!-- DONATION TRACKER -->
+    <div class="donation-tracker" id="donationTracker">
+      <div class="tracker-label">Total Raised</div>
+      <div class="tracker-amount" id="trackerAmount"><span>$</span><span id="trackerNum">0</span></div>
+      <div class="tracker-bar-wrap">
+        <div class="tracker-bar-fill" id="trackerBar" style="width: 0%"></div>
+      </div>
+      <div class="tracker-goal">
+        <span id="trackerPct">0%</span>
+        <span>Goal: $500</span>
+      </div>
+      <div class="tracker-donors">
+        <strong id="trackerDonors">0</strong> donors so far
       </div>
     </div>
   </section>
@@ -885,6 +976,44 @@
   </footer>
 
   <script>
+    // Donation tracker — reads from localStorage so totals persist across visits
+    (function() {
+      const GOAL = 500;
+      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0}');
+
+      function animateCount(target, duration) {
+        const el = document.getElementById('trackerNum');
+        const bar = document.getElementById('trackerBar');
+        const pct = document.getElementById('trackerPct');
+        const donorsEl = document.getElementById('trackerDonors');
+        let start = 0;
+        const step = (ts) => {
+          if (!start) start = ts;
+          const progress = Math.min((ts - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const val = Math.round(ease * target);
+          el.textContent = val.toLocaleString();
+          const pctVal = Math.min(Math.round((val / GOAL) * 100), 100);
+          bar.style.width = pctVal + '%';
+          pct.textContent = pctVal + '%';
+          donorsEl.textContent = Math.round(ease * stored.donors);
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+
+      // Animate in when hero is visible
+      setTimeout(() => animateCount(stored.total, 1800), 600);
+
+      // Expose a global so the donate button can add to the total (optional)
+      window.recordDonation = function(amount, donors) {
+        stored.total += amount;
+        stored.donors += (donors || 1);
+        localStorage.setItem('ob_donations', JSON.stringify(stored));
+        animateCount(stored.total, 800);
+      };
+    })();
+
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('open');
     }
