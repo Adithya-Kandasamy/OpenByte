@@ -191,7 +191,7 @@
 
     .tracker-amount {
       font-family: 'Outfit', sans-serif;
-      font-size: 6rem;
+      font-size: 3rem;
       font-weight: 800;
       color: var(--text);
       line-height: 1;
@@ -1088,7 +1088,8 @@
     // Donation tracker
     (function() {
       const GOAL = 500;
-      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0,"entries":[]}');
+      const DEMO = {"total":510,"donors":12,"entries":[100,75,75,50,50,40,35,35,25,10,10,5]};
+      let stored = JSON.parse(localStorage.getItem('ob_donations') || JSON.stringify(DEMO));
       if (!stored.entries) stored.entries = [];
 
       function animateCount(target, duration) {
