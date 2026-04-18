@@ -53,17 +53,26 @@
     }
 
     .logo-link { text-decoration: none; display: flex; align-items: center; }
-    .logo-svg { height: 52px; width: auto; }
+    .logo-svg { height: 56px; width: auto; }
 
-    /* Circuit ring slow spin */
-    .circuit-ring {
-      animation: spin 18s linear infinite;
-      transform-origin: 30px 30px;
+    /* Spinning outer ring */
+    .ring-spin {
+      animation: spin 20s linear infinite;
+      transform-origin: 80px 80px;
+    }
+    /* Counter-spin inner ring */
+    .ring-spin-reverse {
+      animation: spin-reverse 14s linear infinite;
+      transform-origin: 80px 80px;
     }
 
     @keyframes spin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
+    }
+    @keyframes spin-reverse {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
     }
 
     .nav-links {
@@ -548,7 +557,7 @@
       .form-row { grid-template-columns: 1fr; }
       footer { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
-      .logo-svg { height: 42px; }
+      .logo-svg { height: 48px; }
     }
   </style>
 </head>
@@ -558,70 +567,97 @@
   <nav id="navbar">
     <a href="#home" class="logo-link">
       <!--
-        SVG logo: spinning circuit ring on left, "Open" (white) + "Byte" (cyan) bold,
-        tagline "INNOVATE · CONNECT · EMPOWER" below in muted grey.
-        Matches the uploaded OpenByte brand image.
+        Logo: circular orbit ring with text "OpenByte" centered inside,
+        matching the uploaded brand image exactly.
+        "Open" = white/light, "Byte" = cyan gradient
+        Tagline below inside circle area.
       -->
-      <svg class="logo-svg" viewBox="0 0 230 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="logo-svg" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="glowRing" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.15"/>
+          <radialGradient id="glowCenter" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.12"/>
             <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
           </radialGradient>
+          <linearGradient id="byteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00aaff"/>
+            <stop offset="100%" stop-color="#00d4ff"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
 
-        <!-- Glow behind ring -->
-        <circle cx="31" cy="31" r="28" fill="url(#glowRing)"/>
+        <!-- Soft glow behind ring -->
+        <circle cx="100" cy="35" r="32" fill="url(#glowCenter)"/>
 
-        <!-- Spinning circuit ring group -->
-        <g class="circuit-ring">
-          <!-- Outer dashed orbit -->
-          <circle cx="31" cy="31" r="27" stroke="#00d4ff" stroke-width="0.7" stroke-dasharray="2.5 4.5" opacity="0.55"/>
-          <!-- Mid circle -->
-          <circle cx="31" cy="31" r="20" stroke="#00d4ff" stroke-width="0.5" stroke-dasharray="1 3" opacity="0.3"/>
-          <!-- Cardinal connector lines (like circuit traces) -->
-          <line x1="31" y1="4"  x2="31" y2="11" stroke="#00d4ff" stroke-width="1.2" opacity="0.9" stroke-linecap="round"/>
-          <line x1="31" y1="51" x2="31" y2="58" stroke="#00d4ff" stroke-width="1.2" opacity="0.9" stroke-linecap="round"/>
-          <line x1="4"  y1="31" x2="11" y2="31" stroke="#00d4ff" stroke-width="1.2" opacity="0.9" stroke-linecap="round"/>
-          <line x1="51" y1="31" x2="58" y2="31" stroke="#00d4ff" stroke-width="1.2" opacity="0.9" stroke-linecap="round"/>
-          <!-- Cardinal nodes (bright dots) -->
-          <circle cx="31" cy="4"  r="2.2" fill="#00d4ff" opacity="1"/>
-          <circle cx="31" cy="58" r="2.2" fill="#00d4ff" opacity="1"/>
-          <circle cx="4"  cy="31" r="2.2" fill="#00d4ff" opacity="1"/>
-          <circle cx="58" cy="31" r="2.2" fill="#00d4ff" opacity="1"/>
+        <!-- Outermost faint ring -->
+        <circle cx="100" cy="35" r="33" stroke="#00d4ff" stroke-width="0.4" opacity="0.2"/>
+
+        <!-- Spinning outer orbit ring with nodes -->
+        <g class="ring-spin">
+          <!-- Main outer orbit -->
+          <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.7"
+                  stroke-dasharray="3 5" opacity="0.5"/>
+          <!-- Cardinal bright nodes on outer ring -->
+          <circle cx="100" cy="6"  r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
+          <circle cx="100" cy="64" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
+          <circle cx="71"  cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
+          <circle cx="129" cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
           <!-- Diagonal smaller nodes -->
-          <circle cx="12.6" cy="12.6" r="1.3" fill="#00d4ff" opacity="0.65"/>
-          <circle cx="49.4" cy="12.6" r="1.3" fill="#00d4ff" opacity="0.65"/>
-          <circle cx="12.6" cy="49.4" r="1.3" fill="#00d4ff" opacity="0.65"/>
-          <circle cx="49.4" cy="49.4" r="1.3" fill="#00d4ff" opacity="0.65"/>
+          <circle cx="79.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
+          <circle cx="120.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
+          <circle cx="79.5"  cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
+          <circle cx="120.5" cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
         </g>
 
-        <!-- Inner static circle (doesn't spin) -->
-        <circle cx="31" cy="31" r="13" stroke="#00d4ff" stroke-width="0.5" opacity="0.2"/>
+        <!-- Counter-spinning inner ring -->
+        <g class="ring-spin-reverse">
+          <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.5"
+                  stroke-dasharray="1.5 4" opacity="0.3"/>
+          <!-- Small inner nodes -->
+          <circle cx="100" cy="13" r="1.2" fill="#00d4ff" opacity="0.5"/>
+          <circle cx="100" cy="57" r="1.2" fill="#00d4ff" opacity="0.5"/>
+          <circle cx="78"  cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
+          <circle cx="122" cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
+        </g>
 
-        <!-- "Open" text — white -->
-        <text x="74" y="36"
-              font-family="Syne, sans-serif"
-              font-weight="800"
-              font-size="23"
-              fill="#f0f4ff"
-              letter-spacing="-0.8">Open</text>
+        <!-- Short circuit-trace lines extending out from ring (static) -->
+        <!-- Top -->
+        <line x1="100" y1="6" x2="100" y2="2" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
+        <!-- Bottom -->
+        <line x1="100" y1="64" x2="100" y2="68" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
+        <!-- Left -->
+        <line x1="71" y1="35" x2="67" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
+        <!-- Right -->
+        <line x1="129" y1="35" x2="133" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
 
-        <!-- "Byte" text — cyan -->
-        <text x="128" y="36"
-              font-family="Syne, sans-serif"
-              font-weight="800"
-              font-size="23"
-              fill="#00d4ff"
-              letter-spacing="-0.8">Byte</text>
+        <!-- Text centered within ring: "Open" + "Byte" -->
+        <!-- Using dominant-baseline and text-anchor to center -->
+        <text
+          x="100" y="31"
+          font-family="Syne, sans-serif"
+          font-weight="800"
+          font-size="17"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          letter-spacing="-0.3">
+          <tspan fill="#f0f4ff">Open</tspan><tspan fill="url(#byteGrad)" filter="url(#glow)">Byte</tspan>
+        </text>
 
-        <!-- Tagline -->
-        <text x="74" y="50"
-              font-family="DM Sans, sans-serif"
-              font-weight="400"
-              font-size="6.2"
-              fill="#8892a4"
-              letter-spacing="2">INNOVATE · CONNECT · EMPOWER</text>
+        <!-- Tagline below the wordmark, inside the circle -->
+        <text
+          x="100" y="42"
+          font-family="DM Sans, sans-serif"
+          font-weight="400"
+          font-size="4.2"
+          fill="#8892a4"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          letter-spacing="1.8">INNOVATE · CONNECT · EMPOWER</text>
       </svg>
     </a>
 
@@ -808,25 +844,37 @@
 
   <!-- FOOTER -->
   <footer>
-    <!-- Footer logo (static, no spin) -->
-    <svg viewBox="0 0 230 62" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:44px;width:auto;">
-      <circle cx="31" cy="31" r="27" stroke="#00d4ff" stroke-width="0.7" stroke-dasharray="2.5 4.5" opacity="0.4"/>
-      <circle cx="31" cy="31" r="20" stroke="#00d4ff" stroke-width="0.5" stroke-dasharray="1 3" opacity="0.2"/>
-      <line x1="31" y1="4"  x2="31" y2="11" stroke="#00d4ff" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
-      <line x1="31" y1="51" x2="31" y2="58" stroke="#00d4ff" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
-      <line x1="4"  y1="31" x2="11" y2="31" stroke="#00d4ff" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
-      <line x1="51" y1="31" x2="58" y2="31" stroke="#00d4ff" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>
-      <circle cx="31" cy="4"  r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="31" cy="58" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="4"  cy="31" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="58" cy="31" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="12.6" cy="12.6" r="1.3" fill="#00d4ff" opacity="0.45"/>
-      <circle cx="49.4" cy="12.6" r="1.3" fill="#00d4ff" opacity="0.45"/>
-      <circle cx="12.6" cy="49.4" r="1.3" fill="#00d4ff" opacity="0.45"/>
-      <circle cx="49.4" cy="49.4" r="1.3" fill="#00d4ff" opacity="0.45"/>
-      <text x="74" y="36" font-family="Syne, sans-serif" font-weight="800" font-size="23" fill="#f0f4ff" letter-spacing="-0.8">Open</text>
-      <text x="128" y="36" font-family="Syne, sans-serif" font-weight="800" font-size="23" fill="#00d4ff" letter-spacing="-0.8">Byte</text>
-      <text x="74" y="50" font-family="DM Sans, sans-serif" font-weight="400" font-size="6.2" fill="#8892a4" letter-spacing="2">INNOVATE · CONNECT · EMPOWER</text>
+    <!-- Footer logo (static, smaller) -->
+    <svg viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:48px;width:auto;">
+      <defs>
+        <linearGradient id="byteGradFt" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00aaff"/>
+          <stop offset="100%" stop-color="#00d4ff"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="35" r="33" stroke="#00d4ff" stroke-width="0.4" opacity="0.15"/>
+      <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.6" stroke-dasharray="3 5" opacity="0.4"/>
+      <circle cx="100" cy="6"  r="2.2" fill="#00d4ff" opacity="0.7"/>
+      <circle cx="100" cy="64" r="2.2" fill="#00d4ff" opacity="0.7"/>
+      <circle cx="71"  cy="35" r="2.2" fill="#00d4ff" opacity="0.7"/>
+      <circle cx="129" cy="35" r="2.2" fill="#00d4ff" opacity="0.7"/>
+      <circle cx="79.5" cy="14.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
+      <circle cx="120.5" cy="14.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
+      <circle cx="79.5"  cy="55.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
+      <circle cx="120.5" cy="55.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
+      <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.4" stroke-dasharray="1.5 4" opacity="0.2"/>
+      <line x1="100" y1="6" x2="100" y2="2" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+      <line x1="100" y1="64" x2="100" y2="68" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+      <line x1="71" y1="35" x2="67" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+      <line x1="129" y1="35" x2="133" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
+      <text x="100" y="31" font-family="Syne, sans-serif" font-weight="800" font-size="17"
+            text-anchor="middle" dominant-baseline="middle" letter-spacing="-0.3">
+        <tspan fill="#f0f4ff">Open</tspan><tspan fill="url(#byteGradFt)">Byte</tspan>
+      </text>
+      <text x="100" y="42" font-family="DM Sans, sans-serif" font-weight="400" font-size="4.2"
+            fill="#8892a4" text-anchor="middle" dominant-baseline="middle" letter-spacing="1.8">
+        INNOVATE · CONNECT · EMPOWER
+      </text>
     </svg>
 
     <div>
