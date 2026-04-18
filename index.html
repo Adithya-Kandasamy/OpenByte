@@ -130,45 +130,82 @@
       right: 0;
       top: 0;
       bottom: 0;
-      width: 45%;
-      background: rgba(0,212,255,0.04);
-      border-left: 1px solid rgba(0,212,255,0.15);
-      border-radius: 0;
-      padding: 0 5rem;
+      width: 42%;
+      background: rgba(0,212,255,0.03);
+      border-left: 1px solid rgba(0,212,255,0.12);
       display: flex;
       flex-direction: column;
-      justify-content: center;
       backdrop-filter: blur(10px);
     }
 
+    /* Tabs */
+    .tracker-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(0,212,255,0.12);
+    }
+
+    .tracker-tab {
+      flex: 1;
+      padding: 1.1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+      user-select: none;
+    }
+
+    .tracker-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(0,212,255,0.04);
+    }
+
+    .tracker-tab:hover:not(.active) {
+      color: var(--text);
+    }
+
+    /* Panels */
+    .tracker-panel {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding: 2.5rem 3.5rem;
+    }
+
+    .tracker-panel.active { display: flex; }
+
     .tracker-label {
-      font-size: 1rem;
+      font-size: 0.78rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: var(--accent);
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
     }
 
     .tracker-amount {
       font-family: 'Outfit', sans-serif;
-      font-size: 9rem;
+      font-size: 6rem;
       font-weight: 800;
       color: var(--text);
       line-height: 1;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
     }
 
-    .tracker-amount span {
-      color: var(--accent);
-    }
+    .tracker-amount span { color: var(--accent); }
 
     .tracker-bar-wrap {
       background: rgba(255,255,255,0.07);
       border-radius: 100px;
-      height: 14px;
+      height: 10px;
       overflow: hidden;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.8rem;
     }
 
     .tracker-bar-fill {
@@ -179,23 +216,77 @@
     }
 
     .tracker-goal {
-      font-size: 1rem;
+      font-size: 0.88rem;
       color: var(--muted);
       display: flex;
       justify-content: space-between;
+      margin-bottom: 1.2rem;
     }
 
     .tracker-donors {
-      margin-top: 1.2rem;
       padding-top: 1.2rem;
       border-top: 1px solid rgba(255,255,255,0.06);
-      font-size: 1rem;
+      font-size: 0.88rem;
       color: var(--muted);
     }
 
-    .tracker-donors strong {
+    .tracker-donors strong { color: var(--text); font-weight: 600; }
+
+    /* Leaderboard */
+    .lb-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      width: 100%;
+    }
+
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.7rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+
+    .lb-row:hover { background: rgba(0,212,255,0.06); }
+
+    .lb-rank {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      width: 22px;
+      text-align: center;
+    }
+
+    .lb-rank.gold   { color: #fbbf24; }
+    .lb-rank.silver { color: #94a3b8; }
+    .lb-rank.bronze { color: #cd7c4a; }
+
+    .lb-amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
       color: var(--text);
-      font-weight: 600;
+      flex: 1;
+    }
+
+    .lb-bar {
+      height: 4px;
+      border-radius: 100px;
+      background: linear-gradient(90deg, #00aaff, #00d4ff);
+      opacity: 0.4;
+    }
+
+    .lb-empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 2rem 0;
+      line-height: 1.7;
     }
 
     @media (max-width: 1100px) {
@@ -770,17 +861,32 @@
 
     <!-- DONATION TRACKER -->
     <div class="donation-tracker" id="donationTracker">
-      <div class="tracker-label">Total Raised</div>
-      <div class="tracker-amount" id="trackerAmount"><span>$</span><span id="trackerNum">0</span></div>
-      <div class="tracker-bar-wrap">
-        <div class="tracker-bar-fill" id="trackerBar" style="width: 0%"></div>
+      <!-- Tabs -->
+      <div class="tracker-tabs">
+        <div class="tracker-tab active" onclick="switchTab('total')">Total Raised</div>
+        <div class="tracker-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
       </div>
-      <div class="tracker-goal">
-        <span id="trackerPct">0%</span>
-        <span>Goal: $500</span>
+
+      <!-- Total Panel -->
+      <div class="tracker-panel active" id="panel-total">
+        <div class="tracker-label">Amount Raised</div>
+        <div class="tracker-amount" id="trackerAmount"><span>$</span><span id="trackerNum">0</span></div>
+        <div class="tracker-bar-wrap">
+          <div class="tracker-bar-fill" id="trackerBar" style="width: 0%"></div>
+        </div>
+        <div class="tracker-goal">
+          <span id="trackerPct">0%</span>
+          <span>Goal: $500</span>
+        </div>
+        <div class="tracker-donors">
+          <strong id="trackerDonors">0</strong> donors so far
+        </div>
       </div>
-      <div class="tracker-donors">
-        <strong id="trackerDonors">0</strong> donors so far
+
+      <!-- Leaderboard Panel -->
+      <div class="tracker-panel" id="panel-leaderboard">
+        <div class="tracker-label">Top 10 Donations</div>
+        <div class="lb-list" id="lbList"></div>
       </div>
     </div>
   </section>
@@ -979,10 +1085,11 @@
   </footer>
 
   <script>
-    // Donation tracker — reads from localStorage so totals persist across visits
+    // Donation tracker
     (function() {
       const GOAL = 500;
-      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0}');
+      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0,"entries":[]}');
+      if (!stored.entries) stored.entries = [];
 
       function animateCount(target, duration) {
         const el = document.getElementById('trackerNum');
@@ -1005,15 +1112,41 @@
         requestAnimationFrame(step);
       }
 
-      // Animate in when hero is visible
+      function renderLeaderboard() {
+        const list = document.getElementById('lbList');
+        const top10 = [...stored.entries].sort((a,b) => b - a).slice(0, 10);
+        if (top10.length === 0) {
+          list.innerHTML = '<div class="lb-empty">No donations yet.<br/>Be the first to give!</div>';
+          return;
+        }
+        const max = top10[0];
+        const ranks = ['gold','silver','bronze'];
+        list.innerHTML = top10.map((amt, i) => `
+          <div class="lb-row">
+            <div class="lb-rank ${ranks[i] || ''}">#${i+1}</div>
+            <div class="lb-amount">$${amt.toLocaleString()}</div>
+            <div class="lb-bar" style="width:${Math.round((amt/max)*80)+20}px"></div>
+          </div>`).join('');
+      }
+
+      window.switchTab = function(tab) {
+        document.querySelectorAll('.tracker-tab').forEach((t,i) => {
+          t.classList.toggle('active', (i===0 && tab==='total') || (i===1 && tab==='leaderboard'));
+        });
+        document.getElementById('panel-total').classList.toggle('active', tab==='total');
+        document.getElementById('panel-leaderboard').classList.toggle('active', tab==='leaderboard');
+        if (tab === 'leaderboard') renderLeaderboard();
+      };
+
       setTimeout(() => animateCount(stored.total, 1800), 600);
 
-      // Expose a global so the donate button can add to the total (optional)
-      window.recordDonation = function(amount, donors) {
+      window.recordDonation = function(amount) {
         stored.total += amount;
-        stored.donors += (donors || 1);
+        stored.donors += 1;
+        stored.entries.push(amount);
         localStorage.setItem('ob_donations', JSON.stringify(stored));
         animateCount(stored.total, 800);
+        renderLeaderboard();
       };
     })();
 
