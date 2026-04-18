@@ -1092,8 +1092,7 @@
     // Donation tracker
     (function() {
       const GOAL = 500;
-      const DEMO = {"total":510,"donors":12,"entries":[100,75,75,50,50,40,35,35,25,10,10,5]};
-      let stored = JSON.parse(localStorage.getItem('ob_donations') || JSON.stringify(DEMO));
+      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0,"entries":[]}');
       if (!stored.entries) stored.entries = [];
 
       function animateCount(target, duration) {
@@ -1121,7 +1120,7 @@
         const list = document.getElementById('lbList');
         const top10 = [...stored.entries].sort((a,b) => b - a).slice(0, 10);
         if (top10.length === 0) {
-          list.innerHTML = '<div class="lb-empty">No donations yet.<br/>Be the first to give!</div>';
+          list.innerHTML = '<div class="lb-empty">No donations at the moment —<br/>but you could be the first!</div>';
           return;
         }
         const max = top10[0];
