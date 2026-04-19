@@ -294,7 +294,7 @@
     }
 
     @media (max-width: 1100px) {
-      .donation-tracker { display: none; }
+      .donation-tracker { display: none !important; }
     }
 
     /* HERO */
@@ -724,7 +724,8 @@
         gap: 1.5rem;
         border-bottom: 1px solid var(--border);
       }
-      #home, section { padding: 6rem 1.5rem 4rem; }
+      #home { padding: 6rem 1.5rem 4rem; min-height: auto; }
+      section { padding: 6rem 1.5rem 4rem; }
       .about-grid { grid-template-columns: 1fr; }
       .programs-grid { grid-template-columns: 1fr; }
       .impact-grid { grid-template-columns: 1fr 1fr; }
