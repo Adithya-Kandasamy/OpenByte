@@ -709,6 +709,80 @@
       transform: translateY(0);
     }
 
+
+
+    /* MOBILE TRACKER (shown below hero on small screens) */
+    .mobile-tracker {
+      display: none;
+      background: var(--surface);
+      border-top: 1px solid rgba(0,212,255,0.15);
+      border-bottom: 1px solid rgba(0,212,255,0.15);
+      padding: 0;
+    }
+
+    .mobile-tracker-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(0,212,255,0.15);
+    }
+
+    .mobile-tracker-tab {
+      flex: 1;
+      padding: 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .mobile-tracker-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(0,212,255,0.05);
+    }
+
+    .mobile-tracker-panel {
+      display: none;
+      padding: 1.5rem 1.2rem;
+    }
+
+    .mobile-tracker-panel.active { display: block; }
+
+    @media (max-width: 1100px) {
+      .mobile-tracker { display: block; }
+    }
+
+    /* DONATE & APPLY SECTIONS */
+    .donate-section {
+      background: var(--surface);
+      padding: 6rem 4rem;
+      position: relative;
+    }
+
+    .donate-tiers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .donate-btn {
+      font-size: 1.1rem;
+      padding: 1rem 3rem;
+      display: inline-block;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+
+    .apply-section {
+      background: var(--bg);
+      padding: 6rem 4rem;
+    }
+
     /* TABLET */
     @media (max-width: 1024px) {
       .programs-grid { grid-template-columns: 1fr 1fr; }
@@ -776,15 +850,14 @@
       .impact-card p { font-size: 0.8rem; }
 
       /* Donate tiers */
-      #donate { padding: 4rem 1.2rem !important; }
-      #donate > div[style*="grid-template-columns: repeat(5"] {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.7rem !important;
-      }
+      .donate-section { padding: 4rem 1.2rem; }
+      .donate-tiers { grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
+      .donate-btn { font-size: 0.95rem; padding: 0.9rem 1.5rem; white-space: normal; width: 100%; box-sizing: border-box; }
+      #donate .reveal > p { font-size: 0.75rem; }
 
       /* Apply / form */
-      #apply { padding: 4rem 1.2rem !important; }
-      #apply iframe { height: 500px; }
+      .apply-section { padding: 4rem 1.2rem; }
+      .apply-section iframe { height: 500px; }
 
       /* Footer */
       footer {
@@ -801,9 +874,7 @@
     @media (max-width: 400px) {
       h1 { font-size: 2rem; }
       .impact-grid { grid-template-columns: 1fr; }
-      #donate > div[style*="grid-template-columns: repeat(5"] {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
+      .donate-tiers { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -967,6 +1038,25 @@
     </div>
   </section>
 
+  <!-- MOBILE DONATION TRACKER -->
+  <div class="mobile-tracker">
+    <div class="mobile-tracker-tabs">
+      <div class="mobile-tracker-tab active" onclick="switchMobileTab('total')">Total Raised</div>
+      <div class="mobile-tracker-tab" onclick="switchMobileTab('board')">Leaderboard</div>
+    </div>
+    <div class="mobile-tracker-panel active" id="mpanel-total">
+      <div class="tracker-label">Amount Raised</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:1rem;"><span style="color:var(--accent);">$</span><span id="mTrackerNum">0</span></div>
+      <div class="tracker-bar-wrap"><div class="tracker-bar-fill" id="mTrackerBar" style="width:0%"></div></div>
+      <div class="tracker-goal" style="margin-top:0.5rem;"><span id="mTrackerPct">0%</span><span>Goal: $500</span></div>
+      <div class="tracker-donors" style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--muted);"><strong id="mTrackerDonors">0</strong> donors so far</div>
+    </div>
+    <div class="mobile-tracker-panel" id="mpanel-board">
+      <div class="tracker-label">Top 10 Donations</div>
+      <div class="lb-list" id="mLbList"></div>
+    </div>
+  </div>
+
   <!-- ABOUT -->
   <section id="about">
     <div class="section-tag reveal">Who We Are</div>
@@ -1066,12 +1156,12 @@
   </section>
 
   <!-- DONATE -->
-  <section id="donate" style="background: var(--surface); padding: 6rem 4rem; position: relative;">
+  <section id="donate" class="donate-section">
     <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent2), transparent);"></div>
     <div class="section-tag reveal">Support Us</div>
     <h2 class="reveal">Make a Donation</h2>
     <p class="section-sub reveal" style="margin-bottom: 3rem;">Your contribution helps us run workshops, support communities, and bridge the digital divide. Every dollar makes a difference.</p>
-    <div style="display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; margin-bottom: 3rem;" class="reveal">
+    <div class="donate-tiers reveal">
       <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center;">
         <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$5</div>
       </div>
@@ -1089,13 +1179,13 @@
       </div>
     </div>
     <div style="text-align: center;" class="reveal">
-      <a href="https://hcb.hackclub.com/donations/start/openbyte-non-profit" target="_blank" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 3rem;">Donate via Hack Club Bank</a>
+      <a href="https://hcb.hackclub.com/donations/start/openbyte-non-profit" target="_blank" class="btn-primary donate-btn">Donate via Hack Club Bank</a>
       <p style="color: var(--muted); font-size: 0.8rem; margin-top: 1rem;">OpenByte is fiscally sponsored by Hack Club, a 501(c)(3) nonprofit. Donations are tax-deductible.</p>
     </div>
   </section>
 
   <!-- APPLY -->
-  <section id="apply" style="background: var(--bg); padding: 6rem 4rem;">
+  <section id="apply" class="apply-section">
     <div class="section-tag reveal">Join Us</div>
     <h2 class="reveal">Apply or Sign Up</h2>
     <p class="section-sub reveal" style="margin-bottom: 2.5rem;">Ready to volunteer, get help, or partner with us? Fill out our form below and we'll get back to you!</p>
@@ -1205,7 +1295,58 @@
           </div>`).join('');
       }
 
-      window.switchTab = function(tab) {
+      window.switchMobileTab = function(tab) {
+        document.querySelectorAll('.mobile-tracker-tab').forEach((t,i) => {
+          t.classList.toggle('active', (i===0 && tab==='total') || (i===1 && tab==='board'));
+        });
+        document.getElementById('mpanel-total').classList.toggle('active', tab==='total');
+        document.getElementById('mpanel-board').classList.toggle('active', tab==='board');
+        if (tab === 'board') renderMobileLeaderboard();
+      };
+
+      function renderMobileLeaderboard() {
+        const list = document.getElementById('mLbList');
+        const top10 = [...stored.entries].sort((a,b) => b - a).slice(0, 10);
+        if (top10.length === 0) {
+          list.innerHTML = '<div class="lb-empty">No donations at the moment —<br/>but you could be the first!</div>';
+          return;
+        }
+        const max = top10[0];
+        const ranks = ['gold','silver','bronze'];
+        list.innerHTML = top10.map((amt, i) => `
+          <div class="lb-row">
+            <div class="lb-rank ${ranks[i] || ''}">#${i+1}</div>
+            <div class="lb-amount">$${amt.toLocaleString()}</div>
+            <div class="lb-bar" style="width:${Math.round((amt/max)*80)+20}px"></div>
+          </div>`).join('');
+      }
+
+      // Sync mobile tracker numbers
+      const origAnimate = animateCount;
+      function animateMobile(target, duration) {
+        const el = document.getElementById('mTrackerNum');
+        const bar = document.getElementById('mTrackerBar');
+        const pct = document.getElementById('mTrackerPct');
+        const donors = document.getElementById('mTrackerDonors');
+        if (!el) return;
+        let start = 0;
+        const step = (ts) => {
+          if (!start) start = ts;
+          const progress = Math.min((ts - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const val = Math.round(ease * target);
+          el.textContent = val.toLocaleString();
+          const pctVal = Math.min(Math.round((val / GOAL) * 100), 100);
+          bar.style.width = pctVal + '%';
+          pct.textContent = pctVal + '%';
+          donors.textContent = Math.round(ease * stored.donors);
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+      setTimeout(() => animateMobile(stored.total, 1800), 700);
+
+    window.switchTab = function(tab) {
         document.querySelectorAll('.tracker-tab').forEach((t,i) => {
           t.classList.toggle('active', (i===0 && tab==='total') || (i===1 && tab==='leaderboard'));
         });
