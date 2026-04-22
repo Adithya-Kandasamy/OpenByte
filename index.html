@@ -56,15 +56,13 @@
     .logo-link { text-decoration: none; display: flex; align-items: center; }
     .logo-svg { height: 56px; width: auto; }
 
-    /* Spinning outer ring */
     .ring-spin {
       animation: spin 20s linear infinite;
-      transform-origin: 80px 80px;
+      transform-origin: 100px 35px;
     }
-    /* Counter-spin inner ring */
     .ring-spin-reverse {
       animation: spin-reverse 14s linear infinite;
-      transform-origin: 80px 80px;
+      transform-origin: 100px 35px;
     }
 
     @keyframes spin {
@@ -139,7 +137,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Tabs */
     .tracker-tabs {
       display: flex;
       border-bottom: 1px solid rgba(0,212,255,0.15);
@@ -173,7 +170,6 @@
       background: rgba(255,255,255,0.03);
     }
 
-    /* Panels */
     .tracker-panel {
       display: none;
       flex-direction: column;
@@ -217,6 +213,7 @@
       border-radius: 100px;
       background: linear-gradient(90deg, #00aaff, #00d4ff);
       transition: width 1.5s ease;
+      width: 0%;
     }
 
     .tracker-goal {
@@ -236,13 +233,48 @@
 
     .tracker-donors strong { color: var(--text); font-weight: 600; }
 
+    /* live indicator */
+    .tracker-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--accent3);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .tracker-live-dot {
+      width: 6px; height: 6px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .tracker-error {
+      font-size: 0.8rem;
+      color: #f87171;
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+    }
+
     /* Leaderboard */
     .lb-list {
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
       width: 100%;
+      overflow-y: auto;
+      max-height: 340px;
     }
+
+    .lb-list::-webkit-scrollbar { width: 4px; }
+    .lb-list::-webkit-scrollbar-track { background: transparent; }
+    .lb-list::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 4px; }
 
     .lb-row {
       display: flex;
@@ -264,18 +296,28 @@
       color: var(--muted);
       width: 22px;
       text-align: center;
+      flex-shrink: 0;
     }
 
     .lb-rank.gold   { color: #fbbf24; }
     .lb-rank.silver { color: #94a3b8; }
     .lb-rank.bronze { color: #cd7c4a; }
 
+    .lb-name {
+      font-size: 0.82rem;
+      color: var(--muted);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .lb-amount {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text);
-      flex: 1;
+      flex-shrink: 0;
     }
 
     .lb-bar {
@@ -283,6 +325,7 @@
       border-radius: 100px;
       background: linear-gradient(90deg, #00aaff, #00d4ff);
       opacity: 0.4;
+      flex-shrink: 0;
     }
 
     .lb-empty {
@@ -291,6 +334,24 @@
       font-size: 0.85rem;
       padding: 2rem 0;
       line-height: 1.7;
+    }
+
+    .lb-loading {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .lb-skeleton {
+      height: 44px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
     }
 
     @media (max-width: 1100px) {
@@ -572,8 +633,6 @@
 
     .program-card:hover::before { transform: scaleX(1); }
 
-    .program-icon { font-size: 2.5rem; margin-bottom: 1.2rem; }
-
     .program-card h3 {
       font-family: 'Outfit', sans-serif;
       font-size: 1.2rem;
@@ -642,8 +701,6 @@
       text-align: center;
     }
 
-    .impact-emoji { font-size: 2rem; margin-bottom: 1rem; }
-
     .impact-card h3 {
       font-family: 'Outfit', sans-serif;
       font-size: 0.95rem;
@@ -709,15 +766,12 @@
       transform: translateY(0);
     }
 
-
-
-    /* MOBILE TRACKER (shown below hero on small screens) */
+    /* MOBILE TRACKER */
     .mobile-tracker {
       display: none;
       background: var(--surface);
       border-top: 1px solid rgba(0,212,255,0.15);
       border-bottom: 1px solid rgba(0,212,255,0.15);
-      padding: 0;
     }
 
     .mobile-tracker-tabs {
@@ -756,7 +810,7 @@
       .mobile-tracker { display: block; }
     }
 
-    /* DONATE & APPLY SECTIONS */
+    /* DONATE SECTION */
     .donate-section {
       background: var(--surface);
       padding: 6rem 4rem;
@@ -794,7 +848,6 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
-      /* Nav */
       nav { padding: 0.8rem 1.2rem; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
@@ -811,66 +864,38 @@
       }
       .nav-links.open a { font-size: 1rem; padding: 0.5rem 0; }
       .logo-svg { height: 40px; }
-
-      /* Hero */
-      #home {
-        padding: 5.5rem 1.2rem 3rem;
-        min-height: auto;
-      }
+      #home { padding: 5.5rem 1.2rem 3rem; min-height: auto; }
       .hero-content { max-width: 100%; }
       h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); letter-spacing: -1px; }
       .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
       .hero-buttons { flex-direction: column; gap: 0.8rem; }
       .btn-primary, .btn-secondary { text-align: center; padding: 0.9rem 1.5rem; font-size: 1rem; }
       .hero-badge { font-size: 0.72rem; }
-
-      /* Donation tracker hidden on mobile */
       .donation-tracker { display: none !important; }
-
-      /* Sections */
       section { padding: 4rem 1.2rem; }
       h2 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
       .section-sub { font-size: 0.95rem; }
-
-      /* About */
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .about-visual { height: 280px; }
       .about-icon-grid { gap: 0.6rem; padding: 1rem; }
       .about-icon-cell { padding: 0.8rem 0.5rem; border-radius: 8px; }
       .about-icon-cell p { font-size: 0.6rem; }
-
-      /* Programs */
       .programs-grid { grid-template-columns: 1fr; gap: 1rem; }
       .program-card { padding: 1.5rem; }
-
-      /* Impact */
       .impact-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
       .impact-card { padding: 1.2rem; }
       .impact-card h3 { font-size: 0.85rem; }
       .impact-card p { font-size: 0.8rem; }
-
-      /* Donate tiers */
       .donate-section { padding: 4rem 1.2rem; }
       .donate-tiers { grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
-      .donate-btn { font-size: 0.95rem; padding: 0.9rem 1.5rem; white-space: normal; width: 100%; box-sizing: border-box; }
-      #donate .reveal > p { font-size: 0.75rem; }
-
-      /* Apply / form */
+      .donate-btn { font-size: 0.95rem; padding: 0.9rem 1.5rem; white-space: normal; width: 100%; }
       .apply-section { padding: 4rem 1.2rem; }
       .apply-section iframe { height: 500px; }
-
-      /* Footer */
-      footer {
-        flex-direction: column;
-        text-align: center;
-        padding: 2rem 1.2rem;
-        gap: 1.2rem;
-      }
+      footer { flex-direction: column; text-align: center; padding: 2rem 1.2rem; gap: 1.2rem; }
       .footer-links { justify-content: center; flex-wrap: wrap; gap: 1rem; }
       footer svg { height: 36px; }
     }
 
-    /* Small phones */
     @media (max-width: 400px) {
       h1 { font-size: 2rem; }
       .impact-grid { grid-template-columns: 1fr; }
@@ -883,12 +908,6 @@
   <!-- NAV -->
   <nav id="navbar">
     <a href="#home" class="logo-link">
-      <!--
-        Logo: circular orbit ring with text "OpenByte" centered inside,
-        matching the uploaded brand image exactly.
-        "Open" = white/light, "Byte" = cyan gradient
-        Tagline below inside circle area.
-      -->
       <svg class="logo-svg" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="glowCenter" cx="50%" cy="50%" r="50%">
@@ -901,80 +920,39 @@
           </linearGradient>
           <filter id="glow">
             <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-
-        <!-- Soft glow behind ring -->
         <circle cx="100" cy="35" r="32" fill="url(#glowCenter)"/>
-
-        <!-- Outermost faint ring -->
         <circle cx="100" cy="35" r="33" stroke="#00d4ff" stroke-width="0.4" opacity="0.2"/>
-
-        <!-- Spinning outer orbit ring with nodes -->
         <g class="ring-spin">
-          <!-- Main outer orbit -->
-          <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.7"
-                  stroke-dasharray="3 5" opacity="0.5"/>
-          <!-- Cardinal bright nodes on outer ring -->
+          <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.7" stroke-dasharray="3 5" opacity="0.5"/>
           <circle cx="100" cy="6"  r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
           <circle cx="100" cy="64" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
           <circle cx="71"  cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
           <circle cx="129" cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
-          <!-- Diagonal smaller nodes -->
           <circle cx="79.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
           <circle cx="120.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
           <circle cx="79.5"  cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
           <circle cx="120.5" cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
         </g>
-
-        <!-- Counter-spinning inner ring -->
         <g class="ring-spin-reverse">
-          <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.5"
-                  stroke-dasharray="1.5 4" opacity="0.3"/>
-          <!-- Small inner nodes -->
+          <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.5" stroke-dasharray="1.5 4" opacity="0.3"/>
           <circle cx="100" cy="13" r="1.2" fill="#00d4ff" opacity="0.5"/>
           <circle cx="100" cy="57" r="1.2" fill="#00d4ff" opacity="0.5"/>
           <circle cx="78"  cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
           <circle cx="122" cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
         </g>
-
-        <!-- Short circuit-trace lines extending out from ring (static) -->
-        <!-- Top -->
         <line x1="100" y1="6" x2="100" y2="2" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <!-- Bottom -->
         <line x1="100" y1="64" x2="100" y2="68" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <!-- Left -->
         <line x1="71" y1="35" x2="67" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <!-- Right -->
         <line x1="129" y1="35" x2="133" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-
-        <!-- Text centered within ring: "Open" + "Byte" -->
-        <!-- Using dominant-baseline and text-anchor to center -->
-        <text
-          x="100" y="31"
-          font-family="Outfit, sans-serif"
-          font-weight="800"
-          font-size="17"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          letter-spacing="-0.3">
+        <text x="100" y="31" font-family="Outfit, sans-serif" font-weight="800" font-size="17"
+              text-anchor="middle" dominant-baseline="middle" letter-spacing="-0.3">
           <tspan fill="#f0f4ff">Open</tspan><tspan fill="url(#byteGrad)" filter="url(#glow)">Byte</tspan>
         </text>
-
-        <!-- Tagline below the wordmark, inside the circle -->
-        <text
-          x="100" y="42"
-          font-family="DM Sans, sans-serif"
-          font-weight="400"
-          font-size="4.2"
-          fill="#8892a4"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          letter-spacing="1.8">INNOVATE · CONNECT · EMPOWER</text>
+        <text x="100" y="42" font-family="DM Sans, sans-serif" font-weight="400" font-size="4.2"
+              fill="#8892a4" text-anchor="middle" dominant-baseline="middle" letter-spacing="1.8">INNOVATE · CONNECT · EMPOWER</text>
       </svg>
     </a>
 
@@ -1006,9 +984,8 @@
       </div>
     </div>
 
-    <!-- DONATION TRACKER -->
+    <!-- DONATION TRACKER (desktop) -->
     <div class="donation-tracker" id="donationTracker">
-      <!-- Tabs -->
       <div class="tracker-tabs">
         <div class="tracker-tab active" onclick="switchTab('total')">Total Raised</div>
         <div class="tracker-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
@@ -1016,24 +993,33 @@
 
       <!-- Total Panel -->
       <div class="tracker-panel active" id="panel-total">
+        <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Amount Raised</div>
-        <div class="tracker-amount" id="trackerAmount"><span>$</span><span id="trackerNum">0</span></div>
+        <div class="tracker-amount"><span>$</span><span id="trackerNum">—</span></div>
         <div class="tracker-bar-wrap">
-          <div class="tracker-bar-fill" id="trackerBar" style="width: 0%"></div>
+          <div class="tracker-bar-fill" id="trackerBar"></div>
         </div>
         <div class="tracker-goal">
-          <span id="trackerPct">0%</span>
+          <span id="trackerPct">—</span>
           <span>Goal: $500</span>
         </div>
         <div class="tracker-donors">
-          <strong id="trackerDonors">0</strong> donors so far
+          <strong id="trackerDonors">—</strong> donations received
         </div>
+        <div id="trackerError" class="tracker-error" style="display:none;margin-top:1rem;"></div>
       </div>
 
       <!-- Leaderboard Panel -->
       <div class="tracker-panel" id="panel-leaderboard">
-        <div class="tracker-label">Top 10 Donations</div>
-        <div class="lb-list" id="lbList"></div>
+        <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
+        <div class="tracker-label">Top Donations</div>
+        <div class="lb-list" id="lbList">
+          <div class="lb-loading">
+            <div class="lb-skeleton"></div>
+            <div class="lb-skeleton"></div>
+            <div class="lb-skeleton"></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1045,15 +1031,27 @@
       <div class="mobile-tracker-tab" onclick="switchMobileTab('board')">Leaderboard</div>
     </div>
     <div class="mobile-tracker-panel active" id="mpanel-total">
+      <div class="tracker-live" style="margin-bottom:1rem;"><div class="tracker-live-dot"></div> Live from HCB</div>
       <div class="tracker-label">Amount Raised</div>
-      <div style="font-family:'Outfit',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:1rem;"><span style="color:var(--accent);">$</span><span id="mTrackerNum">0</span></div>
-      <div class="tracker-bar-wrap"><div class="tracker-bar-fill" id="mTrackerBar" style="width:0%"></div></div>
-      <div class="tracker-goal" style="margin-top:0.5rem;"><span id="mTrackerPct">0%</span><span>Goal: $500</span></div>
-      <div class="tracker-donors" style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--muted);"><strong id="mTrackerDonors">0</strong> donors so far</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:1rem;">
+        <span style="color:var(--accent);">$</span><span id="mTrackerNum">—</span>
+      </div>
+      <div class="tracker-bar-wrap"><div class="tracker-bar-fill" id="mTrackerBar"></div></div>
+      <div class="tracker-goal" style="margin-top:0.5rem;"><span id="mTrackerPct">—</span><span>Goal: $500</span></div>
+      <div class="tracker-donors" style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--muted);">
+        <strong id="mTrackerDonors">—</strong> donations received
+      </div>
     </div>
     <div class="mobile-tracker-panel" id="mpanel-board">
-      <div class="tracker-label">Top 10 Donations</div>
-      <div class="lb-list" id="mLbList"></div>
+      <div class="tracker-live" style="margin-bottom:1rem;"><div class="tracker-live-dot"></div> Live from HCB</div>
+      <div class="tracker-label">Top Donations</div>
+      <div class="lb-list" id="mLbList">
+        <div class="lb-loading">
+          <div class="lb-skeleton"></div>
+          <div class="lb-skeleton"></div>
+          <div class="lb-skeleton"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1157,30 +1155,30 @@
 
   <!-- DONATE -->
   <section id="donate" class="donate-section">
-    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent2), transparent);"></div>
+    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent2),transparent);"></div>
     <div class="section-tag reveal">Support Us</div>
     <h2 class="reveal">Make a Donation</h2>
-    <p class="section-sub reveal" style="margin-bottom: 3rem;">Your contribution helps us run workshops, support communities, and bridge the digital divide. Every dollar makes a difference.</p>
+    <p class="section-sub reveal" style="margin-bottom:3rem;">Your contribution helps us run workshops, support communities, and bridge the digital divide. Every dollar makes a difference.</p>
     <div class="donate-tiers reveal">
-      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center;">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$5</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
+        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$5</div>
       </div>
-      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center;">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$20</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
+        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$20</div>
       </div>
-      <div style="background: var(--card); border: 1px solid rgba(0,212,255,0.3); border-radius: 16px; padding: 1.5rem; text-align: center;">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$40</div>
+      <div style="background:var(--card);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:1.5rem;text-align:center;">
+        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$40</div>
       </div>
-      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center;">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$75</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
+        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$75</div>
       </div>
-      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center;">
-        <div style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--accent);">$100</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
+        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$100</div>
       </div>
     </div>
-    <div style="text-align: center;" class="reveal">
+    <div style="text-align:center;" class="reveal">
       <a href="https://hcb.hackclub.com/donations/start/openbyte-non-profit" target="_blank" class="btn-primary donate-btn">Donate via Hack Club Bank</a>
-      <p style="color: var(--muted); font-size: 0.8rem; margin-top: 1rem;">OpenByte is fiscally sponsored by Hack Club, a 501(c)(3) nonprofit. Donations are tax-deductible.</p>
+      <p style="color:var(--muted);font-size:0.8rem;margin-top:1rem;">OpenByte is fiscally sponsored by Hack Club, a 501(c)(3) nonprofit. Donations are tax-deductible.</p>
     </div>
   </section>
 
@@ -1188,23 +1186,15 @@
   <section id="apply" class="apply-section">
     <div class="section-tag reveal">Join Us</div>
     <h2 class="reveal">Apply or Sign Up</h2>
-    <p class="section-sub reveal" style="margin-bottom: 2.5rem;">Ready to volunteer, get help, or partner with us? Fill out our form below and we'll get back to you!</p>
-    <div class="reveal" style="border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: var(--card);">
-      <iframe
-        src="https://forms.gle/ZRpKRfmobkuyH1Ne6"
-        width="100%"
-        height="700"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        style="display: block; border: none;"
-      >Loading form…</iframe>
+    <p class="section-sub reveal" style="margin-bottom:2.5rem;">Ready to volunteer, get help, or partner with us? Fill out our form below and we'll get back to you!</p>
+    <div class="reveal" style="border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <iframe src="https://forms.gle/ZRpKRfmobkuyH1Ne6" width="100%" height="700" frameborder="0"
+              marginheight="0" marginwidth="0" style="display:block;border:none;">Loading form…</iframe>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <!-- Footer logo (static, smaller) -->
     <svg viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:48px;width:auto;">
       <defs>
         <linearGradient id="byteGradFt" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1236,12 +1226,10 @@
         INNOVATE · CONNECT · EMPOWER
       </text>
     </svg>
-
     <div>
       <p>© 2026 OpenByte Non-Profit. Making technology accessible to everyone.</p>
-      <p style="color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem;">Powered by <a href="https://porkbun.com" target="_blank" style="color: var(--accent); text-decoration: none;">Porkbun</a> & <a href="https://hackclub.com" target="_blank" style="color: var(--accent); text-decoration: none;">Hack Club</a></p>
+      <p style="color:var(--muted);font-size:0.8rem;margin-top:0.5rem;">Powered by <a href="https://porkbun.com" target="_blank" style="color:var(--accent);text-decoration:none;">Porkbun</a> & <a href="https://hackclub.com" target="_blank" style="color:var(--accent);text-decoration:none;">Hack Club</a></p>
     </div>
-
     <div class="footer-links">
       <a href="#home">Home</a>
       <a href="#about">About</a>
@@ -1251,127 +1239,189 @@
   </footer>
 
   <script>
-    // Donation tracker
-    (function() {
-      const GOAL = 500;
-      let stored = JSON.parse(localStorage.getItem('ob_donations') || '{"total":0,"donors":0,"entries":[]}');
-      if (!stored.entries) stored.entries = [];
+    // ─── HCB LIVE DONATION TRACKER ───────────────────────────────────────────
+    const HCB_SLUG = 'openbyte-non-profit';
+    const GOAL = 500;
 
-      function animateCount(target, duration) {
-        const el = document.getElementById('trackerNum');
-        const bar = document.getElementById('trackerBar');
-        const pct = document.getElementById('trackerPct');
-        const donorsEl = document.getElementById('trackerDonors');
-        let start = 0;
-        const step = (ts) => {
-          if (!start) start = ts;
-          const progress = Math.min((ts - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - progress, 3);
-          const val = Math.round(ease * target);
-          el.textContent = val.toLocaleString();
-          const pctVal = Math.min(Math.round((val / GOAL) * 100), 100);
-          bar.style.width = pctVal + '%';
-          pct.textContent = pctVal + '%';
-          donorsEl.textContent = Math.round(ease * stored.donors);
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+    // HCB API fetches all transactions; we filter for incoming donations only.
+    // Donations come in as positive amounts (in cents) with memo starting with "Donation".
+    // The transactions endpoint paginates; we fetch all pages.
+    async function fetchHCBDonations() {
+      const allTxns = [];
+      let url = `https://hcb.hackclub.com/api/v3/organizations/${HCB_SLUG}/transactions?per_page=100&page=1`;
+
+      // Fetch up to 10 pages (1000 transactions max — plenty for a small org)
+      for (let page = 1; page <= 10; page++) {
+        const res = await fetch(
+          `https://hcb.hackclub.com/api/v3/organizations/${HCB_SLUG}/transactions?per_page=100&page=${page}`
+        );
+        if (!res.ok) throw new Error(`HCB API error: ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) break;
+        allTxns.push(...data);
+        if (data.length < 100) break; // last page
       }
 
-      function renderLeaderboard() {
-        const list = document.getElementById('lbList');
-        const top10 = [...stored.entries].sort((a,b) => b - a).slice(0, 10);
-        if (top10.length === 0) {
-          list.innerHTML = '<div class="lb-empty">No donations at the moment —<br/>but you could be the first!</div>';
-          return;
-        }
-        const max = top10[0];
-        const ranks = ['gold','silver','bronze'];
-        list.innerHTML = top10.map((amt, i) => `
+      // Filter to incoming donation transactions only
+      // HCB returns amounts in cents, positive = money in
+      const donations = allTxns.filter(t => {
+        const amountCents = t.amount_cents ?? 0;
+        const memo = (t.memo ?? '').toLowerCase();
+        const type = (t.type ?? '').toLowerCase();
+        // Positive amount = incoming; type is often "donation" or memo contains "donation"
+        return amountCents > 0 && (
+          type === 'donation' ||
+          type.includes('donat') ||
+          memo.includes('donat') ||
+          t.tag === 'donation'
+        );
+      });
+
+      return donations;
+    }
+
+    function buildLbHtml(donations, idPrefix) {
+      if (donations.length === 0) {
+        return '<div class="lb-empty">No donations yet —<br/>but you could be the first! 🎉</div>';
+      }
+
+      // Sort by amount desc
+      const sorted = [...donations].sort((a, b) => (b.amount_cents ?? 0) - (a.amount_cents ?? 0));
+      const top = sorted.slice(0, 10);
+      const maxCents = top[0].amount_cents ?? 1;
+      const ranks = ['gold', 'silver', 'bronze'];
+
+      return top.map((t, i) => {
+        const dollars = ((t.amount_cents ?? 0) / 100).toFixed(2);
+        const barPct = Math.round(((t.amount_cents ?? 0) / maxCents) * 80) + 20;
+        const rankClass = ranks[i] || '';
+        // Show donor name if available, else "Anonymous"
+        const name = t.donor_name || t.description || 'Anonymous';
+        const displayName = name.length > 20 ? name.slice(0, 18) + '…' : name;
+        return `
           <div class="lb-row">
-            <div class="lb-rank ${ranks[i] || ''}">#${i+1}</div>
-            <div class="lb-amount">$${amt.toLocaleString()}</div>
-            <div class="lb-bar" style="width:${Math.round((amt/max)*80)+20}px"></div>
-          </div>`).join('');
-      }
+            <div class="lb-rank ${rankClass}">#${i + 1}</div>
+            <div class="lb-name">${escHtml(displayName)}</div>
+            <div class="lb-amount">$${dollars}</div>
+            <div class="lb-bar" style="width:${barPct}px"></div>
+          </div>`;
+      }).join('');
+    }
 
-      window.switchMobileTab = function(tab) {
-        document.querySelectorAll('.mobile-tracker-tab').forEach((t,i) => {
-          t.classList.toggle('active', (i===0 && tab==='total') || (i===1 && tab==='board'));
-        });
-        document.getElementById('mpanel-total').classList.toggle('active', tab==='total');
-        document.getElementById('mpanel-board').classList.toggle('active', tab==='board');
-        if (tab === 'board') renderMobileLeaderboard();
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function animateValue(el, target, duration) {
+      if (!el) return;
+      let start = null;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const val = (ease * target);
+        el.textContent = val.toFixed(2);
+        if (progress < 1) requestAnimationFrame(step);
       };
+      requestAnimationFrame(step);
+    }
 
-      function renderMobileLeaderboard() {
-        const list = document.getElementById('mLbList');
-        const top10 = [...stored.entries].sort((a,b) => b - a).slice(0, 10);
-        if (top10.length === 0) {
-          list.innerHTML = '<div class="lb-empty">No donations at the moment —<br/>but you could be the first!</div>';
-          return;
-        }
-        const max = top10[0];
-        const ranks = ['gold','silver','bronze'];
-        list.innerHTML = top10.map((amt, i) => `
-          <div class="lb-row">
-            <div class="lb-rank ${ranks[i] || ''}">#${i+1}</div>
-            <div class="lb-amount">$${amt.toLocaleString()}</div>
-            <div class="lb-bar" style="width:${Math.round((amt/max)*80)+20}px"></div>
-          </div>`).join('');
-      }
+    function updateUI(donations) {
+      const totalCents = donations.reduce((s, t) => s + (t.amount_cents ?? 0), 0);
+      const totalDollars = totalCents / 100;
+      const pct = Math.min(Math.round((totalDollars / GOAL) * 100), 100);
+      const count = donations.length;
 
-      // Sync mobile tracker numbers
-      const origAnimate = animateCount;
-      function animateMobile(target, duration) {
-        const el = document.getElementById('mTrackerNum');
-        const bar = document.getElementById('mTrackerBar');
-        const pct = document.getElementById('mTrackerPct');
-        const donors = document.getElementById('mTrackerDonors');
-        if (!el) return;
-        let start = 0;
-        const step = (ts) => {
-          if (!start) start = ts;
-          const progress = Math.min((ts - start) / duration, 1);
-          const ease = 1 - Math.pow(1 - progress, 3);
-          const val = Math.round(ease * target);
-          el.textContent = val.toLocaleString();
-          const pctVal = Math.min(Math.round((val / GOAL) * 100), 100);
-          bar.style.width = pctVal + '%';
-          pct.textContent = pctVal + '%';
-          donors.textContent = Math.round(ease * stored.donors);
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      }
-      setTimeout(() => animateMobile(stored.total, 1800), 700);
+      // Desktop
+      const numEl = document.getElementById('trackerNum');
+      animateValue(numEl, totalDollars, 1500);
+      document.getElementById('trackerBar').style.width = pct + '%';
+      document.getElementById('trackerPct').textContent = pct + '%';
+      document.getElementById('trackerDonors').textContent = count;
 
+      // Mobile
+      const mNumEl = document.getElementById('mTrackerNum');
+      animateValue(mNumEl, totalDollars, 1500);
+      document.getElementById('mTrackerBar').style.width = pct + '%';
+      document.getElementById('mTrackerPct').textContent = pct + '%';
+      document.getElementById('mTrackerDonors').textContent = count;
+
+      // Leaderboards
+      document.getElementById('lbList').innerHTML = buildLbHtml(donations, '');
+      document.getElementById('mLbList').innerHTML = buildLbHtml(donations, 'm');
+    }
+
+    function showError(msg) {
+      const errEl = document.getElementById('trackerError');
+      if (errEl) { errEl.style.display = 'block'; errEl.textContent = msg; }
+      // Show zeros so it doesn't look broken
+      ['trackerNum','mTrackerNum'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '0.00';
+      });
+      ['trackerPct','mTrackerPct'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '0%';
+      });
+      ['trackerDonors','mTrackerDonors'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '0';
+      });
+      const lbEmpty = '<div class="lb-empty">Could not load donation data.<br/>Check back soon!</div>';
+      document.getElementById('lbList').innerHTML = lbEmpty;
+      document.getElementById('mLbList').innerHTML = lbEmpty;
+    }
+
+    // Initial load
+    fetchHCBDonations()
+      .then(donations => updateUI(donations))
+      .catch(err => {
+        console.warn('HCB tracker error:', err);
+        // If HCB org doesn't have transparency mode ON yet, the API will 404.
+        // We show a friendly message instead of a broken tracker.
+        showError('Transparency Mode may not be enabled yet on HCB. Enable it in your HCB org settings to show live data.');
+      });
+
+    // Auto-refresh every 60 seconds
+    setInterval(() => {
+      fetchHCBDonations()
+        .then(donations => updateUI(donations))
+        .catch(() => {}); // Silent on refresh errors
+    }, 60_000);
+
+    // ─── TABS ─────────────────────────────────────────────────────────────────
     window.switchTab = function(tab) {
-        document.querySelectorAll('.tracker-tab').forEach((t,i) => {
-          t.classList.toggle('active', (i===0 && tab==='total') || (i===1 && tab==='leaderboard'));
-        });
-        document.getElementById('panel-total').classList.toggle('active', tab==='total');
-        document.getElementById('panel-leaderboard').classList.toggle('active', tab==='leaderboard');
-        if (tab === 'leaderboard') renderLeaderboard();
-      };
+      document.querySelectorAll('.tracker-tab').forEach((t, i) => {
+        t.classList.toggle('active', (i === 0 && tab === 'total') || (i === 1 && tab === 'leaderboard'));
+      });
+      document.getElementById('panel-total').classList.toggle('active', tab === 'total');
+      document.getElementById('panel-leaderboard').classList.toggle('active', tab === 'leaderboard');
+    };
 
-      setTimeout(() => animateCount(stored.total, 1800), 600);
+    window.switchMobileTab = function(tab) {
+      document.querySelectorAll('.mobile-tracker-tab').forEach((t, i) => {
+        t.classList.toggle('active', (i === 0 && tab === 'total') || (i === 1 && tab === 'board'));
+      });
+      document.getElementById('mpanel-total').classList.toggle('active', tab === 'total');
+      document.getElementById('mpanel-board').classList.toggle('active', tab === 'board');
+    };
 
-      window.recordDonation = function(amount) {
-        stored.total += amount;
-        stored.donors += 1;
-        stored.entries.push(amount);
-        localStorage.setItem('ob_donations', JSON.stringify(stored));
-        animateCount(stored.total, 800);
-        renderLeaderboard();
-      };
-    })();
-
+    // ─── NAV ─────────────────────────────────────────────────────────────────
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('open');
     }
 
-    const reveals = document.querySelectorAll('.reveal');
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.background = window.scrollY > 50
+        ? 'rgba(10,15,30,0.98)'
+        : 'rgba(10,15,30,0.85)';
+    });
+
+    // ─── SCROLL REVEALS ───────────────────────────────────────────────────────
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
@@ -1379,16 +1429,10 @@
         }
       });
     }, { threshold: 0.1 });
-    reveals.forEach(r => observer.observe(r));
-
-    window.addEventListener('scroll', () => {
-      const nav = document.getElementById('navbar');
-      nav.style.background = window.scrollY > 50
-        ? 'rgba(10,15,30,0.98)'
-        : 'rgba(10,15,30,0.85)';
-    });
+    document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
   </script>
+
   <script data-goatcounter="https://adikanda.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
