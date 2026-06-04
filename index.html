@@ -1,1137 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OpenByte — Bridging the Gap</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='64' height='64' rx='12' fill='%230a0f1e'/%3E%3Ccircle cx='32' cy='32' r='26' stroke='%2300d4ff' stroke-width='1' stroke-dasharray='3 5' opacity='0.6'/%3E%3Ccircle cx='32' cy='32' r='18' stroke='%2300d4ff' stroke-width='0.8' stroke-dasharray='1.5 4' opacity='0.3'/%3E%3Ccircle cx='32' cy='6' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='32' cy='58' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='6' cy='32' r='3' fill='%2300d4ff'/%3E%3Ccircle cx='58' cy='32' r='3' fill='%2300d4ff'/%3E%3Ctext x='32' y='30' font-family='sans-serif' font-weight='900' font-size='11' text-anchor='middle' dominant-baseline='middle' fill='%23f0f4ff'%3EOpen%3C/text%3E%3Ctext x='32' y='41' font-family='sans-serif' font-weight='900' font-size='11' text-anchor='middle' dominant-baseline='middle' fill='%2300d4ff'%3EByte%3C/text%3E%3C/svg%3E"/>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg: #0a0f1e;
-      --surface: #111827;
-      --card: #161f35;
-      --accent: #00d4ff;
-      --accent2: #7c3aed;
-      --accent3: #10b981;
-      --text: #f0f4ff;
-      --muted: #8892a4;
-      --border: rgba(255,255,255,0.07);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.4;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.8rem 4rem;
-      background: rgba(10,15,30,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.3s;
-    }
-
-    .logo-link { text-decoration: none; display: flex; align-items: center; }
-    .logo-svg { height: 56px; width: auto; }
-
-    .ring-spin {
-      animation: spin 20s linear infinite;
-      transform-origin: 100px 35px;
-    }
-    .ring-spin-reverse {
-      animation: spin-reverse 14s linear infinite;
-      transform-origin: 100px 35px;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    @keyframes spin-reverse {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
-    .nav-cta {
-      background: var(--accent) !important;
-      color: var(--bg) !important;
-      padding: 0.5rem 1.2rem !important;
-      border-radius: 6px;
-      font-weight: 600 !important;
-      transition: background 0.2s !important;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover {
-      background: #00b8e0 !important;
-      color: var(--bg) !important;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--text);
-      transition: all 0.3s;
-    }
-
-    /* DONATION TRACKER */
-    .donation-tracker {
-      position: absolute;
-      right: 0;
-      top: 70px;
-      bottom: 0;
-      width: 42%;
-      background: rgba(0,212,255,0.03);
-      border-left: 1px solid rgba(0,212,255,0.12);
-      border-top: 1px solid rgba(0,212,255,0.12);
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(10px);
-    }
-
-    .tracker-tabs {
-      display: flex;
-      border-bottom: 1px solid rgba(0,212,255,0.15);
-      background: rgba(0,0,0,0.2);
-      flex-shrink: 0;
-    }
-
-    .tracker-tab {
-      flex: 1;
-      padding: 1.2rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--muted);
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      border-bottom: 3px solid transparent;
-      user-select: none;
-    }
-
-    .tracker-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      background: rgba(0,212,255,0.06);
-    }
-
-    .tracker-tab:hover:not(.active) {
-      color: var(--text);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .tracker-panel {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      flex: 1;
-      padding: 2.5rem 3.5rem;
-    }
-
-    .tracker-panel.active { display: flex; }
-
-    .tracker-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    .tracker-amount {
-      font-family: 'Outfit', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 1.8rem;
-    }
-
-    .tracker-amount span { color: var(--accent); }
-
-    .tracker-bar-wrap {
-      background: rgba(255,255,255,0.07);
-      border-radius: 100px;
-      height: 10px;
-      overflow: hidden;
-      margin-bottom: 0.8rem;
-    }
-
-    .tracker-bar-fill {
-      height: 100%;
-      border-radius: 100px;
-      background: linear-gradient(90deg, #00aaff, #00d4ff);
-      transition: width 1.5s ease;
-      width: 0%;
-    }
-
-    .tracker-goal {
-      font-size: 0.88rem;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-
-    .tracker-donors {
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .tracker-donors strong { color: var(--text); font-weight: 600; }
-
-    /* live indicator */
-    .tracker-live {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.7rem;
-      color: var(--accent3);
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-    .tracker-live-dot {
-      width: 6px; height: 6px;
-      background: var(--accent3);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    .tracker-error {
-      font-size: 0.8rem;
-      color: #f87171;
-      background: rgba(248,113,113,0.1);
-      border: 1px solid rgba(248,113,113,0.2);
-      border-radius: 8px;
-      padding: 0.8rem 1rem;
-      margin-bottom: 1rem;
-    }
-
-    /* Leaderboard */
-    .lb-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      width: 100%;
-      overflow-y: auto;
-      max-height: 340px;
-    }
-
-    .lb-list::-webkit-scrollbar { width: 4px; }
-    .lb-list::-webkit-scrollbar-track { background: transparent; }
-    .lb-list::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 4px; }
-
-    .lb-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.7rem 1rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 10px;
-      transition: background 0.2s;
-    }
-
-    .lb-row:hover { background: rgba(0,212,255,0.06); }
-
-    .lb-rank {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--muted);
-      width: 22px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .lb-rank.gold   { color: #fbbf24; }
-    .lb-rank.silver { color: #94a3b8; }
-    .lb-rank.bronze { color: #cd7c4a; }
-
-    .lb-name {
-      font-size: 0.82rem;
-      color: var(--muted);
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .lb-amount {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      flex-shrink: 0;
-    }
-
-    .lb-bar {
-      height: 4px;
-      border-radius: 100px;
-      background: linear-gradient(90deg, #00aaff, #00d4ff);
-      opacity: 0.4;
-      flex-shrink: 0;
-    }
-
-    .lb-empty {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      padding: 2rem 0;
-      line-height: 1.7;
-    }
-
-    .lb-loading {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .lb-skeleton {
-      height: 44px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 10px;
-      animation: shimmer 1.5s infinite;
-    }
-
-    @keyframes shimmer {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
-    }
-
-    @media (max-width: 1100px) {
-      .donation-tracker { display: none !important; }
-    }
-
-    /* HERO */
-    #home {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 4rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(0,212,255,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(124,58,237,0.07) 0%, transparent 70%);
-    }
-
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
-      background-size: 50px 50px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      max-width: 720px;
-      animation: fadeUp 0.9s ease both;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(0,212,255,0.1);
-      border: 1px solid rgba(0,212,255,0.25);
-      border-radius: 100px;
-      padding: 0.4rem 1rem;
-      font-size: 0.8rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 2rem;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -2px;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 .highlight { color: var(--accent); }
-
-    .hero-sub {
-      font-size: 1.15rem;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 540px;
-      margin-bottom: 2.5rem;
-      font-weight: 300;
-    }
-
-    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-      padding: 0.85rem 2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.2s;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .btn-primary:hover {
-      background: #00b8e0;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,212,255,0.25);
-    }
-
-    .btn-secondary {
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.85rem 2rem;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.2s;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .btn-secondary:hover {
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.06);
-    }
-
-    /* SECTIONS */
-    section { padding: 6rem 4rem; }
-
-    .section-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 1rem;
-    }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      max-width: 560px;
-      font-weight: 300;
-    }
-
-    /* ABOUT */
-    #about { background: var(--surface); position: relative; }
-    #about::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      margin-top: 3rem;
-    }
-
-    .about-visual {
-      position: relative;
-      height: 400px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--card);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .about-icon-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      padding: 2rem;
-    }
-
-    .about-icon-cell {
-      background: rgba(0,212,255,0.05);
-      border: 1px solid rgba(0,212,255,0.1);
-      border-radius: 12px;
-      padding: 1.2rem;
-      text-align: center;
-      font-size: 1.8rem;
-      transition: all 0.3s;
-    }
-
-    .about-icon-cell:hover {
-      background: rgba(0,212,255,0.12);
-      border-color: rgba(0,212,255,0.3);
-      transform: scale(1.05);
-    }
-
-    .about-icon-cell p {
-      font-size: 0.65rem;
-      color: var(--muted);
-      margin-top: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      line-height: 1.8;
-      font-weight: 300;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .value-list {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .value-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
-
-    .value-item::before {
-      content: '→';
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    /* PROGRAMS */
-    #programs { background: var(--bg); }
-
-    .programs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .program-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .program-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-
-    .program-card:nth-child(2)::before { background: var(--accent2); }
-    .program-card:nth-child(3)::before { background: var(--accent3); }
-
-    .program-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(255,255,255,0.12);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-
-    .program-card:hover::before { transform: scaleX(1); }
-
-    .program-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-    }
-
-    .program-card p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .program-topics {
-      margin-top: 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .topic-tag {
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.15);
-      color: var(--accent);
-      font-size: 0.7rem;
-      padding: 0.25rem 0.65rem;
-      border-radius: 100px;
-      font-weight: 500;
-    }
-
-    .program-card:nth-child(2) .topic-tag {
-      background: rgba(124,58,237,0.08);
-      border-color: rgba(124,58,237,0.15);
-      color: #a78bfa;
-    }
-
-    .program-card:nth-child(3) .topic-tag {
-      background: rgba(16,185,129,0.08);
-      border-color: rgba(16,185,129,0.15);
-      color: var(--accent3);
-    }
-
-    /* UPCOMING EVENTS SECTION */
-    #events { background: var(--surface); position: relative; }
-    #events::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent3), transparent);
-    }
-    
-    .events-container {
-      margin-top: 3rem;
-      max-width: 800px;
-    }
-
-    .event-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-      transition: all 0.3s;
-    }
-
-    .event-card:hover {
-      border-color: rgba(0,212,255,0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-    }
-
-    .event-date-badge {
-      background: rgba(0,212,255,0.07);
-      border: 1px solid rgba(0,212,255,0.15);
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-      min-width: 120px;
-    }
-
-    .event-date-badge .month {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .event-date-badge .day {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.1;
-      margin: 0.2rem 0;
-    }
-
-    .event-date-badge .year {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .event-details h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .event-info-item {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .event-info-item strong {
-      color: var(--text);
-    }
-
-    /* IMPACT */
-    #impact { background: var(--bg); position: relative; }
-    #impact::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent2), transparent);
-    }
-
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .impact-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .impact-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .impact-card p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    /* CONTACT SECTION */
-    #contact { background: var(--surface); position: relative; }
-    #contact::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-      max-width: 900px;
-    }
-
-    .contact-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s;
-    }
-
-    .contact-card:hover {
-      border-color: rgba(124,58,237,0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    }
-
-    .contact-card .icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: var(--accent);
-    }
-
-    .contact-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-
-    .contact-link-text {
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 1.05rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      padding: 3rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 300;
-    }
-
-    .footer-links { display: flex; gap: 2rem; }
-
-    .footer-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--text); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* MOBILE TRACKER */
-    .mobile-tracker {
-      display: none;
-      background: var(--surface);
-      border-top: 1px solid rgba(0,212,255,0.15);
-      border-bottom: 1px solid rgba(0,212,255,0.15);
-    }
-
-    .mobile-tracker-tabs {
-      display: flex;
-      border-bottom: 1px solid rgba(0,212,255,0.15);
-    }
-
-    .mobile-tracker-tab {
-      flex: 1;
-      padding: 1rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--muted);
-      cursor: pointer;
-      text-align: center;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-    }
-
-    .mobile-tracker-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      background: rgba(0,212,255,0.05);
-    }
-
-    .mobile-tracker-panel {
-      display: none;
-      padding: 1.5rem 1.2rem;
-    }
-
-    .mobile-tracker-panel.active { display: block; }
-
-    @media (max-width: 1100px) {
-      .mobile-tracker { display: block; }
-    }
-
-    /* DONATE SECTION */
-    .donate-section {
-      background: var(--surface);
-      padding: 6rem 4rem;
-      position: relative;
-    }
-
-    .donate-tiers {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .donate-btn {
-      font-size: 1.1rem;
-      padding: 1rem 3rem;
-      display: inline-block;
-      word-break: keep-all;
-      white-space: nowrap;
-    }
-
-    .apply-section {
-      background: var(--bg);
-      padding: 6rem 4rem;
-    }
-
-    /* TABLET */
-    @media (max-width: 1024px) {
-      .programs-grid { grid-template-columns: 1fr 1fr; }
-      .impact-grid { grid-template-columns: 1fr 1fr; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .contact-grid { grid-template-columns: 1fr; }
-      section { padding: 5rem 2.5rem; }
-      #home { padding: 7rem 2.5rem 4rem; }
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      nav { padding: 0.8rem 1.2rem; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 60px; left: 0; right: 0;
-        background: var(--surface);
-        padding: 1.5rem;
-        gap: 1.2rem;
-        border-bottom: 1px solid var(--border);
-        z-index: 99;
-      }
-      .nav-links.open a { font-size: 1rem; padding: 0.5rem 0; }
-      .logo-svg { height: 40px; }
-      #home { padding: 5.5rem 1.2rem 3rem; min-height: auto; }
-      .hero-content { max-width: 100%; }
-      h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); letter-spacing: -1px; }
-      .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
-      .hero-buttons { flex-direction: column; gap: 0.8rem; }
-      .btn-primary, .btn-secondary { text-align: center; padding: 0.9rem 1.5rem; font-size: 1rem; }
-      .hero-badge { font-size: 0.72rem; }
-      .donation-tracker { display: none !important; }
-      section { padding: 4rem 1.2rem; }
-      h2 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
-      .section-sub { font-size: 0.95rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .about-visual { height: 280px; }
-      .about-icon-grid { gap: 0.6rem; padding: 1rem; }
-      .about-icon-cell { padding: 0.8rem 0.5rem; border-radius: 8px; }
-      .about-icon-cell p { font-size: 0.6rem; }
-      .programs-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .program-card { padding: 1.5rem; }
-      .event-card { flex-direction: column; align-items: flex-start; padding: 1.5rem; gap: 1.2rem; }
-      .impact-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-      .impact-card { padding: 1.2rem; }
-      .impact-card h3 { font-size: 0.85rem; }
-      .impact-card p { font-size: 0.8rem; }
-      .donate-section { padding: 4rem 1.2rem; }
-      .donate-tiers { grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
-      .donate-btn { font-size: 0.95rem; padding: 0.9rem 1.5rem; white-space: normal; width: 100%; }
-      .apply-section { padding: 4rem 1.2rem; }
-      .apply-section iframe { height: 500px; }
-      footer { flex-direction: column; text-align: center; padding: 2rem 1.2rem; gap: 1.2rem; }
-      .footer-links { justify-content: center; flex-wrap: wrap; gap: 1rem; }
-      footer svg { height: 36px; }
-    }
-
-    @media (max-width: 400px) {
-      h1 { font-size: 2rem; }
-      .impact-grid { grid-template-columns: 1fr; }
-      .donate-tiers { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
-</head>
-<body>
-
-  <nav id="navbar">
-    <a href="#home" class="logo-link">
-      <svg class="logo-svg" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="glowCenter" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.12"/>
-            <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="byteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#00aaff"/>
-            <stop offset="100%" stop-color="#00d4ff"/>
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <circle cx="100" cy="35" r="32" fill="url(#glowCenter)"/>
-        <circle cx="100" cy="35" r="33" stroke="#00d4ff" stroke-width="0.4" opacity="0.2"/>
-        <g class="ring-spin">
-          <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.7" stroke-dasharray="3 5" opacity="0.5"/>
-          <circle cx="100" cy="6"  r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
-          <circle cx="100" cy="64" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
-          <circle cx="71"  cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
-          <circle cx="129" cy="35" r="2.5" fill="#00d4ff" opacity="0.95" filter="url(#glow)"/>
-          <circle cx="79.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
-          <circle cx="120.5" cy="14.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
-          <circle cx="79.5"  cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
-          <circle cx="120.5" cy="55.5" r="1.5" fill="#00d4ff" opacity="0.6"/>
-        </g>
-        <g class="ring-spin-reverse">
-          <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.5" stroke-dasharray="1.5 4" opacity="0.3"/>
-          <circle cx="100" cy="13" r="1.2" fill="#00d4ff" opacity="0.5"/>
-          <circle cx="100" cy="57" r="1.2" fill="#00d4ff" opacity="0.5"/>
-          <circle cx="78"  cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
-          <circle cx="122" cy="35" r="1.2" fill="#00d4ff" opacity="0.5"/>
-        </g>
-        <line x1="100" y1="6" x2="100" y2="2" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <line x1="100" y1="64" x2="100" y2="68" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <line x1="71" y1="35" x2="67" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <line x1="129" y1="35" x2="133" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.7" stroke-linecap="round"/>
-        <text x="100" y="31" font-family="Outfit, sans-serif" font-weight="800" font-size="17"
-              text-anchor="middle" dominant-baseline="middle" letter-spacing="-0.3">
-          <tspan fill="#f0f4ff">Open</tspan><tspan fill="url(#byteGrad)" filter="url(#glow)">Byte</tspan>
-        </text>
-        <text x="100" y="42" font-family="DM Sans, sans-serif" font-weight="400" font-size="4.2"
-              fill="#8892a4" text-anchor="middle" dominant-baseline="middle" letter-spacing="1.8">INNOVATE · CONNECT · EMPOWER</text>
-      </svg>
-    </a>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#programs">Programs</a></li>
-      <li><a href="#events">Events</a></li>
-      <li><a href="#impact">Impact</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#donate">Donate</a></li>
-      <li><a href="#apply" class="nav-cta">Get Involved</a></li>
-    </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
-
-  <section id="home" style="position: relative;">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-      <div class="hero-badge">Non-Profit Organization</div>
-      <h1>Bridging the<br/><span class="highlight">Digital Divide</span></h1>
-      <p class="hero-sub">OpenByte empowers individuals with the knowledge, tools, and confidence to use technology in their everyday lives — ensuring no one is left behind in an increasingly digital world.</p>
-      <div class="hero-buttons">
-        <a href="#programs" class="btn-primary">Our Programs</a>
-        <a href="#apply" class="btn-secondary">Get Involved →</a>
-      </div>
-    </div>
-
-    <div class="donation-tracker" id="donationTracker">
+<div class="donation-tracker" id="donationTracker">
       <div class="tracker-tabs">
         <div class="tracker-tab active" onclick="switchTab('total')">Total Raised</div>
         <div class="tracker-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
@@ -1140,364 +7,314 @@
       <div class="tracker-panel active" id="panel-total">
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Amount Raised</div>
-        <div class="tracker-amount"><span>$</span><span id="trackerNum">—</span></div>
+        <div class="tracker-amount"><span>$</span><span id="trackerNum">0</span></div>
         <div class="tracker-bar-wrap">
           <div class="tracker-bar-fill" id="trackerBar"></div>
         </div>
         <div class="tracker-goal">
-          <span id="trackerPct">—</span>
+          <span id="trackerDonations">0 donations received</span>
           <span>Goal: $500</span>
         </div>
-        <div class="tracker-donors">
-          <strong id="trackerDonors">—</strong> donations received
-        </div>
-        <div id="trackerError" class="tracker-error" style="display:none;margin-top:1rem;"></div>
       </div>
 
       <div class="tracker-panel" id="panel-leaderboard">
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Top Donations</div>
         <div class="lb-list" id="lbList">
-          <div class="lb-loading">
-            <div class="lb-skeleton"></div>
-            <div class="lb-skeleton"></div>
-            <div class="lb-skeleton"></div>
           </div>
-        </div>
       </div>
     </div>
   </section>
 
   <div class="mobile-tracker">
     <div class="mobile-tracker-tabs">
-      <div class="mobile-tracker-tab active" onclick="switchMobileTab('total')">Total Raised</div>
-      <div class="mobile-tracker-tab" onclick="switchMobileTab('board')">Leaderboard</div>
+      <div class="mobile-tracker-tab active" id="m-tab-total" onclick="switchMobileTab('total')">Total Raised</div>
+      <div class="mobile-tracker-tab" id="m-tab-lb" onclick="switchMobileTab('leaderboard')">Leaderboard</div>
     </div>
-    <div class="mobile-tracker-panel active" id="mpanel-total">
-      <div class="tracker-live" style="margin-bottom:1rem;"><div class="tracker-live-dot"></div> Live from HCB</div>
+    <div class="mobile-tracker-panel active" id="m-panel-total">
+      <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
       <div class="tracker-label">Amount Raised</div>
-      <div style="font-family:'Outfit',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:1rem;">
-        <span style="color:var(--accent);">$</span><span id="mTrackerNum">—</span>
+      <div class="tracker-amount"><span>$</span><span id="m-trackerNum">0</span></div>
+      <div class="tracker-bar-wrap">
+        <div class="tracker-bar-fill" id="m-trackerBar"></div>
       </div>
-      <div class="tracker-bar-wrap"><div class="tracker-bar-fill" id="mTrackerBar"></div></div>
-      <div class="tracker-goal" style="margin-top:0.5rem;"><span id="mTrackerPct">—</span><span>Goal: $500</span></div>
-      <div class="tracker-donors" style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--muted);">
-        <strong id="mTrackerDonors">—</strong> donations received
+      <div class="tracker-goal">
+        <span id="m-trackerDonations">0 donations received</span>
+        <span>Goal: $500</span>
       </div>
     </div>
-    <div class="mobile-tracker-panel" id="mpanel-board">
-      <div class="tracker-live" style="margin-bottom:1rem;"><div class="tracker-live-dot"></div> Live from HCB</div>
+    <div class="mobile-tracker-panel" id="m-panel-leaderboard">
+      <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
       <div class="tracker-label">Top Donations</div>
-      <div class="lb-list" id="mLbList">
-        <div class="lb-loading">
-          <div class="lb-skeleton"></div>
-          <div class="lb-skeleton"></div>
-          <div class="lb-skeleton"></div>
-        </div>
-      </div>
+      <div class="lb-list" id="m-lbList"></div>
     </div>
   </div>
 
   <section id="about">
-    <div class="section-tag reveal">Who We Are</div>
-    <h2 class="reveal">Technology for <em>everyone</em></h2>
-    <p class="section-sub reveal">We believe access to technology is a right, not a privilege. OpenByte was founded to close the gap between those who can and can't navigate our digital world.</p>
+    <div class="section-tag">Who We Are</div>
+    <h2>About OpenByte</h2>
     <div class="about-grid">
-      <div class="about-visual reveal">
-        <div class="about-icon-grid">
-          <div class="about-icon-cell">💻<p>Digital Lit</p></div>
-          <div class="about-icon-cell">🤝<p>Community</p></div>
-          <div class="about-icon-cell">🚀<p>Access</p></div>
+      <div class="about-text">
+        <p>OpenByte is dedicated to eliminating digital exclusion. We believe that access to technology and digital literacy are fundamental tools for success, equality, and modern connection.</p>
+        <div class="value-list">
+          <div class="value-item">Accessible digital training workshops</div>
+          <div class="value-item">Hardware provisioning initiatives</div>
+          <div class="value-item">Ongoing community technology mentorship</div>
         </div>
       </div>
-      <div class="about-text reveal">
-        <p>Our comprehensive approaches focus on empowering seniors, students, and families across the community with real, actionable tech skills.</p>
-        <div class="value-list">
-          <div class="value-item">Interactive Workshops & Panels</div>
-          <div class="value-item">Hardware donation management</div>
-          <div class="value-item">Empathetic peer mentorship infrastructure</div>
+      <div class="about-visual">
+        <div class="about-icon-grid">
+          <div class="about-icon-cell">💻<p>Skills</p></div>
+          <div class="about-icon-cell">🌐<p>Access</p></div>
+          <div class="about-icon-cell">🤝<p>Support</p></div>
         </div>
       </div>
     </div>
   </section>
 
   <section id="programs">
-    <div class="section-tag reveal">What We Do</div>
-    <h2 class="reveal">Built for Impact</h2>
-    <p class="section-sub reveal">Explore the focus streams driving our ongoing operational projects and localized educational milestones.</p>
-    
+    <div class="section-tag">What We Do</div>
+    <h2>Our Core Programs</h2>
     <div class="programs-grid">
-      <div class="program-card reveal">
-        <h3>Senior Tech Literacy</h3>
-        <p>Providing custom pacing tracks to help seniors confidently navigate everyday communication tools, online services, and smart device environments.</p>
+      <div class="program-card">
+        <h3>Digital Essentials</h3>
+        <p>Foundational computer literacy courses covering internet safety, email management, and modern application usage.</p>
         <div class="program-topics">
-          <span class="topic-tag">Smartphones</span>
-          <span class="topic-tag">Cyber Safety</span>
-          <span class="topic-tag">UI Basics</span>
+          <span class="topic-tag">Foundations</span>
+          <span class="topic-tag">Safety</span>
         </div>
       </div>
-
-      <div class="program-card reveal">
-        <h3>Youth Code & Logic</h3>
-        <p>Introducing fundamental development syntax and visual logic arrays to under-resourced schools, unlocking pathways into computing domains.</p>
+      <div class="program-card">
+        <h3>NextGen Tech</h3>
+        <p>Introductory software development, hardware architecture, and engineering conceptual pathways for local youths.</p>
         <div class="program-topics">
-          <span class="topic-tag">Scratch</span>
-          <span class="topic-tag">Python Syntax</span>
-          <span class="topic-tag">Algorithms</span>
+          <span class="topic-tag">Coding</span>
+          <span class="topic-tag">Youth</span>
         </div>
       </div>
-
-      <div class="program-card reveal">
-        <h3>Hardware Lifecycle</h3>
-        <p>Sourcing local corporate tech waste streams, implementing complete wipe operations, and re-allocating assets back to community clusters.</p>
+      <div class="program-card">
+        <h3>Hardware Lifeline</h3>
+        <p>Sourcing, refurbishing, and distributing essential computing hardware equipment directly to underserved families.</p>
         <div class="program-topics">
-          <span class="topic-tag">Refurbishing</span>
-          <span class="topic-tag">Distribution</span>
-          <span class="topic-tag">Eco-Stewardship</span>
+          <span class="topic-tag">Devices</span>
+          <span class="topic-tag">Equity</span>
         </div>
       </div>
     </div>
   </section>
 
   <section id="events">
-    <div class="section-tag reveal">Calendar</div>
-    <h2 class="reveal">Upcoming Events</h2>
-    <p class="section-sub reveal">Join us at our next in-person session. No registration required — just bring your curiosity.</p>
-    
-    <div class="events-container reveal">
+    <div class="section-tag">Get Involved</div>
+    <h2>Upcoming Community Events</h2>
+    <div class="events-container">
       <div class="event-card">
         <div class="event-date-badge">
-          <div class="month">June</div>
-          <div class="day">06</div>
+          <div class="month">Oct</div>
+          <div class="day">24</div>
           <div class="year">2026</div>
         </div>
         <div class="event-details">
-          <h3>Community Tech Support & Workshop</h3>
-          <div class="event-info-item">
-            ⏰ <strong>Time:</strong> 12:00 pm - 1:00 pm (Saturday)
-          </div>
-          <div class="event-info-item">
-            📍 <strong>Location:</strong> Ashburn Library, Meeting Room B
-          </div>
-          <div class="event-info-item" style="font-size: 0.85rem; margin-top: 0.3rem;">
-            🏢 43316 Hay Road, Ashburn, VA, 20147
-          </div>
+          <h3>Community Tech Drive</h3>
+          <div class="event-info-item">📍 <strong>Location:</strong> Main Street Civic Center</div>
+          <div class="event-info-item">🕒 <strong>Time:</strong> 10:00 AM - 4:00 PM</div>
         </div>
       </div>
     </div>
   </section>
 
   <section id="impact">
-    <div class="section-tag reveal">Our Metrics</div>
-    <h2 class="reveal">Quantifiable Footprint</h2>
+    <div class="section-tag">Our Impact</div>
+    <h2>Measurable Outcomes</h2>
     <div class="impact-grid">
-      <div class="impact-card reveal">
+      <div class="impact-card">
         <h3>250+</h3>
-        <p>Learners Guided</p>
+        <p>Graduates trained</p>
       </div>
-      <div class="impact-card reveal">
-        <h3>40+</h3>
-        <p>Devices Distributed</p>
-      </div>
-      <div class="impact-card reveal">
+      <div class="impact-card">
         <h3>120+</h3>
-        <p>Instructional Hours</p>
+        <p>Devices deployed</p>
       </div>
-      <div class="impact-card reveal">
-        <h3>100%</h3>
-        <p>Volunteer Driven</p>
+      <div class="impact-card">
+        <h3>1,500+</h3>
+        <p>Mentorship hours</p>
+      </div>
+      <div class="impact-card">
+        <h3>94%</h3>
+        <p>Confidence score increase</p>
       </div>
     </div>
   </section>
 
   <section id="contact">
-    <div class="section-tag reveal">Connect</div>
-    <h2 class="reveal">Get In Touch</h2>
-    <p class="section-sub reveal">Have questions about our programs, looking to collaborate, or want to drop a follow? Connect with us anytime.</p>
-    
+    <div class="section-tag">Connect</div>
+    <h2>Get in Touch</h2>
     <div class="contact-grid">
-      <a href="mailto:team@openbyte-np.org" class="contact-card reveal">
+      <a href="mailto:hello@openbyte.org" class="contact-card">
         <div class="icon">✉️</div>
-        <h3>Email Our Team</h3>
-        <p>Drop us a line for general inquiries, corporate partnerships, or donation questions.</p>
-        <span class="contact-link-text">team@openbyte-np.org →</span>
+        <h3>Email Us</h3>
+        <p>Reach out with general inquiries, partnership proposals, or questions.</p>
+        <span class="contact-link-text">hello@openbyte.org →</span>
       </a>
-
-      <a href="https://instagram.com/openbyte.nonprofit" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
-        <div class="icon">📸</div>
-        <h3>Follow Our Instagram</h3>
-        <p>Stay up to date with behind-the-scenes event documentation, recaps, and announcements.</p>
-        <span class="contact-link-text">@openbyte.nonprofit →</span>
-      </a>
-    </div>
-  </section>
-
-  <section id="donate" class="donate-section">
-    <div class="section-tag reveal">Support Us</div>
-    <h2 class="reveal">Invest in Progress</h2>
-    <p class="section-sub reveal" style="margin-bottom:3rem;">Your operational micro-donations dynamically cover asset refurbishment pipelines, learning supplies, and venue footprints.</p>
-    <div class="donate-tiers reveal">
-      <a href="https://hcb.hackclub.com/donations/start/openbyte" class="btn-primary donate-btn" target="_blank">Donate via HCB</a>
-    </div>
-  </section>
-
-  <section id="apply" class="apply-section">
-    <div class="section-tag reveal">Join the Movement</div>
-    <h2 class="reveal">Apply to Volunteer</h2>
-    <p class="section-sub reveal" style="margin-bottom:3rem;">Lend your expertise, sharpen your instructional skills, and immediately impact systemic localized access paradigms.</p>
-    <div class="reveal">
-      <iframe src="https://forms.fillout.com/t/9Z3KAsFmQbus" width="100%" height="600px" style="border:none; border-radius:12px; background:transparent;"></iframe>
     </div>
   </section>
 
   <footer>
-    <p>&copy; 2026 OpenByte Nonprofit Organization. All rights reserved.</p>
+    <p>&copy; 2026 OpenByte. All rights reserved.</p>
     <div class="footer-links">
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#programs">Programs</a>
-      <a href="#events">Events</a>
-      <a href="#contact">Contact</a>
     </div>
   </footer>
 
   <script>
+    // Tab toggles for desktop sidebar tracker
+    function switchTab(tabName) {
+      const totalTab = document.querySelector('.tracker-tab:nth-child(1)');
+      const lbTab = document.querySelector('.tracker-tab:nth-child(2)');
+      const totalPanel = document.getElementById('panel-total');
+      const lbPanel = document.getElementById('panel-leaderboard');
+
+      if (tabName === 'total') {
+        totalTab.classList.add('active');
+        lbTab.classList.remove('active');
+        totalPanel.classList.add('active');
+        lbPanel.classList.remove('active');
+      } else {
+        lbTab.classList.add('active');
+        totalTab.classList.remove('active');
+        lbPanel.classList.add('active');
+        totalPanel.classList.remove('active');
+      }
+    }
+
+    // Tab toggles for mobile version responsive layout tracker
+    function switchMobileTab(tabName) {
+      const totalTab = document.getElementById('m-tab-total');
+      const lbTab = document.getElementById('m-tab-lb');
+      const totalPanel = document.getElementById('m-panel-total');
+      const lbPanel = document.getElementById('m-panel-leaderboard');
+
+      if (tabName === 'total') {
+        totalTab.classList.add('active');
+        lbTab.classList.remove('active');
+        totalPanel.classList.add('active');
+        lbPanel.classList.remove('active');
+      } else {
+        lbTab.classList.add('active');
+        totalTab.classList.remove('active');
+        lbPanel.classList.add('active');
+        totalPanel.classList.remove('active');
+      }
+    }
+
+    // Mobile Navigation burger menu functionality
     function toggleMenu() {
-      const links = document.getElementById('navLinks');
-      links.classList.toggle('open');
+      const navLinks = document.getElementById('navLinks');
+      const burger = document.getElementById('hamburger');
+      navLinks.classList.toggle('open');
+      burger.classList.toggle('active');
     }
 
-    // Scroll Animations
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Dynamic Tab Logic
-    function switchTab(type) {
-      document.querySelectorAll('.tracker-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tracker-panel').forEach(p => p.classList.remove('active'));
-      if(type === 'total') {
-        document.querySelector('.tracker-tabs .tracker-tab:nth-child(1)').classList.add('active');
-        document.getElementById('panel-total').classList.add('active');
-      } else {
-        document.querySelector('.tracker-tabs .tracker-tab:nth-child(2)').classList.add('active');
-        document.getElementById('panel-leaderboard').classList.add('active');
-      }
-    }
-
-    function switchMobileTab(type) {
-      document.querySelectorAll('.mobile-tracker-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.mobile-tracker-panel').forEach(p => p.classList.remove('active'));
-      if(type === 'total') {
-        document.querySelector('.mobile-tracker-tabs .mobile-tracker-tab:nth-child(1)').classList.add('active');
-        document.getElementById('mpanel-total').classList.add('active');
-      } else {
-        document.querySelector('.mobile-tracker-tabs .mobile-tracker-tab:nth-child(2)').classList.add('active');
-        document.getElementById('mpanel-board').classList.add('active');
-      }
-    }
-
-    // Live Tracker API Data Layer Pipeline
-    async function fetchTrackerData() {
+    // Connects layout directly to Hack Club Bank live account endpoint API 
+    // Replace 'openbyte' parameter string below with your exact hcb slug string if distinct
+    async function fetchDonationMetrics() {
+      const organizationSlug = 'openbyte'; 
       try {
-        const res = await fetch('https://hcb.hackclub.com/api/v3/organizations/openbyte');
-        if (!res.ok) throw new Error('Network lifecycle fault');
-        const data = await res.json();
+        const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${organizationSlug}`);
+        if (!response.ok) throw new Error('API query failed');
         
-        const totalCents = data.amount_raised || 0;
-        const totalDollars = Math.floor(totalCents / 100);
-        const goalDollars = 500;
-        const percent = Math.min(Math.floor((totalDollars / goalDollars) * 100), 100);
-        const donorCount = data.donation_count || 0;
+        const data = await response.json();
+        
+        // Formats balance data configuration to absolute value amounts
+        const raisedCents = data.total_raised || 0;
+        const raisedAmount = Math.floor(raisedCents / 100);
+        
+        // Calculations based on explicit baseline fundraising goal profiles
+        const goalAmount = 500;
+        const targetPercent = Math.min((raisedAmount / goalAmount) * 100, 100);
 
-        // Desktop updates
-        document.getElementById('trackerNum').innerText = totalDollars.toLocaleString();
-        document.getElementById('trackerBar').style.width = percent + '%';
-        document.getElementById('trackerPct').innerText = percent + '% Raised';
-        document.getElementById('trackerDonors').innerText = donorCount;
+        // Update values in desktop view interface
+        document.getElementById('trackerNum').innerText = raisedAmount.toLocaleString();
+        document.getElementById('trackerBar').style.width = `${targetPercent}%`;
+        
+        // Update values in mobile view interface
+        document.getElementById('m-trackerNum').innerText = raisedAmount.toLocaleString();
+        document.getElementById('m-trackerBar').style.width = `${targetPercent}%`;
 
-        // Mobile updates
-        document.getElementById('mTrackerNum').innerText = totalDollars.toLocaleString();
-        document.getElementById('mTrackerBar').style.width = percent + '%';
-        document.getElementById('mTrackerPct').innerText = percent + '%';
-        document.getElementById('mTrackerDonors').innerText = donorCount;
+        // Load transaction ledgers to build custom top contributor boards
+        fetchLeaderboardData(organizationSlug);
 
-      } catch (err) {
-        console.error(err);
-        const errDiv = document.getElementById('trackerError');
-        if(errDiv) {
-          errDiv.innerText = "Error syncing real-time donation metrics.";
-          errDiv.style.display = 'block';
-        }
+      } catch (error) {
+        console.error('Error fetching metric totals:', error);
+        // Clean structural fallback if API throws an alert status exception
+        const fallbackMsg = "<div class='tracker-error'>Unable to sync data right now.</div>";
+        document.getElementById('panel-total').innerHTML += fallbackMsg;
+        document.getElementById('m-panel-total').innerHTML += fallbackMsg;
       }
     }
 
-    async function fetchLeaderboard() {
+    async function fetchLeaderboardData(slug) {
       try {
-        const res = await fetch('https://hcb.hackclub.com/api/v3/organizations/openbyte/donations');
-        if (!res.ok) throw new Error('Failed to resolve ledger');
-        const donations = await res.json();
+        const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${slug}/transactions`);
+        if (!response.ok) throw new Error('API transaction log query failed');
+        
+        const transactions = await response.json();
+        
+        // Filter transactions for real input donations incoming to account ledger limits
+        const donationItems = transactions.filter(t => t.type === 'donation' || t.amount > 0);
+        
+        // Sort highest amount distributions dynamically
+        donationItems.sort((first, second) => second.amount - first.amount);
 
-        // Sort desc and extract top 5 tracking keys
-        const topDonations = donations
-          .filter(d => d.amount > 0)
-          .sort((a, b) => b.amount - a.amount)
-          .slice(0, 5);
+        const desktopContainer = document.getElementById('lbList');
+        const mobileContainer = document.getElementById('m-lbList');
+        
+        if (donationItems.length === 0) {
+          const emptyTemplate = `<div class='lb-empty'>No record instances active.</div>`;
+          desktopContainer.innerHTML = emptyTemplate;
+          mobileContainer.innerHTML = emptyTemplate;
+          return;
+        }
 
-        renderLbMarkup('lbList', topDonations);
-        renderLbMarkup('mLbList', topDonations);
+        let dynamicRows = '';
+        // Pull top contributors to show ranking rows
+        donationItems.slice(0, 5).forEach((item, index) => {
+          let rankClassification = '';
+          if (index === 0) rankClassification = 'gold';
+          if (index === 1) rankClassification = 'silver';
+          if (index === 2) rankClassification = 'bronze';
 
-      } catch (err) {
-        console.error(err);
-        const fallback = `<div class="lb-empty">Unable to dynamically parse ledger details right now.</div>`;
-        document.getElementById('lbList').innerHTML = fallback;
-        document.getElementById('mLbList').innerHTML = fallback;
+          const visualRankNum = index + 1;
+          const userDonorName = item.donor?.name || item.memo || 'Anonymous Contributor';
+          const calculatedValue = Math.floor(item.amount / 100).toLocaleString();
+
+          dynamicRows += `
+            <div class="lb-row">
+              <div class="lb-rank ${rankClassification}">${visualRankNum}</div>
+              <div class="lb-name">${userDonorName}</div>
+              <div class="lb-amount">$${calculatedValue}</div>
+            </div>
+          `;
+        });
+
+        desktopContainer.innerHTML = dynamicRows;
+        mobileContainer.innerHTML = dynamicRows;
+
+        // Populate donation counters using verified transaction arrays lengths
+        document.getElementById('trackerDonations').innerText = `${donationItems.length} donations received`;
+        document.getElementById('m-trackerDonations').innerText = `${donationItems.length} donations received`;
+
+      } catch (error) {
+        console.error('Error parsing individual log ledger values:', error);
+        const parseErrorTemplate = `<div class='lb-empty'>Unable to parse details right now.</div>`;
+        document.getElementById('lbList').innerHTML = parseErrorTemplate;
+        document.getElementById('m-lbList').innerHTML = parseErrorTemplate;
       }
     }
 
-    function renderLbMarkup(containerId, list) {
-      const container = document.getElementById(containerId);
-      if(!container) return;
-      if(list.length === 0) {
-        container.innerHTML = `<div class="lb-empty">No donations captured yet.<br/>Be the foundational spark!</div>`;
-        return;
-      }
-
-      let html = '';
-      list.forEach((item, index) => {
-        let rankClass = '';
-        if(index === 0) rankClass = 'gold';
-        if(index === 1) rankClass = 'silver';
-        if(index === 2) rankClass = 'bronze';
-
-        const name = item.donor_name || 'Anonymous Donor';
-        const dollarVal = Math.floor(item.amount / 100);
-
-        html += `
-          <div class="lb-row">
-            <div class="lb-rank ${rankClass}">#${index + 1}</div>
-            <div class="lb-name">${name}</div>
-            <div class="lb-amount">$${dollarVal}</div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
-
-    // Lifecycle Init
-    window.addEventListener('DOMContentLoaded', () => {
-      fetchTrackerData();
-      fetchLeaderboard();
-      // Interval loop refresh defaults to 60-second polling iterations
-      setInterval(fetchTrackerData, 60000);
-    });
+    // Call execution right when page components finish rendering
+    window.addEventListener('DOMContentLoaded', fetchDonationMetrics);
   </script>
 </body>
 </html>
