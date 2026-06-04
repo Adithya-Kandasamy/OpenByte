@@ -76,7 +76,8 @@
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      align-items: center;
+      gap: 2rem;
       list-style: none;
     }
 
@@ -676,8 +677,91 @@
       color: var(--accent3);
     }
 
+    /* UPCOMING EVENTS SECTION */
+    #events { background: var(--surface); position: relative; }
+    #events::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent3), transparent);
+    }
+    
+    .events-container {
+      margin-top: 3rem;
+      max-width: 800px;
+    }
+
+    .event-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .event-card:hover {
+      border-color: rgba(0,212,255,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .event-date-badge {
+      background: rgba(0,212,255,0.07);
+      border: 1px solid rgba(0,212,255,0.15);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .event-date-badge .month {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .event-date-badge .day {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.1;
+      margin: 0.2rem 0;
+    }
+
+    .event-date-badge .year {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .event-details h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-info-item {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .event-info-item strong {
+      color: var(--text);
+    }
+
     /* IMPACT */
-    #impact { background: var(--surface); position: relative; }
+    #impact { background: var(--bg); position: relative; }
     #impact::before {
       content: '';
       position: absolute;
@@ -713,6 +797,68 @@
       font-size: 0.85rem;
       line-height: 1.6;
       font-weight: 300;
+    }
+
+    /* CONTACT SECTION */
+    #contact { background: var(--surface); position: relative; }
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      max-width: 900px;
+    }
+
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s;
+    }
+
+    .contact-card:hover {
+      border-color: rgba(124,58,237,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .contact-card .icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .contact-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-link-text {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     /* FOOTER */
@@ -842,6 +988,7 @@
       .programs-grid { grid-template-columns: 1fr 1fr; }
       .impact-grid { grid-template-columns: 1fr 1fr; }
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-grid { grid-template-columns: 1fr; }
       section { padding: 5rem 2.5rem; }
       #home { padding: 7rem 2.5rem 4rem; }
     }
@@ -882,6 +1029,7 @@
       .about-icon-cell p { font-size: 0.6rem; }
       .programs-grid { grid-template-columns: 1fr; gap: 1rem; }
       .program-card { padding: 1.5rem; }
+      .event-card { flex-direction: column; align-items: flex-start; padding: 1.5rem; gap: 1.2rem; }
       .impact-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
       .impact-card { padding: 1.2rem; }
       .impact-card h3 { font-size: 0.85rem; }
@@ -905,7 +1053,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav id="navbar">
     <a href="#home" class="logo-link">
       <svg class="logo-svg" viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -960,9 +1107,10 @@
       <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#programs">Programs</a></li>
+      <li><a href="#events">Events</a></li>
       <li><a href="#impact">Impact</a></li>
+      <li><a href="#contact">Contact</a></li>
       <li><a href="#donate">Donate</a></li>
-      <li><a href="#apply">Apply</a></li>
       <li><a href="#apply" class="nav-cta">Get Involved</a></li>
     </ul>
     <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -970,7 +1118,6 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="home" style="position: relative;">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
@@ -984,14 +1131,12 @@
       </div>
     </div>
 
-    <!-- DONATION TRACKER (desktop) -->
     <div class="donation-tracker" id="donationTracker">
       <div class="tracker-tabs">
         <div class="tracker-tab active" onclick="switchTab('total')">Total Raised</div>
         <div class="tracker-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
       </div>
 
-      <!-- Total Panel -->
       <div class="tracker-panel active" id="panel-total">
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Amount Raised</div>
@@ -1009,7 +1154,6 @@
         <div id="trackerError" class="tracker-error" style="display:none;margin-top:1rem;"></div>
       </div>
 
-      <!-- Leaderboard Panel -->
       <div class="tracker-panel" id="panel-leaderboard">
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Top Donations</div>
@@ -1024,7 +1168,6 @@
     </div>
   </section>
 
-  <!-- MOBILE DONATION TRACKER -->
   <div class="mobile-tracker">
     <div class="mobile-tracker-tabs">
       <div class="mobile-tracker-tab active" onclick="switchMobileTab('total')">Total Raised</div>
@@ -1055,7 +1198,6 @@
     </div>
   </div>
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-tag reveal">Who We Are</div>
     <h2 class="reveal">Technology for <em>everyone</em></h2>
@@ -1063,376 +1205,299 @@
     <div class="about-grid">
       <div class="about-visual reveal">
         <div class="about-icon-grid">
-          <div class="about-icon-cell"><p>Smartphones</p></div>
-          <div class="about-icon-cell"><p>Computers</p></div>
-          <div class="about-icon-cell"><p>Internet</p></div>
-          <div class="about-icon-cell"><p>Safety</p></div>
-          <div class="about-icon-cell"><p>Email</p></div>
-          <div class="about-icon-cell"><p>Google Docs</p></div>
-          <div class="about-icon-cell"><p>Banking</p></div>
-          <div class="about-icon-cell"><p>Forms</p></div>
-          <div class="about-icon-cell"><p>Setup</p></div>
+          <div class="about-icon-cell">💻<p>Digital Lit</p></div>
+          <div class="about-icon-cell">🤝<p>Community</p></div>
+          <div class="about-icon-cell">🚀<p>Access</p></div>
         </div>
       </div>
       <div class="about-text reveal">
-        <h2>Our Mission</h2>
-        <p>Many services today are digital — government forms, banking, job applications. People who can't navigate technology are increasingly locked out of modern society.</p>
-        <p>OpenByte steps in to close that gap through free tech help sessions, accessible workshops, and community-first device support — tailored for elderly individuals, low-income families, and small local businesses.</p>
+        <p>Our comprehensive approaches focus on empowering seniors, students, and families across the community with real, actionable tech skills.</p>
         <div class="value-list">
-          <div class="value-item">Free and accessible to all</div>
-          <div class="value-item">Community-driven and volunteer-led</div>
-          <div class="value-item">Focused on real, practical skills</div>
-          <div class="value-item">Partnered with local schools & libraries</div>
+          <div class="value-item">Interactive Workshops & Panels</div>
+          <div class="value-item">Hardware donation management</div>
+          <div class="value-item">Empathetic peer mentorship infrastructure</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROGRAMS -->
   <section id="programs">
     <div class="section-tag reveal">What We Do</div>
-    <h2 class="reveal">Our 3 Core Programs</h2>
-    <p class="section-sub reveal">Designed to meet people where they are — whether they've never touched a smartphone or just need a little help getting started.</p>
+    <h2 class="reveal">Built for Impact</h2>
+    <p class="section-sub reveal">Explore the focus streams driving our ongoing operational projects and localized educational milestones.</p>
+    
     <div class="programs-grid">
       <div class="program-card reveal">
-        <h3>Tech Help Sessions</h3>
-        <p>One-on-one or small group help for anyone struggling with everyday technology. No judgment, no jargon — just friendly support.</p>
+        <h3>Senior Tech Literacy</h3>
+        <p>Providing custom pacing tracks to help seniors confidently navigate everyday communication tools, online services, and smart device environments.</p>
         <div class="program-topics">
           <span class="topic-tag">Smartphones</span>
-          <span class="topic-tag">Emails</span>
-          <span class="topic-tag">Online Forms</span>
-          <span class="topic-tag">Banking Apps</span>
-          <span class="topic-tag">Maps</span>
+          <span class="topic-tag">Cyber Safety</span>
+          <span class="topic-tag">UI Basics</span>
         </div>
       </div>
+
       <div class="program-card reveal">
-        <h3>Workshops & Classes</h3>
-        <p>Beginner-friendly group sessions held monthly at local schools, libraries, and community centers. Scalable and great for visibility.</p>
+        <h3>Youth Code & Logic</h3>
+        <p>Introducing fundamental development syntax and visual logic arrays to under-resourced schools, unlocking pathways into computing domains.</p>
         <div class="program-topics">
-          <span class="topic-tag">Smartphone Basics</span>
-          <span class="topic-tag">Internet Safety</span>
-          <span class="topic-tag">Google Docs</span>
-          <span class="topic-tag">Scam Prevention</span>
+          <span class="topic-tag">Scratch</span>
+          <span class="topic-tag">Python Syntax</span>
+          <span class="topic-tag">Algorithms</span>
         </div>
       </div>
+
       <div class="program-card reveal">
-        <h3>Device Setup & Support</h3>
-        <p>Hands-on help setting up new devices, fixing common issues, and installing the apps that matter most in daily life.</p>
+        <h3>Hardware Lifecycle</h3>
+        <p>Sourcing local corporate tech waste streams, implementing complete wipe operations, and re-allocating assets back to community clusters.</p>
         <div class="program-topics">
-          <span class="topic-tag">New Devices</span>
-          <span class="topic-tag">Troubleshooting</span>
-          <span class="topic-tag">App Setup</span>
-          <span class="topic-tag">Data Transfer</span>
+          <span class="topic-tag">Refurbishing</span>
+          <span class="topic-tag">Distribution</span>
+          <span class="topic-tag">Eco-Stewardship</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- IMPACT -->
+  <section id="events">
+    <div class="section-tag reveal">Calendar</div>
+    <h2 class="reveal">Upcoming Events</h2>
+    <p class="section-sub reveal">Join us at our next in-person session. No registration required — just bring your curiosity.</p>
+    
+    <div class="events-container reveal">
+      <div class="event-card">
+        <div class="event-date-badge">
+          <div class="month">June</div>
+          <div class="day">06</div>
+          <div class="year">2026</div>
+        </div>
+        <div class="event-details">
+          <h3>Community Tech Support & Workshop</h3>
+          <div class="event-info-item">
+            ⏰ <strong>Time:</strong> 12:00 pm - 1:00 pm (Saturday)
+          </div>
+          <div class="event-info-item">
+            📍 <strong>Location:</strong> Ashburn Library, Meeting Room B
+          </div>
+          <div class="event-info-item" style="font-size: 0.85rem; margin-top: 0.3rem;">
+            🏢 43316 Hay Road, Ashburn, VA, 20147
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="impact">
-    <div class="section-tag reveal">Why It Matters</div>
-    <h2 class="reveal">Real Impact. Real People.</h2>
-    <p class="section-sub reveal">Technology access isn't a luxury — it's a necessity. Here's why OpenByte's work changes lives.</p>
+    <div class="section-tag reveal">Our Metrics</div>
+    <h2 class="reveal">Quantifiable Footprint</h2>
     <div class="impact-grid">
       <div class="impact-card reveal">
-        <h3>Real-World Access</h3>
-        <p>Government forms, banking, and job applications are now digital. We help people participate fully in modern society.</p>
+        <h3>250+</h3>
+        <p>Learners Guided</p>
       </div>
       <div class="impact-card reveal">
-        <h3>Independence</h3>
-        <p>Especially for older adults, being able to navigate technology means freedom — not relying on others for everyday tasks.</p>
+        <h3>40+</h3>
+        <p>Devices Distributed</p>
       </div>
       <div class="impact-card reveal">
-        <h3>Economic Opportunity</h3>
-        <p>Digital skills help people apply for jobs, learn online, and even start small businesses in their communities.</p>
+        <h3>120+</h3>
+        <p>Instructional Hours</p>
       </div>
       <div class="impact-card reveal">
-        <h3>High Demand</h3>
-        <p>Millions need tech help. Few free, accessible resources exist. OpenByte fills a critical and underserved gap.</p>
+        <h3>100%</h3>
+        <p>Volunteer Driven</p>
       </div>
     </div>
   </section>
 
-  <!-- DONATE -->
+  <section id="contact">
+    <div class="section-tag reveal">Connect</div>
+    <h2 class="reveal">Get In Touch</h2>
+    <p class="section-sub reveal">Have questions about our programs, looking to collaborate, or want to drop a follow? Connect with us anytime.</p>
+    
+    <div class="contact-grid">
+      <a href="mailto:team@openbyte-np.org" class="contact-card reveal">
+        <div class="icon">✉️</div>
+        <h3>Email Our Team</h3>
+        <p>Drop us a line for general inquiries, corporate partnerships, or donation questions.</p>
+        <span class="contact-link-text">team@openbyte-np.org →</span>
+      </a>
+
+      <a href="https://instagram.com/openbyte.nonprofit" target="_blank" rel="noopener noreferrer" class="contact-card reveal">
+        <div class="icon">📸</div>
+        <h3>Follow Our Instagram</h3>
+        <p>Stay up to date with behind-the-scenes event documentation, recaps, and announcements.</p>
+        <span class="contact-link-text">@openbyte.nonprofit →</span>
+      </a>
+    </div>
+  </section>
+
   <section id="donate" class="donate-section">
-    <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent2),transparent);"></div>
     <div class="section-tag reveal">Support Us</div>
-    <h2 class="reveal">Make a Donation</h2>
-    <p class="section-sub reveal" style="margin-bottom:3rem;">Your contribution helps us run workshops, support communities, and bridge the digital divide. Every dollar makes a difference.</p>
+    <h2 class="reveal">Invest in Progress</h2>
+    <p class="section-sub reveal" style="margin-bottom:3rem;">Your operational micro-donations dynamically cover asset refurbishment pipelines, learning supplies, and venue footprints.</p>
     <div class="donate-tiers reveal">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
-        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$5</div>
-      </div>
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
-        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$20</div>
-      </div>
-      <div style="background:var(--card);border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:1.5rem;text-align:center;">
-        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$40</div>
-      </div>
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
-        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$75</div>
-      </div>
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;text-align:center;">
-        <div style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;color:var(--accent);">$100</div>
-      </div>
-    </div>
-    <div style="text-align:center;" class="reveal">
-      <a href="https://hcb.hackclub.com/donations/start/openbyte-non-profit" target="_blank" class="btn-primary donate-btn">Donate via Hack Club Bank</a>
-      <p style="color:var(--muted);font-size:0.8rem;margin-top:1rem;">OpenByte is fiscally sponsored by Hack Club, a 501(c)(3) nonprofit. Donations are tax-deductible.</p>
+      <a href="https://hcb.hackclub.com/donations/start/openbyte" class="btn-primary donate-btn" target="_blank">Donate via HCB</a>
     </div>
   </section>
 
-  <!-- APPLY -->
   <section id="apply" class="apply-section">
-    <div class="section-tag reveal">Join Us</div>
-    <h2 class="reveal">Apply or Sign Up</h2>
-    <p class="section-sub reveal" style="margin-bottom:2.5rem;">Ready to volunteer, get help, or partner with us? Fill out our form below and we'll get back to you!</p>
-    <div class="reveal" style="border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--card);">
-      <iframe src="https://forms.gle/ZRpKRfmobkuyH1Ne6" width="100%" height="700" frameborder="0"
-              marginheight="0" marginwidth="0" style="display:block;border:none;">Loading form…</iframe>
+    <div class="section-tag reveal">Join the Movement</div>
+    <h2 class="reveal">Apply to Volunteer</h2>
+    <p class="section-sub reveal" style="margin-bottom:3rem;">Lend your expertise, sharpen your instructional skills, and immediately impact systemic localized access paradigms.</p>
+    <div class="reveal">
+      <iframe src="https://forms.fillout.com/t/9Z3KAsFmQbus" width="100%" height="600px" style="border:none; border-radius:12px; background:transparent;"></iframe>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <svg viewBox="0 0 200 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:48px;width:auto;">
-      <defs>
-        <linearGradient id="byteGradFt" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#00aaff"/>
-          <stop offset="100%" stop-color="#00d4ff"/>
-        </linearGradient>
-      </defs>
-      <circle cx="100" cy="35" r="33" stroke="#00d4ff" stroke-width="0.4" opacity="0.15"/>
-      <circle cx="100" cy="35" r="29" stroke="#00d4ff" stroke-width="0.6" stroke-dasharray="3 5" opacity="0.4"/>
-      <circle cx="100" cy="6"  r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="100" cy="64" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="71"  cy="35" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="129" cy="35" r="2.2" fill="#00d4ff" opacity="0.7"/>
-      <circle cx="79.5" cy="14.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
-      <circle cx="120.5" cy="14.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
-      <circle cx="79.5"  cy="55.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
-      <circle cx="120.5" cy="55.5" r="1.3" fill="#00d4ff" opacity="0.4"/>
-      <circle cx="100" cy="35" r="22" stroke="#00d4ff" stroke-width="0.4" stroke-dasharray="1.5 4" opacity="0.2"/>
-      <line x1="100" y1="6" x2="100" y2="2" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-      <line x1="100" y1="64" x2="100" y2="68" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-      <line x1="71" y1="35" x2="67" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-      <line x1="129" y1="35" x2="133" y2="35" stroke="#00d4ff" stroke-width="1" opacity="0.6" stroke-linecap="round"/>
-      <text x="100" y="31" font-family="Outfit, sans-serif" font-weight="800" font-size="17"
-            text-anchor="middle" dominant-baseline="middle" letter-spacing="-0.3">
-        <tspan fill="#f0f4ff">Open</tspan><tspan fill="url(#byteGradFt)">Byte</tspan>
-      </text>
-      <text x="100" y="42" font-family="DM Sans, sans-serif" font-weight="400" font-size="4.2"
-            fill="#8892a4" text-anchor="middle" dominant-baseline="middle" letter-spacing="1.8">
-        INNOVATE · CONNECT · EMPOWER
-      </text>
-    </svg>
-    <div>
-      <p>© 2026 OpenByte Non-Profit. Making technology accessible to everyone.</p>
-      <p style="color:var(--muted);font-size:0.8rem;margin-top:0.5rem;">Powered by <a href="https://porkbun.com" target="_blank" style="color:var(--accent);text-decoration:none;">Porkbun</a> & <a href="https://hackclub.com" target="_blank" style="color:var(--accent);text-decoration:none;">Hack Club</a></p>
-    </div>
+    <p>&copy; 2026 OpenByte Nonprofit Organization. All rights reserved.</p>
     <div class="footer-links">
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#programs">Programs</a>
-      <a href="#apply">Apply</a>
+      <a href="#events">Events</a>
+      <a href="#contact">Contact</a>
     </div>
   </footer>
 
   <script>
-    // ─── HCB LIVE DONATION TRACKER ───────────────────────────────────────────
-    const HCB_SLUG = 'openbyte-non-profit';
-    const GOAL = 500;
-
-    // HCB API fetches all transactions; we filter for incoming donations only.
-    // Donations come in as positive amounts (in cents) with memo starting with "Donation".
-    // The transactions endpoint paginates; we fetch all pages.
-    async function fetchHCBDonations() {
-      const allTxns = [];
-      let url = `https://hcb.hackclub.com/api/v3/organizations/${HCB_SLUG}/transactions?per_page=100&page=1`;
-
-      // Fetch up to 10 pages (1000 transactions max — plenty for a small org)
-      for (let page = 1; page <= 10; page++) {
-        const res = await fetch(
-          `https://hcb.hackclub.com/api/v3/organizations/${HCB_SLUG}/transactions?per_page=100&page=${page}`
-        );
-        if (!res.ok) throw new Error(`HCB API error: ${res.status}`);
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) break;
-        allTxns.push(...data);
-        if (data.length < 100) break; // last page
-      }
-
-      // Filter to incoming donation transactions only
-      // HCB returns amounts in cents, positive = money in
-      const donations = allTxns.filter(t => {
-        const amountCents = t.amount_cents ?? 0;
-        const memo = (t.memo ?? '').toLowerCase();
-        const type = (t.type ?? '').toLowerCase();
-        // Positive amount = incoming; type is often "donation" or memo contains "donation"
-        return amountCents > 0 && (
-          type === 'donation' ||
-          type.includes('donat') ||
-          memo.includes('donat') ||
-          t.tag === 'donation'
-        );
-      });
-
-      return donations;
-    }
-
-    function buildLbHtml(donations, idPrefix) {
-      if (donations.length === 0) {
-        return '<div class="lb-empty">No donations yet —<br/>but you could be the first! 🎉</div>';
-      }
-
-      // Sort by amount desc
-      const sorted = [...donations].sort((a, b) => (b.amount_cents ?? 0) - (a.amount_cents ?? 0));
-      const top = sorted.slice(0, 10);
-      const maxCents = top[0].amount_cents ?? 1;
-      const ranks = ['gold', 'silver', 'bronze'];
-
-      return top.map((t, i) => {
-        const dollars = ((t.amount_cents ?? 0) / 100).toFixed(2);
-        const barPct = Math.round(((t.amount_cents ?? 0) / maxCents) * 80) + 20;
-        const rankClass = ranks[i] || '';
-        // Show donor name if available, else "Anonymous"
-        const name = t.donor_name || t.description || 'Anonymous';
-        const displayName = name.length > 20 ? name.slice(0, 18) + '…' : name;
-        return `
-          <div class="lb-row">
-            <div class="lb-rank ${rankClass}">#${i + 1}</div>
-            <div class="lb-name">${escHtml(displayName)}</div>
-            <div class="lb-amount">$${dollars}</div>
-            <div class="lb-bar" style="width:${barPct}px"></div>
-          </div>`;
-      }).join('');
-    }
-
-    function escHtml(s) {
-      return String(s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function animateValue(el, target, duration) {
-      if (!el) return;
-      let start = null;
-      const step = (ts) => {
-        if (!start) start = ts;
-        const progress = Math.min((ts - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        const val = (ease * target);
-        el.textContent = val.toFixed(2);
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
-
-    function updateUI(donations) {
-      const totalCents = donations.reduce((s, t) => s + (t.amount_cents ?? 0), 0);
-      const totalDollars = totalCents / 100;
-      const pct = Math.min(Math.round((totalDollars / GOAL) * 100), 100);
-      const count = donations.length;
-
-      // Desktop
-      const numEl = document.getElementById('trackerNum');
-      animateValue(numEl, totalDollars, 1500);
-      document.getElementById('trackerBar').style.width = pct + '%';
-      document.getElementById('trackerPct').textContent = pct + '%';
-      document.getElementById('trackerDonors').textContent = count;
-
-      // Mobile
-      const mNumEl = document.getElementById('mTrackerNum');
-      animateValue(mNumEl, totalDollars, 1500);
-      document.getElementById('mTrackerBar').style.width = pct + '%';
-      document.getElementById('mTrackerPct').textContent = pct + '%';
-      document.getElementById('mTrackerDonors').textContent = count;
-
-      // Leaderboards
-      document.getElementById('lbList').innerHTML = buildLbHtml(donations, '');
-      document.getElementById('mLbList').innerHTML = buildLbHtml(donations, 'm');
-    }
-
-    function showError(msg) {
-      const errEl = document.getElementById('trackerError');
-      if (errEl) { errEl.style.display = 'block'; errEl.textContent = msg; }
-      // Show zeros so it doesn't look broken
-      ['trackerNum','mTrackerNum'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '0.00';
-      });
-      ['trackerPct','mTrackerPct'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '0%';
-      });
-      ['trackerDonors','mTrackerDonors'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = '0';
-      });
-      const lbEmpty = '<div class="lb-empty">Could not load donation data.<br/>Check back soon!</div>';
-      document.getElementById('lbList').innerHTML = lbEmpty;
-      document.getElementById('mLbList').innerHTML = lbEmpty;
-    }
-
-    // Initial load
-    fetchHCBDonations()
-      .then(donations => updateUI(donations))
-      .catch(err => {
-        console.warn('HCB tracker error:', err);
-        // If HCB org doesn't have transparency mode ON yet, the API will 404.
-        // We show a friendly message instead of a broken tracker.
-        showError('Transparency Mode may not be enabled yet on HCB. Enable it in your HCB org settings to show live data.');
-      });
-
-    // Auto-refresh every 60 seconds
-    setInterval(() => {
-      fetchHCBDonations()
-        .then(donations => updateUI(donations))
-        .catch(() => {}); // Silent on refresh errors
-    }, 60_000);
-
-    // ─── TABS ─────────────────────────────────────────────────────────────────
-    window.switchTab = function(tab) {
-      document.querySelectorAll('.tracker-tab').forEach((t, i) => {
-        t.classList.toggle('active', (i === 0 && tab === 'total') || (i === 1 && tab === 'leaderboard'));
-      });
-      document.getElementById('panel-total').classList.toggle('active', tab === 'total');
-      document.getElementById('panel-leaderboard').classList.toggle('active', tab === 'leaderboard');
-    };
-
-    window.switchMobileTab = function(tab) {
-      document.querySelectorAll('.mobile-tracker-tab').forEach((t, i) => {
-        t.classList.toggle('active', (i === 0 && tab === 'total') || (i === 1 && tab === 'board'));
-      });
-      document.getElementById('mpanel-total').classList.toggle('active', tab === 'total');
-      document.getElementById('mpanel-board').classList.toggle('active', tab === 'board');
-    };
-
-    // ─── NAV ─────────────────────────────────────────────────────────────────
     function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('open');
+      const links = document.getElementById('navLinks');
+      links.classList.toggle('open');
     }
 
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').style.background = window.scrollY > 50
-        ? 'rgba(10,15,30,0.98)'
-        : 'rgba(10,15,30,0.85)';
-    });
-
-    // ─── SCROLL REVEALS ───────────────────────────────────────────────────────
+    // Scroll Animations
+    const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 80);
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
-  </script>
+    }, observerOptions);
 
-  <script data-goatcounter="https://adikanda.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Dynamic Tab Logic
+    function switchTab(type) {
+      document.querySelectorAll('.tracker-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tracker-panel').forEach(p => p.classList.remove('active'));
+      if(type === 'total') {
+        document.querySelector('.tracker-tabs .tracker-tab:nth-child(1)').classList.add('active');
+        document.getElementById('panel-total').classList.add('active');
+      } else {
+        document.querySelector('.tracker-tabs .tracker-tab:nth-child(2)').classList.add('active');
+        document.getElementById('panel-leaderboard').classList.add('active');
+      }
+    }
+
+    function switchMobileTab(type) {
+      document.querySelectorAll('.mobile-tracker-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.mobile-tracker-panel').forEach(p => p.classList.remove('active'));
+      if(type === 'total') {
+        document.querySelector('.mobile-tracker-tabs .mobile-tracker-tab:nth-child(1)').classList.add('active');
+        document.getElementById('mpanel-total').classList.add('active');
+      } else {
+        document.querySelector('.mobile-tracker-tabs .mobile-tracker-tab:nth-child(2)').classList.add('active');
+        document.getElementById('mpanel-board').classList.add('active');
+      }
+    }
+
+    // Live Tracker API Data Layer Pipeline
+    async function fetchTrackerData() {
+      try {
+        const res = await fetch('https://hcb.hackclub.com/api/v3/organizations/openbyte');
+        if (!res.ok) throw new Error('Network lifecycle fault');
+        const data = await res.json();
+        
+        const totalCents = data.amount_raised || 0;
+        const totalDollars = Math.floor(totalCents / 100);
+        const goalDollars = 500;
+        const percent = Math.min(Math.floor((totalDollars / goalDollars) * 100), 100);
+        const donorCount = data.donation_count || 0;
+
+        // Desktop updates
+        document.getElementById('trackerNum').innerText = totalDollars.toLocaleString();
+        document.getElementById('trackerBar').style.width = percent + '%';
+        document.getElementById('trackerPct').innerText = percent + '% Raised';
+        document.getElementById('trackerDonors').innerText = donorCount;
+
+        // Mobile updates
+        document.getElementById('mTrackerNum').innerText = totalDollars.toLocaleString();
+        document.getElementById('mTrackerBar').style.width = percent + '%';
+        document.getElementById('mTrackerPct').innerText = percent + '%';
+        document.getElementById('mTrackerDonors').innerText = donorCount;
+
+      } catch (err) {
+        console.error(err);
+        const errDiv = document.getElementById('trackerError');
+        if(errDiv) {
+          errDiv.innerText = "Error syncing real-time donation metrics.";
+          errDiv.style.display = 'block';
+        }
+      }
+    }
+
+    async function fetchLeaderboard() {
+      try {
+        const res = await fetch('https://hcb.hackclub.com/api/v3/organizations/openbyte/donations');
+        if (!res.ok) throw new Error('Failed to resolve ledger');
+        const donations = await res.json();
+
+        // Sort desc and extract top 5 tracking keys
+        const topDonations = donations
+          .filter(d => d.amount > 0)
+          .sort((a, b) => b.amount - a.amount)
+          .slice(0, 5);
+
+        renderLbMarkup('lbList', topDonations);
+        renderLbMarkup('mLbList', topDonations);
+
+      } catch (err) {
+        console.error(err);
+        const fallback = `<div class="lb-empty">Unable to dynamically parse ledger details right now.</div>`;
+        document.getElementById('lbList').innerHTML = fallback;
+        document.getElementById('mLbList').innerHTML = fallback;
+      }
+    }
+
+    function renderLbMarkup(containerId, list) {
+      const container = document.getElementById(containerId);
+      if(!container) return;
+      if(list.length === 0) {
+        container.innerHTML = `<div class="lb-empty">No donations captured yet.<br/>Be the foundational spark!</div>`;
+        return;
+      }
+
+      let html = '';
+      list.forEach((item, index) => {
+        let rankClass = '';
+        if(index === 0) rankClass = 'gold';
+        if(index === 1) rankClass = 'silver';
+        if(index === 2) rankClass = 'bronze';
+
+        const name = item.donor_name || 'Anonymous Donor';
+        const dollarVal = Math.floor(item.amount / 100);
+
+        html += `
+          <div class="lb-row">
+            <div class="lb-rank ${rankClass}">#${index + 1}</div>
+            <div class="lb-name">${name}</div>
+            <div class="lb-amount">$${dollarVal}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // Lifecycle Init
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchTrackerData();
+      fetchLeaderboard();
+      // Interval loop refresh defaults to 60-second polling iterations
+      setInterval(fetchTrackerData, 60000);
+    });
+  </script>
 </body>
 </html>
