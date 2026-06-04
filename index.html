@@ -225,7 +225,6 @@
       margin-bottom: 1.2rem;
     }
 
-    /* live indicator */
     .tracker-live {
       display: inline-flex;
       align-items: center;
@@ -634,7 +633,7 @@
       color: var(--accent3);
     }
 
-    /* UPCOMING EVENTS SECTION */
+    /* EVENTS */
     #events { background: var(--surface); position: relative; }
     #events::before {
       content: '';
@@ -717,7 +716,7 @@
       color: var(--text);
     }
 
-    /* CONTACT SECTION */
+    /* CONTACT */
     #contact { background: var(--bg); position: relative; }
     #contact::before {
       content: '';
@@ -863,7 +862,7 @@
       .mobile-tracker { display: block; }
     }
 
-    /* TABLET */
+    /* RESPONSIVE LAYOUT BREAKPOINTS */
     @media (max-width: 1024px) {
       .programs-grid { grid-template-columns: 1fr 1fr; }
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -872,7 +871,6 @@
       #home { padding: 7rem 2.5rem 4rem; }
     }
 
-    /* MOBILE */
     @media (max-width: 768px) {
       nav { padding: 0.8rem 1.2rem; }
       .nav-links { display: none; }
@@ -1019,7 +1017,7 @@
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Top Donations</div>
         <div class="lb-list" id="lbList">
-          <div class="lb-empty">Loading tracking entries...</div>
+          <div class="lb-empty">Loading entries...</div>
         </div>
       </div>
     </div>
@@ -1046,7 +1044,7 @@
       <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
       <div class="tracker-label">Top Donations</div>
       <div class="lb-list" id="m-lbList">
-        <div class="lb-empty">Loading tracking entries...</div>
+        <div class="lb-empty">Loading entries...</div>
       </div>
     </div>
   </div>
@@ -1127,11 +1125,17 @@
     <div class="section-tag">Connect</div>
     <h2>Get in Touch</h2>
     <div class="contact-grid">
-      <a href="mailto:hello@openbyte.org" class="contact-card">
+      <a href="mailto:team@openbyte-np.org" class="contact-card">
         <div class="icon">✉️</div>
         <h3>Email Us</h3>
         <p>Reach out with general inquiries, partnership proposals, or questions.</p>
-        <span class="contact-link-text">hello@openbyte.org →</span>
+        <span class="contact-link-text">team@openbyte-np.org →</span>
+      </a>
+      <a href="https://instagram.com/openbyte.nonprofit" target="_blank" rel="noopener noreferrer" class="contact-card">
+        <div class="icon">📸</div>
+        <h3>Follow Our Instagram</h3>
+        <p>Keep up with our latest transformations, event photos, and news updates.</p>
+        <span class="contact-link-text">@openbyte.nonprofit →</span>
       </a>
     </div>
   </section>
@@ -1191,12 +1195,11 @@
       burger.classList.toggle('active');
     }
 
-    // Connects directly to Hack Club Bank live account endpoint API 
     async function fetchDonationMetrics() {
       const organizationSlug = 'openbyte'; 
       try {
         const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${organizationSlug}`);
-        if (!response.ok) throw new Error('API query failed');
+        if (!response.ok) throw new Error('API lookup failed');
         
         const data = await response.json();
         const raisedCents = data.total_raised || 0;
@@ -1210,11 +1213,12 @@
         document.getElementById('m-trackerNum').innerText = raisedAmount.toLocaleString();
         document.getElementById('m-trackerBar').style.width = `${targetPercent}%`;
 
+        // Load leaderboard entries
         fetchLeaderboardData(organizationSlug);
 
       } catch (error) {
-        console.error('Error fetching metric totals:', error);
-        const fallbackMsg = "<div class='tracker-error'>Unable to sync data right now.</div>";
+        console.error('Metrics exception:', error);
+        const fallbackMsg = "<div class='tracker-error'>Error syncing real-time donation metrics.</div>";
         document.getElementById('panel-total').innerHTML += fallbackMsg;
         document.getElementById('m-panel-total').innerHTML += fallbackMsg;
       }
@@ -1223,17 +1227,21 @@
     async function fetchLeaderboardData(slug) {
       try {
         const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${slug}/transactions`);
-        if (!response.ok) throw new Error('API transaction log query failed');
+        if (!response.ok) throw new Error('Transaction index missing');
         
         const transactions = await response.json();
-        const donationItems = transactions.filter(t => t.type === 'donation' || t.amount > 0);
-        donationItems.sort((first, second) => second.amount - first.amount);
+        
+        // Correct Filter: Isolate actual incoming donations and skip outlays/fees
+        const donationItems = transactions.filter(t => t.type === 'donation' || (t.amount > 0 && !t.tags?.includes('transfer')));
+        
+        // Correct Sort: Descending order by amount size
+        donationItems.sort((a, b) => b.amount - a.amount);
 
         const desktopContainer = document.getElementById('lbList');
         const mobileContainer = document.getElementById('m-lbList');
         
         if (donationItems.length === 0) {
-          const emptyTemplate = `<div class='lb-empty'>No record instances active.</div>`;
+          const emptyTemplate = `<div class='lb-empty'>No active donations recorded yet.</div>`;
           desktopContainer.innerHTML = emptyTemplate;
           mobileContainer.innerHTML = emptyTemplate;
           return;
@@ -1247,7 +1255,7 @@
           if (index === 2) rankClassification = 'bronze';
 
           const visualRankNum = index + 1;
-          const userDonorName = item.donor?.name || item.memo || 'Anonymous';
+          const userDonorName = item.donor?.name || item.memo || 'Anonymous Donor';
           const calculatedValue = Math.floor(item.amount / 100).toLocaleString();
 
           dynamicRows += `
@@ -1266,8 +1274,8 @@
         document.getElementById('m-trackerDonations').innerText = `${donationItems.length} donations received`;
 
       } catch (error) {
-        console.error('Error parsing ledger values:', error);
-        const parseErrorTemplate = `<div class='lb-empty'>Unable to parse details right now.</div>`;
+        console.error('Parsing ledger exception:', error);
+        const parseErrorTemplate = `<div class='lb-empty'>Unable to dynamically parse ledger details right now.</div>`;
         document.getElementById('lbList').innerHTML = parseErrorTemplate;
         document.getElementById('m-lbList').innerHTML = parseErrorTemplate;
       }
