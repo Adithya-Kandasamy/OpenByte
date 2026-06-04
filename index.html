@@ -253,7 +253,7 @@
       margin-top: 1rem;
     }
 
-    /* Leaderboard */
+    /* Leaderboard Styles */
     .lb-list {
       display: flex;
       flex-direction: column;
@@ -411,7 +411,6 @@
       font-size: 0.95rem;
       text-decoration: none;
       transition: all 0.2s;
-      font-family: 'DM Sans', sans-serif;
     }
 
     .btn-primary:hover {
@@ -778,7 +777,7 @@
       gap: 0.5rem;
     }
 
-    /* FOOTER */
+    /* FOOTER & CREDITS */
     footer {
       background: var(--bg);
       border-top: 1px solid var(--border);
@@ -806,6 +805,28 @@
     }
 
     .footer-links a:hover { color: var(--text); }
+
+    .branding-badge {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.3);
+      padding: 1.5rem 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      letter-spacing: 0.5px;
+    }
+
+    .branding-badge a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .branding-badge a:hover {
+      text-decoration: underline;
+    }
 
     /* ANIMATIONS */
     @keyframes fadeUp {
@@ -1017,7 +1038,7 @@
         <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
         <div class="tracker-label">Top Donations</div>
         <div class="lb-list" id="lbList">
-          <div class="lb-empty">Loading entries...</div>
+          <div class="lb-empty">Loading active records...</div>
         </div>
       </div>
     </div>
@@ -1044,7 +1065,7 @@
       <div class="tracker-live"><div class="tracker-live-dot"></div> Live from HCB</div>
       <div class="tracker-label">Top Donations</div>
       <div class="lb-list" id="m-lbList">
-        <div class="lb-empty">Loading entries...</div>
+        <div class="lb-empty">Loading active records...</div>
       </div>
     </div>
   </div>
@@ -1149,6 +1170,10 @@
     </div>
   </footer>
 
+  <div class="branding-badge">
+    Powered by <a href="https://hcb.hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club Bank</a> & <a href="https://porkbun.com" target="_blank" rel="noopener noreferrer">Porkbun</a>
+  </div>
+
   <script>
     function switchTab(tabName) {
       const totalTab = document.querySelector('.tracker-tab:nth-child(1)');
@@ -1199,7 +1224,7 @@
       const organizationSlug = 'openbyte'; 
       try {
         const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${organizationSlug}`);
-        if (!response.ok) throw new Error('API lookup failed');
+        if (!response.ok) throw new Error('API Lookup Interrupted');
         
         const data = await response.json();
         const raisedCents = data.total_raised || 0;
@@ -1213,12 +1238,12 @@
         document.getElementById('m-trackerNum').innerText = raisedAmount.toLocaleString();
         document.getElementById('m-trackerBar').style.width = `${targetPercent}%`;
 
-        // Load leaderboard entries
+        // Pass mapping structure down to the log processor
         fetchLeaderboardData(organizationSlug);
 
       } catch (error) {
-        console.error('Metrics exception:', error);
-        const fallbackMsg = "<div class='tracker-error'>Error syncing real-time donation metrics.</div>";
+        console.error('Metrics exception context:', error);
+        const fallbackMsg = "<div class='tracker-error'>Unable to refresh real-time figures.</div>";
         document.getElementById('panel-total').innerHTML += fallbackMsg;
         document.getElementById('m-panel-total').innerHTML += fallbackMsg;
       }
@@ -1227,21 +1252,26 @@
     async function fetchLeaderboardData(slug) {
       try {
         const response = await fetch(`https://hcb.hackclub.com/api/v3/organizations/${slug}/transactions`);
-        if (!response.ok) throw new Error('Transaction index missing');
+        if (!response.ok) throw new Error('Transaction resource missing');
         
         const transactions = await response.json();
         
-        // Correct Filter: Isolate actual incoming donations and skip outlays/fees
-        const donationItems = transactions.filter(t => t.type === 'donation' || (t.amount > 0 && !t.tags?.includes('transfer')));
+        // Accurate Transaction Normalization: isolate ledger records containing real donations
+        const donationItems = transactions.filter(t => {
+          const isIncoming = t.amount > 0;
+          const isTransferOut = t.tags && t.tags.includes('transfer');
+          // Accept explicit donation designations, or generalized positive inward card adjustments
+          return (t.type === 'donation' || t.category === 'donation' || isIncoming) && !isTransferOut;
+        });
         
-        // Correct Sort: Descending order by amount size
-        donationItems.sort((a, b) => b.amount - a.amount);
+        // Strict Sort Strategy: Order highest value transactions to the top
+        donationItems.sort((first, second) => second.amount - first.amount);
 
         const desktopContainer = document.getElementById('lbList');
         const mobileContainer = document.getElementById('m-lbList');
         
         if (donationItems.length === 0) {
-          const emptyTemplate = `<div class='lb-empty'>No active donations recorded yet.</div>`;
+          const emptyTemplate = `<div class='lb-empty'>No matching donations verified yet.</div>`;
           desktopContainer.innerHTML = emptyTemplate;
           mobileContainer.innerHTML = emptyTemplate;
           return;
@@ -1255,7 +1285,9 @@
           if (index === 2) rankClassification = 'bronze';
 
           const visualRankNum = index + 1;
-          const userDonorName = item.donor?.name || item.memo || 'Anonymous Donor';
+          
+          // Fallback hierarchy matching official layout configurations
+          const userDonorName = item.donor?.name || item.memo || 'Anonymous Contributor';
           const calculatedValue = Math.floor(item.amount / 100).toLocaleString();
 
           dynamicRows += `
@@ -1274,8 +1306,8 @@
         document.getElementById('m-trackerDonations').innerText = `${donationItems.length} donations received`;
 
       } catch (error) {
-        console.error('Parsing ledger exception:', error);
-        const parseErrorTemplate = `<div class='lb-empty'>Unable to dynamically parse ledger details right now.</div>`;
+        console.error('Ledger extraction exception context:', error);
+        const parseErrorTemplate = `<div class='lb-empty'>Unable to safely balance transactions log layout.</div>`;
         document.getElementById('lbList').innerHTML = parseErrorTemplate;
         document.getElementById('m-lbList').innerHTML = parseErrorTemplate;
       }
