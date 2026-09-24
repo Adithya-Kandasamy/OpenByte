@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Icon } from "@phosphor-icons/react";
 import {
   ArrowRight,
@@ -129,6 +131,7 @@ function Logo() {
 }
 
 export default function Home() {
+  const pageRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState(helpTopics[0].id);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -152,6 +155,253 @@ export default function Home() {
       window.removeEventListener("resize", updateScrollProgress);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let refreshId: number | undefined;
+    const context = gsap.context(() => {
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (reduceMotion) return;
+
+      const select = <T extends Element>(
+        selector: string,
+        scope: ParentNode = root,
+      ) => Array.from(scope.querySelectorAll<T>(selector));
+
+      const heroCopy = root.querySelector<HTMLElement>(".hero-copy");
+      const entryPanel = root.querySelector<HTMLElement>(".entry-panel");
+      const heroParts = heroCopy
+        ? select<HTMLElement>(
+            ".eyebrow, h1, .hero-intro, .hero-actions, .hero-proof",
+            heroCopy,
+          )
+        : [];
+      const entryRows = entryPanel
+        ? select<HTMLElement>(".entry-row", entryPanel)
+        : [];
+      const entryNext = entryPanel
+        ? entryPanel.querySelector<HTMLElement>(".entry-next")
+        : null;
+
+      gsap.set(heroParts, { opacity: 0, y: 24 });
+      gsap.set(entryPanel, { opacity: 0, x: 34 });
+      gsap.set(entryRows, { opacity: 0, x: 22 });
+      gsap.set(entryNext, { opacity: 0, y: 18 });
+
+      const heroTimeline = gsap.timeline({
+        defaults: { ease: "power3.out" },
+      });
+
+      heroTimeline
+        .to(heroParts, {
+          opacity: 1,
+          y: 0,
+          duration: 0.68,
+          stagger: 0.09,
+        })
+        .to(
+          entryPanel,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.78,
+          },
+          0.2,
+        )
+        .to(
+          entryRows,
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.48,
+            stagger: 0.07,
+          },
+          0.44,
+        )
+        .to(
+          entryNext,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.46,
+          },
+          "-=0.18",
+        );
+
+      const revealTargets = select<HTMLElement>("[data-reveal]").filter(
+        (element) => !element.closest(".hero"),
+      );
+
+      revealTargets.forEach((element) => {
+        gsap.from(element, {
+          opacity: 0,
+          y: 34,
+          duration: 0.78,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 84%",
+            once: true,
+          },
+        });
+      });
+
+      const staggeredRows = [
+        ...select<HTMLElement>(".mission-flow-item"),
+        ...select<HTMLElement>(".program-row"),
+        ...select<HTMLElement>(".drive-row"),
+        ...select<HTMLElement>(".steps li"),
+      ];
+
+      staggeredRows.forEach((row) => {
+        gsap.from(row, {
+          opacity: 0,
+          x: 26,
+          duration: 0.58,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      });
+
+      const audienceLinks = select<HTMLElement>(".audience-strip a");
+      gsap.from(audienceLinks, {
+        opacity: 0,
+        y: 18,
+        duration: 0.58,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".audience-strip",
+          start: "top 92%",
+          once: true,
+        },
+      });
+
+      const photoFigures = select<HTMLElement>(".photo-proof figure");
+      gsap.from(photoFigures, {
+        opacity: 0,
+        y: 26,
+        duration: 0.7,
+        stagger: 0.14,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".photo-proof",
+          start: "top 82%",
+          once: true,
+        },
+      });
+
+      const faqItems = select<HTMLElement>(".faq-list details");
+      gsap.from(faqItems, {
+        opacity: 0,
+        x: 22,
+        duration: 0.52,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".faq-list",
+          start: "top 82%",
+          once: true,
+        },
+      });
+
+      const impactBand = root.querySelector<HTMLElement>(".impact-band-inner");
+      if (impactBand) {
+        gsap.from(impactBand, {
+          opacity: 0,
+          y: 12,
+          duration: 0.72,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".impact-band",
+            start: "top 94%",
+            once: true,
+          },
+        });
+
+        gsap.from(select<HTMLElement>(".impact-item", impactBand), {
+          opacity: 0,
+          x: 18,
+          duration: 0.46,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".impact-band",
+            start: "top 94%",
+            once: true,
+          },
+        });
+      }
+
+      refreshId = window.requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    }, root);
+
+    return () => {
+      if (refreshId !== undefined) window.cancelAnimationFrame(refreshId);
+      context.revert();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const root = pageRef.current;
+    const navigation = document.querySelector<HTMLElement>(".site-nav");
+    if (!root || !navigation || !menuOpen) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const links = Array.from(navigation.querySelectorAll<HTMLElement>("a"));
+    const context = gsap.context(() => {
+      gsap.from(links, {
+        opacity: 0,
+        y: -8,
+        duration: 0.3,
+        stagger: 0.06,
+        ease: "power2.out",
+      });
+    }, navigation);
+
+    return () => context.revert();
+  }, [menuOpen]);
+
+  useLayoutEffect(() => {
+    const root = pageRef.current;
+    const activeRow = root?.querySelector<HTMLElement>(
+      ".entry-row.is-active",
+    );
+    if (!root || !activeRow) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const activeParts = [
+      activeRow.querySelector<HTMLElement>(".entry-icon"),
+      activeRow.querySelector<HTMLElement>(".entry-arrow"),
+      root.querySelector<HTMLElement>(".entry-next strong"),
+    ].filter((element): element is HTMLElement => Boolean(element));
+    const context = gsap.context(() => {
+      gsap.from(activeParts, {
+        opacity: 0.45,
+        scale: 0.9,
+        y: 3,
+        duration: 0.34,
+        stagger: 0.05,
+        ease: "back.out(1.7)",
+        clearProps: "all",
+      });
+    }, root);
+
+    return () => context.revert();
+  }, [activeTopicId]);
 
   return (
     <>
@@ -202,7 +452,7 @@ export default function Home() {
         />
       </header>
 
-      <main>
+      <main ref={pageRef}>
         <section id="home" className="hero">
           <div className="shell hero-grid">
             <div className="hero-copy" data-reveal>
@@ -288,18 +538,30 @@ export default function Home() {
             </aside>
           </div>
 
-          <div className="impact-band">
+          <div className="impact-band" aria-label="How OpenByte helps">
             <div className="shell impact-band-inner">
-              <span className="impact-label">What we do</span>
-              <span>Digital confidence</span>
-              <b aria-hidden="true">/</b>
-              <span>Device donation drives</span>
-              <b aria-hidden="true">/</b>
-              <span>Kids tech labs</span>
-              <b aria-hidden="true">/</b>
-              <span>Support for older adults</span>
-              <b aria-hidden="true">/</b>
-              <span>Internet safety</span>
+              <div className="impact-label">
+                <span className="impact-label-kicker">What we do</span>
+                <strong>Start where<br />you are.</strong>
+              </div>
+              <div className="impact-track">
+                <span className="impact-item">
+                  <b>01</b>
+                  <span>Learn by making</span>
+                </span>
+                <span className="impact-item">
+                  <b>02</b>
+                  <span>Get help without hurry</span>
+                </span>
+                <span className="impact-item">
+                  <b>03</b>
+                  <span>Put good devices to work</span>
+                </span>
+                <span className="impact-item">
+                  <b>04</b>
+                  <span>Stay safer online</span>
+                </span>
+              </div>
             </div>
           </div>
 

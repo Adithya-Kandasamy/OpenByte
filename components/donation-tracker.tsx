@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 const HCB_SLUG = "openbyte-non-profit";
-const GOAL = 500;
+const GOAL = 5000;
 const REFRESH_INTERVAL = 60_000;
 
 type HcbTransaction = {
@@ -266,7 +266,7 @@ export function DonationTracker() {
           </div>
           <div className="progress-meta">
             <span>{state.loading ? "Loading" : `${progress}% funded`}</span>
-            <span>Goal: $500</span>
+            <span>Goal: {formatCurrency(GOAL)}</span>
           </div>
           <div className="donor-count">
             <strong>{state.loading ? "—" : state.donations.length}</strong>
