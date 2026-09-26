@@ -888,10 +888,10 @@ h3 {
 }
 
 .program-footer {
-  height: 100%;
+  height: auto;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
+  justify-content: flex-start;
+  gap: 14px;
   display: flex;
 }
 
