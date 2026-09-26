@@ -949,6 +949,7 @@ export default function Home() {
             <a href="#programs">Programs</a>
             <a href="#drives">Device drives</a>
             <a href="#donate">Live impact</a>
+            <a href="#contact">Contact</a>
             <a href="#apply">OpenByte Positions</a>
           </div>
         </div>
