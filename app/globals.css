@@ -1623,11 +1623,7 @@ h3 {
   }
 }
 
-@media (max-width: 700px) {
-  .shell {
-    width: min(var(--max-width), calc(100% - 32px));
-  }
-
+@media (max-width: 960px) {
   section[id] {
     scroll-margin-top: 74px;
   }
@@ -1671,6 +1667,12 @@ h3 {
     justify-content: center;
     margin-top: 8px;
     border-bottom: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .shell {
+    width: min(var(--max-width), calc(100% - 32px));
   }
 
   .hero {
