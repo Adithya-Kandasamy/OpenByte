@@ -1005,6 +1005,15 @@ h3 {
   color: var(--cyan);
 }
 
+.contact-row {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-row:hover h3 {
+  color: var(--cyan);
+}
+
 .start-section {
   background: var(--surface);
 }
