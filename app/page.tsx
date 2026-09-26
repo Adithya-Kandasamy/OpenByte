@@ -682,8 +682,8 @@ export default function Home() {
                   <p className="program-description">{program.description}</p>
                   <div className="program-footer">
                     <span>{program.examples}</span>
-                    <a href="#apply">
-                      OpenByte Positions <ArrowRight aria-hidden="true" />
+                    <a href="#contact">
+                      Contact OpenByte <ArrowRight aria-hidden="true" />
                     </a>
                   </div>
                 </article>
@@ -893,7 +893,7 @@ export default function Home() {
             good devices back into use.
             <br />
             For partnerships, sponsorships, volunteering, or general questions,
-            contact us at team@openbyte-np.org.
+            contact us at team@openbyte-np.org or on Instagram @openbyte.nonprofit.
           </p>
           <div className="footer-links">
             <a href="#about">Mission</a>
