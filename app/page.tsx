@@ -440,6 +440,9 @@ export default function Home() {
             <a href="#donate" onClick={closeMenu}>
               Live impact
             </a>
+            <a href="#contact" onClick={closeMenu}>
+              Contact
+            </a>
             <a className="nav-cta" href="#apply" onClick={closeMenu}>
               OpenByte Positions <ArrowRight aria-hidden="true" />
             </a>
@@ -882,7 +885,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="site-footer">
+      <footer id="contact" className="site-footer">
         <div className="shell footer-inner">
           <Logo />
           <p>
