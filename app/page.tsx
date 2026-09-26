@@ -885,7 +885,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer id="contact" className="site-footer">
+      <footer className="site-footer">
         <div className="shell footer-inner">
           <Logo />
           <p>
@@ -903,7 +903,7 @@ export default function Home() {
             <a href="#apply">OpenByte Positions</a>
           </div>
         </div>
-        <div className="shell footer-meta">
+        <div id="contact" className="shell footer-meta">
           <span>© 2026 OpenByte Non-Profit</span>
           <a href="mailto:team@openbyte-np.org">
             Email: team@openbyte-np.org
