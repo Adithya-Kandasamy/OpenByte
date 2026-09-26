@@ -441,7 +441,7 @@ export default function Home() {
               Live impact
             </a>
             <a className="nav-cta" href="#apply" onClick={closeMenu}>
-              Get involved <ArrowRight aria-hidden="true" />
+              OpenByte Positions <ArrowRight aria-hidden="true" />
             </a>
           </nav>
         </div>
@@ -473,7 +473,7 @@ export default function Home() {
                   Find a program <ArrowRight aria-hidden="true" />
                 </a>
                 <a className="button button-outline" href="#apply">
-                  Volunteer or donate
+                  OpenByte Positions
                 </a>
               </div>
               <div className="hero-proof" aria-label="OpenByte commitments">
@@ -680,7 +680,7 @@ export default function Home() {
                   <div className="program-footer">
                     <span>{program.examples}</span>
                     <a href="#apply">
-                      Get involved <ArrowRight aria-hidden="true" />
+                      OpenByte Positions <ArrowRight aria-hidden="true" />
                     </a>
                   </div>
                 </article>
@@ -699,7 +699,7 @@ export default function Home() {
                 apply for a job, stay in touch, or get through an everyday task.
               </p>
               <div className="drive-actions">
-                <a className="button button-light" href="#apply">
+                <a className="button button-light" href="mailto:team@openbyte-np.org">
                   Give a device <ArrowRight aria-hidden="true" />
                 </a>
                 <a className="text-link text-link-light" href="#donate">
@@ -794,8 +794,8 @@ export default function Home() {
               <p className="eyebrow">Questions people ask</p>
               <h2>A few answers before you reach out.</h2>
               <p className="faq-intro">
-                Still not sure? That’s what the form is for—tell us what you’re
-                trying to do.
+                Still not sure? Email team@openbyte-np.org and tell us what
+                you’re trying to do.
               </p>
             </div>
             <div className="faq-list" data-reveal>
@@ -816,8 +816,8 @@ export default function Home() {
                   <Plus aria-hidden="true" />
                 </summary>
                 <p>
-                  Yes. Tell us what you have through the form. We’ll let you
-                  know if it fits a current drive before you bring or send
+                  Yes. Email team@openbyte-np.org with what you have. We’ll let
+                  you know if it fits a current drive before you bring or send
                   anything.
                 </p>
               </details>
@@ -849,13 +849,13 @@ export default function Home() {
           <div className="shell">
             <div className="section-heading apply-heading" data-reveal>
               <div>
-                <p className="eyebrow">Come say hello</p>
-                <h2>Want to learn, help out, or partner with us?</h2>
+                <p className="eyebrow">OpenByte Positions</p>
+                <h2>Interested in joining OpenByte?</h2>
               </div>
               <div>
                 <p>
-                  Tell us what you have in mind. We’ll get back to you with the
-                  most useful next step.
+                  Use the OpenByte Positions form below to apply to join the
+                  team.
                 </p>
                 <a
                   className="text-link"
@@ -863,14 +863,14 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Open the form <ArrowRight aria-hidden="true" />
+                  Open the Positions form <ArrowRight aria-hidden="true" />
                 </a>
               </div>
             </div>
             <div className="form-frame" data-reveal>
               <iframe
                 src="https://forms.gle/ZRpKRfmobkuyH1Ne6"
-                title="OpenByte application and sign-up form"
+                title="OpenByte Positions form"
                 loading="lazy"
                 width="100%"
                 height="700"
@@ -885,17 +885,33 @@ export default function Home() {
       <footer className="site-footer">
         <div className="shell footer-inner">
           <Logo />
-          <p>Helping kids learn, helping older adults feel confident, and getting good devices back into use.</p>
+          <p>
+            Helping kids learn, helping older adults feel confident, and getting
+            good devices back into use.
+            <br />
+            For partnerships, sponsorships, volunteering, or general questions,
+            contact us at team@openbyte-np.org.
+          </p>
           <div className="footer-links">
             <a href="#about">Mission</a>
             <a href="#programs">Programs</a>
             <a href="#drives">Device drives</a>
             <a href="#donate">Live impact</a>
-            <a href="#apply">Get involved</a>
+            <a href="#apply">OpenByte Positions</a>
           </div>
         </div>
         <div className="shell footer-meta">
           <span>© 2026 OpenByte Non-Profit</span>
+          <a href="mailto:team@openbyte-np.org">
+            Email: team@openbyte-np.org
+          </a>
+          <a
+            href="https://www.instagram.com/openbyte.nonprofit/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram: @openbyte.nonprofit
+          </a>
           <a href="https://hackclub.com" target="_blank" rel="noreferrer">
             Fiscally sponsored by Hack Club
           </a>
