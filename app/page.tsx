@@ -10,8 +10,10 @@ import {
   Buildings,
   CheckCircle,
   Devices,
+  EnvelopeSimple,
   Gift,
   HandHeart,
+  InstagramLogo,
   Laptop,
   Plus,
   ShieldCheck,
@@ -848,6 +850,53 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="contact" className="drive-section contact-section">
+          <div className="shell drive-grid">
+            <div className="drive-copy" data-reveal>
+              <p className="eyebrow">Contact OpenByte</p>
+              <h2>Have a question? Get in touch.</h2>
+              <p>
+                For partnerships, sponsorships, volunteering, program questions,
+                device donations, or general questions, reach out by email or
+                Instagram.
+              </p>
+            </div>
+
+            <div className="drive-list" data-reveal>
+              <a
+                className="drive-row contact-row"
+                href="mailto:team@openbyte-np.org"
+              >
+                <span className="drive-number">01</span>
+                <span className="drive-icon">
+                  <EnvelopeSimple aria-hidden="true" weight="duotone" />
+                </span>
+                <div>
+                  <h3>Email OpenByte</h3>
+                  <p>team@openbyte-np.org</p>
+                </div>
+                <ArrowRight aria-hidden="true" />
+              </a>
+              <a
+                className="drive-row contact-row"
+                href="https://www.instagram.com/openbyte.nonprofit/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="drive-number">02</span>
+                <span className="drive-icon">
+                  <InstagramLogo aria-hidden="true" weight="duotone" />
+                </span>
+                <div>
+                  <h3>Instagram</h3>
+                  <p>@openbyte.nonprofit</p>
+                </div>
+                <ArrowRight aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
         <section id="apply" className="section apply-section">
           <div className="shell">
             <div className="section-heading apply-heading" data-reveal>
@@ -903,7 +952,7 @@ export default function Home() {
             <a href="#apply">OpenByte Positions</a>
           </div>
         </div>
-        <div id="contact" className="shell footer-meta">
+        <div className="shell footer-meta">
           <span>© 2026 OpenByte Non-Profit</span>
           <a href="mailto:team@openbyte-np.org">
             Email: team@openbyte-np.org
