@@ -682,6 +682,18 @@ export default function Home() {
               <span className="founder-note">
                 Student co-founders at Stone Bridge High School
               </span>
+              <figure className="team-photo">
+                <img
+                  src="/media/demo-day-team.webp"
+                  alt="OpenByte team members and volunteers presenting together at a coding Demo Day"
+                  loading="lazy"
+                  width="512"
+                  height="384"
+                />
+                <figcaption>
+                  Our team presenting at a student coding Demo Day.
+                </figcaption>
+              </figure>
             </div>
 
             <div className="human-progress" data-reveal>
@@ -717,6 +729,18 @@ export default function Home() {
                 <small>By Saadya Bojja · October 9, 2026</small>
                 <ArrowRight aria-hidden="true" />
               </a>
+              <figure className="progress-photo">
+                <img
+                  src="/media/workshop-room.webp"
+                  alt="Real participants and student instructors at an OpenByte coding workshop"
+                  loading="lazy"
+                  width="512"
+                  height="384"
+                />
+                <figcaption>
+                  One of our early coding workshops, photographed during Demo Day.
+                </figcaption>
+              </figure>
             </div>
           </div>
         </section>
