@@ -2141,3 +2141,36 @@ h3 {
     padding: 22px;
   }
 }
+
+
+/* Real OpenByte team and workshop photographs */
+.team-photo,
+.progress-photo {
+  margin: 26px 0 0;
+}
+
+.team-photo img,
+.progress-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+  background: #e8ebea;
+}
+
+.team-photo img {
+  object-position: center 36%;
+}
+
+.progress-photo {
+  margin-top: 24px;
+}
+
+.team-photo figcaption,
+.progress-photo figcaption {
+  color: var(--muted);
+  padding: 10px 0 0;
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
