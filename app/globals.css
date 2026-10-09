@@ -1982,3 +1982,162 @@ h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Founder story, verified progress, and press feature */
+.human-section {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+
+.human-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
+  gap: clamp(38px, 7vw, 116px);
+}
+
+.human-story h2 {
+  max-width: 740px;
+  margin-bottom: 28px;
+}
+
+.human-story > p:not(.eyebrow) {
+  max-width: 590px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.founder-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 30px 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.founder-list li {
+  background: var(--blue-light);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.founder-note,
+.progress-note {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.human-progress {
+  padding: clamp(24px, 3vw, 45px);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.human-progress h3 {
+  max-width: 430px;
+  margin-bottom: 25px;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  line-height: 1.18;
+}
+
+.human-milestones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.human-milestone {
+  padding: 16px 0 20px;
+  border-top: 1px solid var(--line);
+}
+
+.human-milestone strong {
+  display: block;
+  color: var(--cobalt);
+  font-size: clamp(2.4rem, 4vw, 3.25rem);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.human-milestone span {
+  display: block;
+  max-width: 210px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.progress-note {
+  max-width: 480px;
+  margin: 13px 0 25px;
+  line-height: 1.6;
+}
+
+.press-feature-link {
+  display: block;
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 21px 50px 21px 21px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.press-feature-link:hover {
+  border-color: var(--cobalt);
+  transform: translateY(-2px);
+}
+
+.press-feature-link > span {
+  display: block;
+  color: var(--blue-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.press-feature-link strong {
+  display: block;
+  font-size: clamp(1.05rem, 1.55vw, 1.25rem);
+  line-height: 1.3;
+}
+
+.press-feature-link small {
+  display: block;
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 0.73rem;
+}
+
+.press-feature-link svg {
+  position: absolute;
+  top: 27px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--cobalt);
+}
+
+@media (max-width: 850px) {
+  .human-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .human-milestones {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .human-progress {
+    padding: 22px;
+  }
+}
