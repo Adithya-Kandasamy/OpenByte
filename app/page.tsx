@@ -657,6 +657,70 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="team" className="section human-section">
+          <div className="shell human-grid">
+            <div className="human-story" data-reveal>
+              <p className="eyebrow">Meet the people behind OpenByte</p>
+              <h2>Three students. One community idea.</h2>
+              <p>
+                We&apos;re students at Stone Bridge High School in Ashburn,
+                Virginia. We started OpenByte because we kept seeing people
+                who wanted to learn technology but didn&apos;t always have
+                someone to show them how.
+              </p>
+              <p>
+                Our first outreach events taught us something important:
+                handing out flyers doesn&apos;t automatically bring people in.
+                We had to make workshops worth showing up for, with actual
+                projects and skills people could take home.
+              </p>
+              <ul className="founder-list" aria-label="OpenByte co-founders">
+                <li>Adithya Kandasamy</li>
+                <li>Abdullah Ahamed</li>
+                <li>Bodha Achi</li>
+              </ul>
+              <span className="founder-note">
+                Student co-founders at Stone Bridge High School
+              </span>
+            </div>
+
+            <div className="human-progress" data-reveal>
+              <p className="eyebrow">Our progress so far · October 2026</p>
+              <h3>Real beginnings. More to build.</h3>
+              <div className="human-milestones">
+                <div className="human-milestone">
+                  <strong>~15</strong>
+                  <span>
+                    Students at an early coding and web-development workshop
+                  </span>
+                </div>
+                <div className="human-milestone">
+                  <strong>3</strong>
+                  <span>
+                    ESP32 smart-car kits donated by Adeept for hands-on learning
+                  </span>
+                </div>
+              </div>
+              <p className="progress-note">
+                We&apos;ve also started a fall Arduino and Electronics program.
+                We&apos;ll share completed-program attendance, project results,
+                and device-distribution totals as we verify them.
+              </p>
+              <a
+                className="press-feature-link"
+                href="https://www.bulldogtribune.com/feature/2026/10/09/openbyte-opens-technological-pathways/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Featured in the Bulldog Tribune</span>
+                <strong>OpenByte Opens Technological Pathways</strong>
+                <small>By Saadya Bojja · October 9, 2026</small>
+                <ArrowRight aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
         <section id="programs" className="section programs-section">
           <div className="shell">
             <div className="section-heading" data-reveal>
@@ -946,6 +1010,7 @@ export default function Home() {
           </p>
           <div className="footer-links">
             <a href="#about">Mission</a>
+            <a href="#team">Our team &amp; progress</a>
             <a href="#programs">Programs</a>
             <a href="#drives">Device drives</a>
             <a href="#donate">Live impact</a>
