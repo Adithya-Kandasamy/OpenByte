@@ -60,10 +60,10 @@ const programs = [
     icon: "kids",
     number: "01",
     label: "For kids",
-    title: "Kids tech labs",
+    title: "Coding & electronics workshops",
     description:
-      "We make space for kids to try things, ask questions, and build something they can show off.",
-    examples: "Coding / creative projects / safer internet",
+      "From building a first webpage to lighting LEDs with Arduino, our students learn by making things.",
+    examples: "Websites / Arduino / circuits / coding",
   },
   {
     icon: "seniors",
@@ -463,15 +463,15 @@ export default function Home() {
             <div className="hero-copy" data-reveal>
               <p className="eyebrow">
                 <span className="eyebrow-mark" aria-hidden="true" />
-                Teaching across generations
+                Student-led in Ashburn, Virginia
               </p>
               <h1>
-                Technology should feel <em>possible</em> for everyone.
+                We're students helping people <em>learn technology.</em>
               </h1>
               <p className="hero-intro">
-                OpenByte helps kids learn by making, helps older adults feel more
-                comfortable with everyday technology, and gives good devices a
-                chance to be useful again.
+                We run hands-on coding and electronics workshops, help people
+                get comfortable with everyday tech, and work to give useful
+                donated devices a second life.
                 </p>
               <div className="hero-actions">
                 <a className="button button-primary" href="#programs">
@@ -547,24 +547,24 @@ export default function Home() {
             <div className="shell impact-band-inner">
               <div className="impact-label">
                 <span className="impact-label-kicker">What we do</span>
-                <strong>Start where<br />you are.</strong>
+                <strong>Learn it.<br />Build it.</strong>
               </div>
               <div className="impact-track">
                 <span className="impact-item">
                   <b>01</b>
-                  <span>Learn by making</span>
+                  <span>Build real projects</span>
                 </span>
                 <span className="impact-item">
                   <b>02</b>
-                  <span>Get help without hurry</span>
+                  <span>Ask tech questions</span>
                 </span>
                 <span className="impact-item">
                   <b>03</b>
-                  <span>Put good devices to work</span>
+                  <span>Reuse good devices</span>
                 </span>
                 <span className="impact-item">
                   <b>04</b>
-                  <span>Stay safer online</span>
+                  <span>Learn online safety</span>
                 </span>
               </div>
             </div>
@@ -595,17 +595,17 @@ export default function Home() {
           <div className="shell mission-intro" data-reveal>
             <div>
               <p className="eyebrow">Why this matters</p>
-              <h2>Having a device helps. Knowing what to do with it helps more.</h2>
+              <h2>We want people to feel comfortable learning technology.</h2>
             </div>
             <div className="body-copy">
               <p>
-                Technology is part of everyday life now. We help kids make sense
-                of it, help older adults use it with less stress, and help useful
-                devices find a home.
+                A first website. A working LED circuit. Figuring out how to use
+                a phone or laptop. These might seem like small steps, but they
+                can make technology feel a lot less intimidating.
               </p>
               <p>
-                No jargon. No pressure. Just practical help and people who meet
-                you where you are.
+                We teach at a pace people can follow, with enough time to ask
+                questions, make mistakes, and try again.
               </p>
             </div>
           </div>
@@ -661,18 +661,18 @@ export default function Home() {
           <div className="shell human-grid">
             <div className="human-story" data-reveal>
               <p className="eyebrow">Meet the people behind OpenByte</p>
-              <h2>Three students. One community idea.</h2>
+              <h2>We're the students behind OpenByte.</h2>
               <p>
-                We&apos;re students at Stone Bridge High School in Ashburn,
-                Virginia. We started OpenByte because we kept seeing people
-                who wanted to learn technology but didn&apos;t always have
-                someone to show them how.
+                We&apos;re Adithya, Abdullah, and Bodha, three students at Stone Bridge
+                High School. We started OpenByte after noticing how many
+                people wanted to learn technology but didn&apos;t always have
+                someone nearby who could help.
               </p>
               <p>
-                Our first outreach events taught us something important:
-                handing out flyers doesn&apos;t automatically bring people in.
-                We had to make workshops worth showing up for, with actual
-                projects and skills people could take home.
+                Our first outreach events didn&apos;t go as planned. Not many people
+                showed up, even after we handed out flyers. We learned that
+                the best way to get people interested was to give them
+                something they could actually learn or build.
               </p>
               <ul className="founder-list" aria-label="OpenByte co-founders">
                 <li>Adithya Kandasamy</li>
@@ -680,8 +680,28 @@ export default function Home() {
                 <li>Bodha Achi</li>
               </ul>
               <span className="founder-note">
-                Student co-founders at Stone Bridge High School
+                OpenByte co-founders · Stone Bridge High School
               </span>
+              <figure className="feature-photo">
+                <img
+                  src="/media/openbyte-founders-bulldog-tribune.webp"
+                  alt="The three OpenByte co-founders standing by their technology education display with laptop and electronics kit"
+                  loading="lazy"
+                  width="865"
+                  height="1000"
+                />
+                <figcaption>
+                  The three of us sharing OpenByte&apos;s projects at a community
+                  showcase. Photo featured in the{" "}
+                  <a
+                    href="https://www.bulldogtribune.com/feature/2026/10/09/openbyte-opens-technological-pathways/#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Bulldog Tribune
+                  </a>.
+                </figcaption>
+              </figure>
               <figure className="team-photo">
                 <img
                   src="/media/demo-day-team.webp"
@@ -698,7 +718,7 @@ export default function Home() {
 
             <div className="human-progress" data-reveal>
               <p className="eyebrow">Our progress so far · October 2026</p>
-              <h3>Real beginnings. More to build.</h3>
+              <h3>Here's what we've done so far.</h3>
               <div className="human-milestones">
                 <div className="human-milestone">
                   <strong>~15</strong>
@@ -714,17 +734,17 @@ export default function Home() {
                 </div>
               </div>
               <p className="progress-note">
-                We&apos;ve also started a fall Arduino and Electronics program.
-                We&apos;ll share completed-program attendance, project results,
-                and device-distribution totals as we verify them.
+                We&apos;ve also started our fall Arduino and Electronics program.
+                We&apos;ll add attendance, completed projects, and devices
+                distributed as we verify the results.
               </p>
               <a
                 className="press-feature-link"
-                href="https://www.bulldogtribune.com/feature/2026/10/09/openbyte-opens-technological-pathways/"
+                href="https://www.bulldogtribune.com/feature/2026/10/09/openbyte-opens-technological-pathways/#"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span>Featured in the Bulldog Tribune</span>
+                <span>Read our Bulldog Tribune feature</span>
                 <strong>OpenByte Opens Technological Pathways</strong>
                 <small>By Saadya Bojja · October 9, 2026</small>
                 <ArrowRight aria-hidden="true" />
@@ -750,11 +770,11 @@ export default function Home() {
             <div className="section-heading" data-reveal>
               <div>
                 <p className="eyebrow">How we help</p>
-                <h2>Start with whatever you need.</h2>
+                <h2>Here's what we're working on.</h2>
               </div>
               <p>
-                There’s no perfect door to come through. Pick what sounds like
-                you, and we’ll take it from there.
+                We teach coding and electronics, offer help with everyday tech,
+                and organize local device donation efforts.
               </p>
             </div>
 
