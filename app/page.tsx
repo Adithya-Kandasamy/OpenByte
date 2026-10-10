@@ -25,6 +25,9 @@ import { DonationTracker } from "../components/donation-tracker";
 const DONATE_URL =
   "https://hcb.hackclub.com/donations/start/openbyte-non-profit";
 
+const TECH_DONATION_FORM_URL =
+  "https://docs.google.com/forms/d/1ssA5nRFnhq44thGzA4qyUXg45BCEITjNPce8BsVD-ac/viewform";
+
 const helpTopics = [
   {
     id: "kids",
@@ -812,7 +815,7 @@ export default function Home() {
                 apply for a job, stay in touch, or get through an everyday task.
               </p>
               <div className="drive-actions">
-                <a className="button button-light" href="mailto:team@openbyte-np.org">
+                <a className="button button-light" href="#tech-donation">
                   Give a device <ArrowRight aria-hidden="true" />
                 </a>
                 <a className="text-link text-link-light" href="#donate">
@@ -838,6 +841,44 @@ export default function Home() {
                   </article>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        <section id="tech-donation" className="section apply-section">
+          <div className="shell">
+            <div className="section-heading apply-heading" data-reveal>
+              <div>
+                <p className="eyebrow">Donate technology</p>
+                <h2>Give your unused tech a new purpose.</h2>
+              </div>
+              <div>
+                <p>
+                  Have a laptop, tablet, phone, or another device to donate?
+                  Fill out this form with the device details and your preferred
+                  drop-off or pickup option. We&apos;ll follow up to confirm the
+                  next steps before you bring or send anything.
+                </p>
+                <a
+                  className="text-link"
+                  href={TECH_DONATION_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open the technology donation form <ArrowRight aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+            <div className="form-frame" data-reveal>
+              <iframe
+                src={`${TECH_DONATION_FORM_URL}?embedded=true`}
+                title="OpenByte technology donation form"
+                loading="lazy"
+                width="100%"
+                height="900"
+              >
+                Loading form…
+              </iframe>
             </div>
           </div>
         </section>
@@ -929,9 +970,9 @@ export default function Home() {
                   <Plus aria-hidden="true" />
                 </summary>
                 <p>
-                  Yes. Email team@openbyte-np.org with what you have. We’ll let
-                  you know if it fits a current drive before you bring or send
-                  anything.
+                  Yes. Fill out our <a href="#tech-donation">technology donation
+                  form</a> with details about the device. We&apos;ll follow up
+                  to confirm the next steps before you bring or send anything.
                 </p>
               </details>
               <details>
@@ -1057,6 +1098,7 @@ export default function Home() {
             <a href="#team">Our team &amp; progress</a>
             <a href="#programs">Programs</a>
             <a href="#drives">Device drives</a>
+            <a href="#tech-donation">Donate technology</a>
             <a href="#donate">Live impact</a>
             <a href="#contact">Contact</a>
             <a href="#apply">OpenByte Positions</a>
