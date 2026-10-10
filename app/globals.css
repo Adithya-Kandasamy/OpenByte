@@ -1,5 +1,5 @@
 :root {
-  --paper: #f6f5ef;
+  --paper: #f3f8fa;
   --surface: #ffffff;
   --ink: #122432;
   --muted: #617078;
@@ -10,7 +10,7 @@
   --blue-dark: #05657d;
   --cyan: #17bfd4;
   --cobalt: #2855e8;
-  --lime: #ddff70;
+  --accent: #84d5df;
   --blue-light: #e8f3f5;
   --max-width: 1360px;
 }
@@ -172,7 +172,7 @@ h3 {
 
 .scroll-progress {
   height: 3px;
-  background: var(--lime);
+  background: var(--accent);
   transform-origin: left;
   transition: transform 80ms linear;
   position: absolute;
@@ -195,7 +195,7 @@ h3 {
   width: 9px;
   height: 9px;
   margin-right: 9px;
-  background: var(--lime);
+  background: var(--accent);
   display: inline-block;
 }
 
@@ -277,11 +277,11 @@ h3 {
 
 .button-light {
   color: var(--navy);
-  background: var(--lime);
+  background: var(--accent);
 }
 
 .button-light:hover {
-  background: #efffb0;
+  background: #b6e7ed;
 }
 
 .text-link {
@@ -551,7 +551,7 @@ h3 {
 .entry-next svg {
   width: 19px;
   height: 19px;
-  color: var(--lime);
+  color: var(--accent);
   transition: transform 160ms ease;
 }
 
@@ -562,9 +562,9 @@ h3 {
 .impact-band {
   margin-top: 10px;
   color: var(--navy);
-  background: var(--lime);
-  border-top: 1px solid #c8ea61;
-  border-bottom: 1px solid #c8ea61;
+  background: var(--accent);
+  border-top: 1px solid #59b5c2;
+  border-bottom: 1px solid #59b5c2;
   overflow: hidden;
 }
 
@@ -964,7 +964,7 @@ h3 {
 }
 
 .drive-number {
-  color: var(--lime);
+  color: var(--accent);
   padding-top: 3px;
   font-size: 0.7rem;
   font-weight: 800;
@@ -973,8 +973,8 @@ h3 {
 .drive-icon {
   width: 52px;
   height: 52px;
-  color: var(--lime);
-  border: 1px solid #ddff7066;
+  color: var(--accent);
+  border: 1px solid #84d5df66;
   align-items: center;
   justify-content: center;
   display: inline-flex;
@@ -2173,4 +2173,33 @@ h3 {
   padding: 10px 0 0;
   font-size: 0.77rem;
   line-height: 1.55;
+}
+
+
+/* Real founders' photograph from the October 2026 Bulldog Tribune feature */
+.feature-photo {
+  margin: 28px 0 28px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: #e5edef;
+}
+.feature-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 865 / 1000;
+  object-fit: cover;
+  object-position: center center;
+}
+.feature-photo figcaption {
+  padding: 13px 16px;
+  color: var(--muted);
+  background: var(--surface);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.feature-photo figcaption a {
+  color: var(--blue-dark);
+  font-weight: 700;
+  text-underline-offset: 3px;
 }
