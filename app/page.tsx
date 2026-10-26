@@ -22,6 +22,46 @@ import {
 } from "@phosphor-icons/react";
 import { DonationTracker } from "../components/donation-tracker";
 
+// Keep the original sponsor artwork available if the resized image service fails.
+const ADEEPT_POST_ORIGINAL = "https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/6e40843b-289a-4a70-a0dc-28649b02cbb3.png";
+const ASHBURN_POST_ORIGINAL = "https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/37a2de9b-6d01-427a-a2d6-c50f8b85f2d1.png";
+
+function sponsorImageUrl(original: string) {
+  return `https://images.weserv.nl/?url=${encodeURIComponent(original)}&w=880&output=webp&q=78`;
+}
+
+function SponsorArtwork({
+  original,
+  alt,
+  className,
+  width,
+  height,
+}: {
+  original: string;
+  alt: string;
+  className?: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <img
+      className={className}
+      src={sponsorImageUrl(original)}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      onError={(event) => {
+        // Preserve the original user-supplied graphic if the CDN cannot load it.
+        if (event.currentTarget.getAttribute("src") !== original) {
+          event.currentTarget.src = original;
+        }
+      }}
+    />
+  );
+}
+
 const DONATE_URL =
   "https://hcb.hackclub.com/donations/start/openbyte-non-profit";
 
@@ -774,69 +814,106 @@ export default function Home() {
         <section id="sponsors" className="section sponsor-section">
           <div className="shell">
             <div className="sponsor-intro" data-reveal>
-              <p className="eyebrow">Our community partners</p>
-              <h2>Thank you to our sponsors.</h2>
+              <p className="eyebrow">Community partners</p>
+              <h2>Made possible by our supporters.</h2>
               <p>
-                OpenByte&apos;s programs grow with the support of businesses that
-                believe in making technology education more accessible.
-                We&apos;re grateful to the partners helping students learn by doing.
+                We're grateful to the local businesses and STEM organizations
+                helping OpenByte bring hands-on technology education to more students.
               </p>
             </div>
-            <div className="sponsor-grid" data-reveal>
-              <article className="sponsor-card">
-                <div className="sponsor-card-copy">
-                  <span className="sponsor-kind">STEM kit sponsor</span>
-                  <h3>Adeept</h3>
-                  <p>
-                    Adeept generously donated three ESP32 smart-car kits to
-                    support hands-on STEM learning with OpenByte students.
-                  </p>
-                  <a
-                    className="sponsor-link"
-                    href="https://www.adeept.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit Adeept <ArrowRight aria-hidden="true" />
-                  </a>
+
+            <div className="sponsor-grid">
+              <article className="sponsor-card" data-reveal>
+                <div className="sponsor-card-top">
+                  <div className="sponsor-brand" aria-label="Adeept logo">
+                    <span className="sponsor-logo-window sponsor-logo-adeept">
+                      <SponsorArtwork
+                        original={ADEEPT_POST_ORIGINAL}
+                        alt="Adeept"
+                        width={1846}
+                        height={1860}
+                      />
+                    </span>
+                  </div>
+                  <div className="sponsor-card-info">
+                    <span className="sponsor-kind">STEM kit sponsor</span>
+                    <h3>Adeept</h3>
+                    <p>
+                      Adeept donated <strong>three ESP32 smart-car kits</strong>,
+                      supporting hands-on robotics and electronics education.
+                    </p>
+                    <a
+                      className="sponsor-link"
+                      href="https://www.adeept.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Visit Adeept <ArrowRight aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
                 <figure className="sponsor-post">
-                  <img
-                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/6e40843b-289a-4a70-a0dc-28649b02cbb3.png"
-                    alt="OpenByte and Adeept logos above three donated Adeept STEM kit boxes in our thank-you graphic"
-                    width="1846"
-                    height="1860"
-                    loading="lazy"
-                  />
-                  <figcaption>Our thank-you graphic recognizing Adeept&apos;s donated kits.</figcaption>
+                  <a
+                    href={ADEEPT_POST_ORIGINAL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open full-size Adeept thank-you graphic"
+                  >
+                    <SponsorArtwork
+                      original={ADEEPT_POST_ORIGINAL}
+                      alt="OpenByte's Adeept thank-you post showing three donated STEM kit boxes"
+                      width={1846}
+                      height={1860}
+                    />
+                  </a>
+                  <figcaption>OpenByte's thank-you graphic for Adeept's kit donation.</figcaption>
                 </figure>
               </article>
-              <article className="sponsor-card">
-                <div className="sponsor-card-copy">
-                  <span className="sponsor-kind">Community donor</span>
-                  <h3>Ashburn Art Classes</h3>
-                  <p>
-                    Thank you to Ashburn Art Classes for contributing $250
-                    to help OpenByte expand local STEM learning opportunities.
-                  </p>
-                  <a
-                    className="sponsor-link"
-                    href="https://ashburnartclasses.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit Ashburn Art Classes <ArrowRight aria-hidden="true" />
-                  </a>
+
+              <article className="sponsor-card" data-reveal>
+                <div className="sponsor-card-top">
+                  <div className="sponsor-brand" aria-label="Ashburn Art Classes logo">
+                    <span className="sponsor-logo-window sponsor-logo-ashburn">
+                      <SponsorArtwork
+                        original={ASHBURN_POST_ORIGINAL}
+                        alt="Ashburn Art Classes"
+                        width={1882}
+                        height={1866}
+                      />
+                    </span>
+                  </div>
+                  <div className="sponsor-card-info">
+                    <span className="sponsor-kind">Community donor</span>
+                    <h3>Ashburn Art Classes</h3>
+                    <p>
+                      Thank you to Ashburn Art Classes for its <strong>$250 donation</strong>
+                      toward expanding accessible STEM learning in our community.
+                    </p>
+                    <a
+                      className="sponsor-link"
+                      href="https://ashburnartclasses.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Visit Ashburn Art Classes <ArrowRight aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
                 <figure className="sponsor-post">
-                  <img
-                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/37a2de9b-6d01-427a-a2d6-c50f8b85f2d1.png"
-                    alt="OpenByte and Ashburn Art Classes logos in our thank-you graphic recognizing a $250 contribution"
-                    width="1882"
-                    height="1866"
-                    loading="lazy"
-                  />
-                  <figcaption>Our thank-you graphic recognizing Ashburn Art Classes.</figcaption>
+                  <a
+                    href={ASHBURN_POST_ORIGINAL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open full-size Ashburn Art Classes thank-you graphic"
+                  >
+                    <SponsorArtwork
+                      original={ASHBURN_POST_ORIGINAL}
+                      alt="OpenByte's thank-you post displaying Ashburn Art Classes' logo and recognizing its $250 donation"
+                      width={1882}
+                      height={1866}
+                    />
+                  </a>
+                  <figcaption>OpenByte's thank-you graphic for Ashburn Art Classes.</figcaption>
                 </figure>
               </article>
             </div>
