@@ -65,6 +65,9 @@ function SponsorArtwork({
 const DONATE_URL =
   "https://hcb.hackclub.com/donations/start/openbyte-non-profit";
 
+const CLASS_INQUIRY_URL =
+  "mailto:team@openbyte-np.org?subject=OpenByte%20Arduino%20Class%20Inquiry";
+
 const TECH_DONATION_FORM_URL =
   "https://docs.google.com/forms/d/1ssA5nRFnhq44thGzA4qyUXg45BCEITjNPce8BsVD-ac/viewform";
 
@@ -450,6 +453,7 @@ export default function Home() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <div className="shell header-inner">
           <a className="logo-link" href="#home" onClick={closeMenu}>
@@ -479,6 +483,9 @@ export default function Home() {
             <a href="#programs" onClick={closeMenu}>
               Programs
             </a>
+            <a href="#arduino" onClick={closeMenu}>
+              Classes
+            </a>
             <a href="#sponsors" onClick={closeMenu}>
               Sponsors
             </a>
@@ -486,7 +493,7 @@ export default function Home() {
               Device drives
             </a>
             <a href="#donate" onClick={closeMenu}>
-              Live impact
+              Donations
             </a>
             <a href="#contact" onClick={closeMenu}>
               Contact
@@ -503,7 +510,7 @@ export default function Home() {
         />
       </header>
 
-      <main ref={pageRef}>
+      <main id="main-content" ref={pageRef} tabIndex={-1}>
         <section id="home" className="hero">
           <div className="shell hero-grid">
             <div className="hero-copy" data-reveal>
@@ -520,8 +527,8 @@ export default function Home() {
                 donated devices a second life.
                 </p>
               <div className="hero-actions">
-                <a className="button button-primary" href="#programs">
-                  Find a program <ArrowRight aria-hidden="true" />
+                <a className="button button-primary" href="#arduino">
+                  Explore Arduino classes <ArrowRight aria-hidden="true" />
                 </a>
                 <a className="button button-outline" href="#apply">
                   OpenByte Positions
@@ -767,22 +774,23 @@ export default function Home() {
               <h3>Here's what we've done so far.</h3>
               <div className="human-milestones">
                 <div className="human-milestone">
-                  <strong>~15</strong>
-                  <span>
-                    Students at an early coding and web-development workshop
-                  </span>
+                  <strong>2</strong>
+                  <span>Documented online Arduino &amp; Electronics lessons (October 11 and 18)</span>
                 </div>
                 <div className="human-milestone">
                   <strong>3</strong>
-                  <span>
-                    ESP32 smart-car kits donated by Adeept for hands-on learning
-                  </span>
+                  <span>ESP32 smart-car kits donated to OpenByte by Adeept</span>
+                </div>
+                <div className="human-milestone">
+                  <strong>1</strong>
+                  <span>Introductory responsible-AI and web-development workshop held in July</span>
                 </div>
               </div>
               <p className="progress-note">
-                We&apos;ve also started our fall Arduino and Electronics program.
-                We&apos;ll add attendance, completed projects, and devices
-                distributed as we verify the results.
+                Our first two online Arduino lessons covered current, resistance,
+                and LED circuits, followed by Arduino IDE programming and a
+                blinking-LED project. Exact student attendance and kit handoffs
+                are still being reconciled before we publish totals.
               </p>
               <a
                 className="press-feature-link"
@@ -957,6 +965,50 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="arduino" className="section arduino-section">
+          <div className="shell arduino-layout">
+            <div className="arduino-primary" data-reveal>
+              <p className="eyebrow">OpenByte education</p>
+              <h2>Beginner Arduino &amp; Electronics.</h2>
+              <p className="arduino-lead">
+                Hands-on coding and circuits for students in grades 6–9.
+                No previous electronics experience is required.
+              </p>
+              <div className="arduino-details" aria-label="Arduino program details">
+                <div><strong>Who</strong><span>Grades 6–9</span></div>
+                <div><strong>Fall 2026 fee</strong><span>$100, including a take-home starter kit</span></div>
+                <div><strong>Format</strong><span>Lessons began online; future in-person locations are subject to confirmation</span></div>
+              </div>
+              <a className="button button-primary" href={CLASS_INQUIRY_URL}>
+                Ask about upcoming classes <ArrowRight aria-hidden="true" />
+              </a>
+              <p className="arduino-disclaimer">
+                The current fall cohort is underway. Future registration dates,
+                availability, and locations have not been announced. Contact
+                our team for updates rather than using an expired form.
+              </p>
+            </div>
+            <div className="arduino-lessons" data-reveal>
+              <p className="eyebrow">What we&apos;ve taught</p>
+              <h3>Learning by building.</h3>
+              <div className="arduino-lesson">
+                <span>October 11, 2026</span>
+                <strong>Electricity and circuits</strong>
+                <p>Explore current and resistance, and assemble an LED circuit using electronic components.</p>
+              </div>
+              <div className="arduino-lesson">
+                <span>October 18, 2026</span>
+                <strong>Arduino IDE and blinking LEDs</strong>
+                <p>Write a simple Arduino program to blink an LED using an LED, resistor, and microcontroller.</p>
+              </div>
+              <p className="arduino-footnote">
+                These dates and topics come from documented completed lessons.
+                Further sessions and attendance will be published once verified.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section id="drives" className="drive-section">
           <div className="shell drive-grid">
             <div className="drive-copy" data-reveal>
@@ -1031,6 +1083,10 @@ export default function Home() {
               >
                 Loading form…
               </iframe>
+              <p className="form-help">
+                If the form does not appear, use the external link above.
+                Read our <a href="/privacy/">privacy policy</a> before submitting.
+              </p>
             </div>
           </div>
         </section>
@@ -1220,16 +1276,22 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="form-frame" data-reveal>
-              <iframe
-                src="https://forms.gle/ZRpKRfmobkuyH1Ne6"
-                title="OpenByte Positions form"
-                loading="lazy"
-                width="100%"
-                height="700"
-              >
-                Loading form…
-              </iframe>
+            <div className="form-link-panel" data-reveal>
+              <div>
+                <h3>Apply using our Google Form.</h3>
+                <p>
+                  The volunteer and leadership application opens in a new tab.
+                  For students under 18, please involve a parent or guardian as appropriate.
+                </p>
+                <p className="form-help">
+                  You can review our <a href="/privacy/">privacy policy</a> first.
+                </p>
+              </div>
+              <a className="button button-primary"
+                href="https://forms.gle/ZRpKRfmobkuyH1Ne6"
+                target="_blank" rel="noopener noreferrer">
+                Open positions application <ArrowRight aria-hidden="true" />
+              </a>
             </div>
           </div>
         </section>
@@ -1250,10 +1312,12 @@ export default function Home() {
             <a href="#team">Our team &amp; progress</a>
             <a href="#sponsors">Sponsors</a>
             <a href="#programs">Programs</a>
+            <a href="#arduino">Arduino classes</a>
             <a href="#drives">Device drives</a>
             <a href="#tech-donation">Donate technology</a>
-            <a href="#donate">Live impact</a>
+            <a href="#donate">Donations</a>
             <a href="#contact">Contact</a>
+            <a href="/privacy/">Privacy</a>
             <a href="#apply">OpenByte Positions</a>
           </div>
         </div>
