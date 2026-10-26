@@ -2203,3 +2203,105 @@ h3 {
   font-weight: 700;
   text-underline-offset: 3px;
 }
+
+
+/* Community sponsor recognition */
+.sponsor-section {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+
+.sponsor-intro {
+  max-width: 790px;
+  margin-bottom: clamp(30px, 4vw, 54px);
+}
+
+.sponsor-intro > p:last-child {
+  max-width: 670px;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.5vw, 32px);
+}
+
+.sponsor-card {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+}
+
+.sponsor-card-copy {
+  padding: clamp(22px, 3vw, 38px);
+  flex: 1;
+}
+
+.sponsor-kind {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--blue-dark);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.sponsor-card h3 {
+  font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+  margin-bottom: 14px;
+}
+
+.sponsor-card-copy > p {
+  max-width: 500px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.sponsor-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+  color: var(--blue-dark);
+  font-weight: 800;
+  font-size: 0.83rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.sponsor-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sponsor-post {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.sponsor-post img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #f7f7f5;
+}
+
+.sponsor-post figcaption {
+  color: var(--muted);
+  font-size: 0.76rem;
+  padding: 12px clamp(22px, 3vw, 38px) 16px;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .sponsor-grid {
+    grid-template-columns: 1fr;
+  }
+}
