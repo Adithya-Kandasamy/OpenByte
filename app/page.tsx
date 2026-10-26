@@ -439,6 +439,9 @@ export default function Home() {
             <a href="#programs" onClick={closeMenu}>
               Programs
             </a>
+            <a href="#sponsors" onClick={closeMenu}>
+              Sponsors
+            </a>
             <a href="#drives" onClick={closeMenu}>
               Device drives
             </a>
@@ -764,6 +767,78 @@ export default function Home() {
                   One of our early coding workshops, photographed during Demo Day.
                 </figcaption>
               </figure>
+            </div>
+          </div>
+        </section>
+
+        <section id="sponsors" className="section sponsor-section">
+          <div className="shell">
+            <div className="sponsor-intro" data-reveal>
+              <p className="eyebrow">Our community partners</p>
+              <h2>Thank you to our sponsors.</h2>
+              <p>
+                OpenByte&apos;s programs grow with the support of businesses that
+                believe in making technology education more accessible.
+                We&apos;re grateful to the partners helping students learn by doing.
+              </p>
+            </div>
+            <div className="sponsor-grid" data-reveal>
+              <article className="sponsor-card">
+                <div className="sponsor-card-copy">
+                  <span className="sponsor-kind">STEM kit sponsor</span>
+                  <h3>Adeept</h3>
+                  <p>
+                    Adeept generously donated three ESP32 smart-car kits to
+                    support hands-on STEM learning with OpenByte students.
+                  </p>
+                  <a
+                    className="sponsor-link"
+                    href="https://www.adeept.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Adeept <ArrowRight aria-hidden="true" />
+                  </a>
+                </div>
+                <figure className="sponsor-post">
+                  <img
+                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/6e40843b-289a-4a70-a0dc-28649b02cbb3.png"
+                    alt="OpenByte and Adeept logos above three donated Adeept STEM kit boxes in our thank-you graphic"
+                    width="1846"
+                    height="1860"
+                    loading="lazy"
+                  />
+                  <figcaption>Our thank-you graphic recognizing Adeept&apos;s donated kits.</figcaption>
+                </figure>
+              </article>
+              <article className="sponsor-card">
+                <div className="sponsor-card-copy">
+                  <span className="sponsor-kind">Community donor</span>
+                  <h3>Ashburn Art Classes</h3>
+                  <p>
+                    Thank you to Ashburn Art Classes for contributing $250
+                    to help OpenByte expand local STEM learning opportunities.
+                  </p>
+                  <a
+                    className="sponsor-link"
+                    href="https://ashburnartclasses.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Ashburn Art Classes <ArrowRight aria-hidden="true" />
+                  </a>
+                </div>
+                <figure className="sponsor-post">
+                  <img
+                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/37a2de9b-6d01-427a-a2d6-c50f8b85f2d1.png"
+                    alt="OpenByte and Ashburn Art Classes logos in our thank-you graphic recognizing a $250 contribution"
+                    width="1882"
+                    height="1866"
+                    loading="lazy"
+                  />
+                  <figcaption>Our thank-you graphic recognizing Ashburn Art Classes.</figcaption>
+                </figure>
+              </article>
             </div>
           </div>
         </section>
@@ -1096,6 +1171,7 @@ export default function Home() {
           <div className="footer-links">
             <a href="#about">Mission</a>
             <a href="#team">Our team &amp; progress</a>
+            <a href="#sponsors">Sponsors</a>
             <a href="#programs">Programs</a>
             <a href="#drives">Device drives</a>
             <a href="#tech-donation">Donate technology</a>
