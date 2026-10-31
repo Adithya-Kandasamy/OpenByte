@@ -29,6 +29,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Test HCB donor parsing
+        run: node --test scripts/update-hcb-donors.test.mjs
       - name: Refresh HCB public donor rankings
         run: node scripts/update-hcb-donors.mjs
       - name: Type-check
