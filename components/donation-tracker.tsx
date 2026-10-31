@@ -121,19 +121,29 @@ function TrackerTabs({
 }
 
 function Leaderboard({
-  donors,
+  donations,
   loading,
   error,
+  publicDonors,
+  publicDonorsError,
 }: {
-  donors: PublicDonor[];
+  donations: HcbTransaction[];
   loading: boolean;
   error: string | null;
+  publicDonors: PublicDonor[];
+  publicDonorsError: string | null;
 }) {
-  const largestDonation = donors[0]?.amount_cents ?? 1;
+  // Top 10 individual contributions, not the HCB public top-donor podium.
+  // The public transaction API does not provide donor identity or consent.
+  const topContributions = [...donations]
+    .filter((donation) => (donation.amount_cents ?? 0) > 0)
+    .sort((a, b) => (b.amount_cents ?? 0) - (a.amount_cents ?? 0))
+    .slice(0, 10);
+  const largestContribution = topContributions[0]?.amount_cents ?? 1;
 
   if (loading) {
     return (
-      <div className="leaderboard-list" aria-label="Loading leaderboard">
+      <div className="leaderboard-list" aria-label="Loading top contributions">
         {[1, 2, 3, 4].map((item) => (
           <div className="leaderboard-skeleton" key={item} />
         ))}
@@ -141,41 +151,69 @@ function Leaderboard({
     );
   }
 
-  if (error || donors.length === 0) {
+  if (error || topContributions.length === 0) {
     return (
       <div className="leaderboard-empty">
-        <strong>HCB's public donor rankings aren't available right now.</strong>
-        <span>View the official rankings on Hack Club Bank instead.</span>
+        <strong>We can&apos;t load the top contributions right now.</strong>
+        <span>View the latest donation information on Hack Club Bank.</span>
         <a href={HCB_DONATION_URL} target="_blank" rel="noopener noreferrer">
-          View HCB donor leaderboard
+          Open HCB donation page
         </a>
       </div>
     );
   }
 
   return (
-    <ol className="leaderboard-list" aria-label="Top public donors">
-      {donors.map((donor) => {
-        const barWidth = Math.max(
-          20,
-          Math.round((donor.amount_cents / largestDonation) * 100),
-        );
-        const rankClass = donor.rank <= 3 ? ` rank-${donor.rank}` : "";
+    <>
+      <ol className="leaderboard-list" aria-label="Ten largest contributions">
+        {topContributions.map((donation, index) => {
+          const amountCents = donation.amount_cents ?? 0;
+          const barWidth = Math.max(
+            20,
+            Math.round((amountCents / largestContribution) * 100),
+          );
+          const rank = index + 1;
+          const rankClass = rank <= 3 ? ` rank-${rank}` : "";
 
-        return (
-          <li className="leaderboard-row" key={donor.rank}>
-            <span className={`leaderboard-rank${rankClass}`}>{donor.rank}</span>
-            <span className="leaderboard-donor">{donor.name}</span>
-            <span className="leaderboard-amount">
-              {formatCurrency(donor.amount_cents / 100)}
-            </span>
-            <span className="leaderboard-bar" aria-hidden="true">
-              <span style={{ width: `${barWidth}%` }} />
-            </span>
-          </li>
-        );
-      })}
-    </ol>
+          return (
+            <li className="leaderboard-row" key={rank}>
+              <span className={`leaderboard-rank${rankClass}`}>{rank}</span>
+              <span className="leaderboard-donor">Contribution #{rank}</span>
+              <span className="leaderboard-amount">
+                {formatCurrency(amountCents / 100)}
+              </span>
+              <span className="leaderboard-bar" aria-hidden="true">
+                <span style={{ width: `${barWidth}%` }} />
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="public-donor-section">
+        <div className="public-donor-heading">Publicly recognized supporters</div>
+        {publicDonors.length > 0 ? (
+          <ol className="public-donor-list" aria-label="Publicly named donors">
+            {publicDonors.map((donor) => (
+              <li key={donor.rank}>
+                <span>{donor.name}</span>
+                <strong>{formatCurrency(donor.amount_cents / 100)}</strong>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="public-donor-caption">
+            {publicDonorsError
+              ? "Public donor names are temporarily unavailable."
+              : "Loading names donors chose to publish on HCB."}
+          </p>
+        )}
+        <p className="public-donor-caption">
+          HCB only publishes the names of supporters who choose public recognition.
+          The Top 10 above ranks individual gifts, not unique donors.
+        </p>
+      </div>
+    </>
   );
 }
 
@@ -306,8 +344,8 @@ export function DonationTracker() {
         <span className="tracker-label">Live donation data</span>
         <h2>Community funding</h2>
         <p>
-          Donation totals come from HCB transactions. Public donor rankings
-          come from HCB&apos;s donation page.
+          Donation totals and largest gifts come from HCB transactions.
+          Public donor names follow HCB&apos;s recognition settings.
         </p>
       </div>
 
@@ -335,22 +373,22 @@ export function DonationTracker() {
         </div>
       ) : (
         <div className="tracker-panel" role="tabpanel">
-          <LiveStatus error={leaderboardState.error} label="Public HCB rankings (updated hourly)" />
+          <LiveStatus error={state.error} label="Live HCB contributions" />
           <div className="leaderboard-heading">
             <div>
-              <span className="tracker-label">Top donors</span>
-              <p>Names and combined donations are published by HCB; anonymous donors are excluded.</p>
+              <span className="tracker-label">Top 10 contributions</span>
+              <p>Largest individual gifts, including gifts made anonymously.</p>
             </div>
             <span className="leaderboard-count">
-              {leaderboardState.donors.length
-                ? `Top ${leaderboardState.donors.length}`
-                : "HCB donors"}
+              {state.loading ? "Loading" : `Top ${Math.min(10, state.donations.length)}`}
             </span>
           </div>
           <Leaderboard
-            donors={leaderboardState.donors}
-            loading={leaderboardState.loading}
-            error={leaderboardState.error}
+            donations={state.donations}
+            loading={state.loading}
+            error={state.error}
+            publicDonors={leaderboardState.donors}
+            publicDonorsError={leaderboardState.error}
           />
         </div>
       )}
