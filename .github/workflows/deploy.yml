@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *" # Refresh public donor rankings hourly
 
 permissions:
   contents: read
@@ -27,6 +29,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Refresh HCB public donor rankings
+        run: node scripts/update-hcb-donors.mjs
       - name: Type-check
         run: npm run typecheck
       - name: Build static site
