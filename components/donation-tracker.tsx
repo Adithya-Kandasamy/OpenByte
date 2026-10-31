@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 const HCB_SLUG = "openbyte-non-profit";
+const HCB_DONATION_URL =
+  "https://hcb.hackclub.com/donations/start/openbyte-non-profit";
 const GOAL = 5000;
 const REFRESH_INTERVAL = 60_000;
 
@@ -17,6 +19,18 @@ type HcbTransaction = {
 
 type TrackerState = {
   donations: HcbTransaction[];
+  loading: boolean;
+  error: string | null;
+};
+
+type PublicDonor = {
+  name: string;
+  amount_cents: number;
+  rank: number;
+};
+
+type LeaderboardState = {
+  donors: PublicDonor[];
   loading: boolean;
   error: string | null;
 };
@@ -68,10 +82,6 @@ function formatCurrency(amount: number) {
   }).format(amount);
 }
 
-function displayName(transaction: HcbTransaction) {
-  return transaction.donor_name || transaction.description || "Anonymous";
-}
-
 function LiveStatus({ error }: { error: string | null }) {
   return (
     <p className={`live-status${error ? " is-error" : ""}`}>
@@ -113,22 +123,15 @@ function TrackerTabs({
 }
 
 function Leaderboard({
-  donations,
+  donors,
   loading,
   error,
 }: {
-  donations: HcbTransaction[];
+  donors: PublicDonor[];
   loading: boolean;
   error: string | null;
 }) {
-  const rankedDonations = useMemo(
-    () =>
-      [...donations]
-        .sort((a, b) => (b.amount_cents ?? 0) - (a.amount_cents ?? 0))
-        .slice(0, 10),
-    [donations],
-  );
-  const largestDonation = rankedDonations[0]?.amount_cents ?? 1;
+  const largestDonation = donors[0]?.amount_cents ?? 1;
 
   if (loading) {
     return (
@@ -140,41 +143,33 @@ function Leaderboard({
     );
   }
 
-  if (error) {
+  if (error || donors.length === 0) {
     return (
       <div className="leaderboard-empty">
-        <strong>We can&apos;t load the leaderboard right now.</strong>
-        <span>Check back soon for the latest donor list.</span>
-      </div>
-    );
-  }
-
-  if (rankedDonations.length === 0) {
-    return (
-      <div className="leaderboard-empty">
-        <strong>No donations have been recorded yet.</strong>
-        <span>New donations will appear here automatically.</span>
+        <strong>HCB's public donor rankings aren't available right now.</strong>
+        <span>View the official rankings on Hack Club Bank instead.</span>
+        <a href={HCB_DONATION_URL} target="_blank" rel="noopener noreferrer">
+          View HCB donor leaderboard
+        </a>
       </div>
     );
   }
 
   return (
-    <ol className="leaderboard-list" aria-label="Top donations">
-      {rankedDonations.map((donation, index) => {
-        const amountCents = donation.amount_cents ?? 0;
+    <ol className="leaderboard-list" aria-label="Top public donors">
+      {donors.map((donor) => {
         const barWidth = Math.max(
           20,
-          Math.round((amountCents / largestDonation) * 100),
+          Math.round((donor.amount_cents / largestDonation) * 100),
         );
-        const rank = index + 1;
-        const rankClass = rank <= 3 ? ` rank-${rank}` : "";
+        const rankClass = donor.rank <= 3 ? ` rank-${donor.rank}` : "";
 
         return (
-          <li className="leaderboard-row" key={`${displayName(donation)}-${rank}`}>
-            <span className={`leaderboard-rank${rankClass}`}>{rank}</span>
-            <span className="leaderboard-donor">{displayName(donation)}</span>
+          <li className="leaderboard-row" key={donor.rank}>
+            <span className={`leaderboard-rank${rankClass}`}>{donor.rank}</span>
+            <span className="leaderboard-donor">{donor.name}</span>
             <span className="leaderboard-amount">
-              {formatCurrency(amountCents / 100)}
+              {formatCurrency(donor.amount_cents / 100)}
             </span>
             <span className="leaderboard-bar" aria-hidden="true">
               <span style={{ width: `${barWidth}%` }} />
@@ -190,6 +185,11 @@ export function DonationTracker() {
   const [activeTab, setActiveTab] = useState<"total" | "leaderboard">("total");
   const [state, setState] = useState<TrackerState>({
     donations: [],
+    loading: true,
+    error: null,
+  });
+  const [leaderboardState, setLeaderboardState] = useState<LeaderboardState>({
+    donors: [],
     loading: true,
     error: null,
   });
@@ -226,6 +226,67 @@ export function DonationTracker() {
       controller.abort();
       controller = new AbortController();
       void loadDonations();
+    }, REFRESH_INTERVAL);
+
+    return () => {
+      mounted = false;
+      controller.abort();
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    let controller = new AbortController();
+
+    const loadLeaderboard = async () => {
+      try {
+        const response = await fetch("/api/hcb-donors", {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        if (!response.ok) throw new Error("Public HCB leaderboard unavailable");
+
+        const data: unknown = await response.json();
+        if (
+          !data ||
+          typeof data !== "object" ||
+          !("donors" in data) ||
+          !Array.isArray(data.donors)
+        ) {
+          throw new Error("Unexpected HCB leaderboard response");
+        }
+        const donors = data.donors as PublicDonor[];
+        if (
+          donors.length === 0 ||
+          !donors.every(
+            (donor) =>
+              typeof donor.name === "string" &&
+              Number.isSafeInteger(donor.amount_cents) &&
+              Number.isInteger(donor.rank),
+          )
+        ) {
+          throw new Error("Invalid HCB donor rankings");
+        }
+
+        if (mounted) setLeaderboardState({ donors, loading: false, error: null });
+      } catch (error) {
+        if (!mounted || (error instanceof DOMException && error.name === "AbortError")) {
+          return;
+        }
+        setLeaderboardState({
+          donors: [],
+          loading: false,
+          error: "HCB's public donor rankings are temporarily unavailable.",
+        });
+      }
+    };
+
+    void loadLeaderboard();
+    const interval = window.setInterval(() => {
+      controller.abort();
+      controller = new AbortController();
+      void loadLeaderboard();
     }, REFRESH_INTERVAL);
 
     return () => {
@@ -276,18 +337,22 @@ export function DonationTracker() {
         </div>
       ) : (
         <div className="tracker-panel" role="tabpanel">
-          <LiveStatus error={state.error} />
+          <LiveStatus error={leaderboardState.error} />
           <div className="leaderboard-heading">
             <div>
               <span className="tracker-label">Top donations</span>
-              <p>Donor names appear when they are provided by HCB.</p>
+              <p>Names and combined donations are published by HCB; anonymous donors are excluded.</p>
             </div>
-            <span className="leaderboard-count">Top 10</span>
+            <span className="leaderboard-count">
+              {leaderboardState.donors.length
+                ? `Top ${leaderboardState.donors.length}`
+                : "HCB donors"}
+            </span>
           </div>
           <Leaderboard
-            donations={state.donations}
-            loading={state.loading}
-            error={state.error}
+            donors={leaderboardState.donors}
+            loading={leaderboardState.loading}
+            error={leaderboardState.error}
           />
         </div>
       )}
