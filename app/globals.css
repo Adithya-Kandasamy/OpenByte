@@ -1355,6 +1355,49 @@ h3 {
   display: block;
 }
 
+.public-donor-section {
+  margin-top: 23px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.public-donor-heading {
+  color: var(--ink);
+  font-size: 0.79rem;
+  font-weight: 800;
+  margin-bottom: 11px;
+}
+
+.public-donor-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+}
+
+.public-donor-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.public-donor-list strong {
+  font-weight: 800;
+  flex: none;
+}
+
+.public-donor-caption {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  margin: 11px 0 0;
+}
+
 .leaderboard-skeleton {
   height: 32px;
   background: #edf0f0;
