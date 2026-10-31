@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const HCB_SLUG = "openbyte-non-profit";
 const HCB_DONATION_URL =
@@ -13,8 +13,6 @@ type HcbTransaction = {
   memo?: string;
   type?: string;
   tag?: string;
-  donor_name?: string;
-  description?: string;
 };
 
 type TrackerState = {
@@ -308,8 +306,8 @@ export function DonationTracker() {
         <span className="tracker-label">Live donation data</span>
         <h2>Community funding</h2>
         <p>
-          Totals and individual donations are loaded directly from OpenByte&apos;s
-          Hack Club Bank account.
+          Donation totals come from HCB transactions. Public donor rankings
+          come from HCB&apos;s donation page.
         </p>
       </div>
 
@@ -340,7 +338,7 @@ export function DonationTracker() {
           <LiveStatus error={leaderboardState.error} />
           <div className="leaderboard-heading">
             <div>
-              <span className="tracker-label">Top donations</span>
+              <span className="tracker-label">Top donors</span>
               <p>Names and combined donations are published by HCB; anonymous donors are excluded.</p>
             </div>
             <span className="leaderboard-count">
