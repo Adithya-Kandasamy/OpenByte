@@ -80,11 +80,11 @@ function formatCurrency(amount: number) {
   }).format(amount);
 }
 
-function LiveStatus({ error }: { error: string | null }) {
+function LiveStatus({ error, label = "Live from Hack Club Bank" }: { error: string | null; label?: string }) {
   return (
     <p className={`live-status${error ? " is-error" : ""}`}>
       <span className="live-dot" aria-hidden="true" />
-      {error ? "Tracker unavailable" : "Live from Hack Club Bank"}
+      {error ? "Tracker unavailable" : label}
     </p>
   );
 }
@@ -239,7 +239,7 @@ export function DonationTracker() {
 
     const loadLeaderboard = async () => {
       try {
-        const response = await fetch("/api/hcb-donors", {
+        const response = await fetch("/hcb-donors.json", {
           signal: controller.signal,
           cache: "no-store",
         });
@@ -335,7 +335,7 @@ export function DonationTracker() {
         </div>
       ) : (
         <div className="tracker-panel" role="tabpanel">
-          <LiveStatus error={leaderboardState.error} />
+          <LiveStatus error={leaderboardState.error} label="Public HCB rankings (updated hourly)" />
           <div className="leaderboard-heading">
             <div>
               <span className="tracker-label">Top donors</span>
