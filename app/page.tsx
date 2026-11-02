@@ -924,6 +924,38 @@ export default function Home() {
                   <figcaption>OpenByte's thank-you graphic for Ashburn Art Classes.</figcaption>
                 </figure>
               </article>
+
+              <article className="sponsor-card" data-reveal>
+                <div className="sponsor-card-top">
+                  <div className="sponsor-brand" aria-label="Robeks of Loudoun">
+                    <span className="sponsor-robeks-wordmark">
+                      Robeks
+                      <small>of Loudoun</small>
+                    </span>
+                  </div>
+                  <div className="sponsor-card-info">
+                    <span className="sponsor-kind">Local community sponsor</span>
+                    <h3>Robeks of Loudoun</h3>
+                    <p>
+                      Thank you to Robeks of Loudoun for its <strong>$100 donation</strong>
+                      {" "}supporting free and accessible technology education in our community.
+                    </p>
+                    <a
+                      className="sponsor-link"
+                      href="https://locations.robeks.com/ll/US/VA/Ashburn/43145-Broadlands-Center-Plaza"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Visit Robeks Broadlands <ArrowRight aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+                <div className="sponsor-robeks-thanks">
+                  <span className="sponsor-robeks-thanks-overline">Community support</span>
+                  <strong>Thank you, Robeks!</strong>
+                  <span>Your $100 gift helps more students learn technology by making.</span>
+                </div>
+              </article>
             </div>
           </div>
         </section>
