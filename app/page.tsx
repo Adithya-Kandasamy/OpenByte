@@ -955,20 +955,29 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                <div className="sponsor-robeks-thanks">
-                  <span className="sponsor-robeks-thanks-overline">Community support</span>
-                  <img
-                    className="sponsor-robeks-thanks-logo"
-                    src="https://storage.googleapis.com/downtowdoral/2020/03/RobeksLogo_NewHummingbird_w_Juice-page-001.jpg"
-                    alt="Robeks Fresh Juices & Smoothies logo"
-                    width={1000}
-                    height={555}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <strong>Thank you, Robeks!</strong>
-                  <span>Your $100 gift helps more students learn technology by making.</span>
-                </div>
+                <figure className="sponsor-post sponsor-post-canva">
+                  <div className="sponsor-canva-embed">
+                    <iframe
+                      title="OpenByte thank-you graphic for Robeks' $100 donation"
+                      src="https://www.canva.com/design/DAHZzstU38Y/view?embed"
+                      loading="lazy"
+                      width="1080"
+                      height="1080"
+                      allowFullScreen
+                    />
+                  </div>
+                  <figcaption>
+                    OpenByte&apos;s thank-you graphic for Robeks&apos; $100 donation.{" "}
+                    <a
+                      href="https://www.canva.com/design/DAHZzstU38Y/SwgYxNDxCYcTTIwcrSMyNg/view"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View full graphic
+                    </a>
+                    .
+                  </figcaption>
+                </figure>
               </article>
             </div>
           </div>
