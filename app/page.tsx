@@ -928,10 +928,15 @@ export default function Home() {
               <article className="sponsor-card" data-reveal>
                 <div className="sponsor-card-top">
                   <div className="sponsor-brand" aria-label="Robeks of Loudoun">
-                    <span className="sponsor-robeks-wordmark">
-                      Robeks
-                      <small>of Loudoun</small>
-                    </span>
+                    <img
+                      className="sponsor-robeks-logo"
+                      src="https://storage.googleapis.com/downtowdoral/2020/03/RobeksLogo_NewHummingbird_w_Juice-page-001.jpg"
+                      alt="Robeks Fresh Juices & Smoothies logo"
+                      width={1000}
+                      height={555}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className="sponsor-card-info">
                     <span className="sponsor-kind">Local community sponsor</span>
@@ -952,6 +957,15 @@ export default function Home() {
                 </div>
                 <div className="sponsor-robeks-thanks">
                   <span className="sponsor-robeks-thanks-overline">Community support</span>
+                  <img
+                    className="sponsor-robeks-thanks-logo"
+                    src="https://storage.googleapis.com/downtowdoral/2020/03/RobeksLogo_NewHummingbird_w_Juice-page-001.jpg"
+                    alt="Robeks Fresh Juices & Smoothies logo"
+                    width={1000}
+                    height={555}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <strong>Thank you, Robeks!</strong>
                   <span>Your $100 gift helps more students learn technology by making.</span>
                 </div>
