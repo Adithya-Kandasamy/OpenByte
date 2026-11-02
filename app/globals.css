@@ -2400,6 +2400,58 @@ h3 {
   line-height: 1.5;
 }
 
+
+/* Robeks of Loudoun: locally owned community sponsor recognition. */
+.sponsor-robeks-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #22644d;
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+.sponsor-robeks-wordmark small {
+  color: #5a7265;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.sponsor-robeks-thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  aspect-ratio: 1 / 1;
+  min-height: 300px;
+  padding: clamp(28px, 5vw, 60px);
+  border-top: 1px solid var(--line);
+  background: linear-gradient(145deg, #e5f4eb, #f7faf3 58%, #fdf1e4);
+  color: #225540;
+  text-align: center;
+}
+.sponsor-robeks-thanks-overline {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.sponsor-robeks-thanks strong {
+  max-width: 450px;
+  font-size: clamp(2.1rem, 4.5vw, 3.3rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+.sponsor-robeks-thanks > span:last-child {
+  max-width: 330px;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
 @media (max-width: 760px) {
   .sponsor-grid {
     grid-template-columns: 1fr;
