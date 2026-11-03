@@ -50,6 +50,40 @@ export function HomeMotion() {
               pinned.forEach((section) => section.classList.remove(s.railPinned));
             };
 
+            // Pins add scroll space that downstream triggers must measure first.
+            if (wide) {
+              all("[data-pin-rail]").forEach((wrap) => {
+                const rail = wrap.querySelector<HTMLElement>("[data-rail]");
+                const track = wrap.querySelector<HTMLElement>("[data-rail-track]");
+                if (!rail || !track) return;
+                const section = wrap.closest("section");
+                if (section) {
+                  section.classList.add(s.railPinned);
+                  pinned.push(section);
+                }
+                rail.scrollLeft = 0;
+                const distance = () => {
+                  const style = getComputedStyle(rail);
+                  const inner = rail.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+                  return Math.max(0, track.scrollWidth - inner);
+                };
+                gsap.to(track, {
+                  x: () => -distance(),
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: wrap,
+                    start: "center center",
+                    end: () => `+=${distance()}`,
+                    pin: true,
+                    scrub: 0.8,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                    refreshPriority: 1,
+                  },
+                });
+              });
+            }
+
             all("[data-hero-scene]").forEach((hero) => {
               const image = hero.querySelector("[data-hero-depth]");
               if (!image) return;
@@ -173,14 +207,22 @@ export function HomeMotion() {
             });
 
             /* Groups. */
-            all("[data-reveal-group]").forEach((group) => {
-              gsap.from(all("[data-reveal-item]", group), {
-                y: 40,
-                opacity: 0,
+            context.add("revealItems", (items: HTMLElement[]) => {
+              gsap.to(items, {
+                y: 0,
+                opacity: 1,
                 duration: 0.95,
                 ease: "power3.out",
                 stagger: 0.1,
-                scrollTrigger: { trigger: group, start: "top 86%", once: true },
+              });
+            });
+            all("[data-reveal-group]").forEach((group) => {
+              const items = all("[data-reveal-item]", group);
+              gsap.set(items, { y: 40, opacity: 0 });
+              ScrollTrigger.batch(items, {
+                start: "top 86%",
+                once: true,
+                onEnter: context.revealItems,
               });
             });
 
@@ -287,43 +329,15 @@ export function HomeMotion() {
               );
             });
 
-            /* Pinned photo rail: vertical scroll moves the strip sideways. */
-            all("[data-pin-rail]").forEach((wrap) => {
-              const rail = wrap.querySelector<HTMLElement>("[data-rail]");
-              const track = wrap.querySelector<HTMLElement>("[data-rail-track]");
-              if (!rail || !track) return;
-              const section = wrap.closest("section");
-              if (section) {
-                section.classList.add(s.railPinned);
-                pinned.push(section);
-              }
-              rail.scrollLeft = 0;
-              const distance = () => {
-                const style = getComputedStyle(rail);
-                const inner = rail.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-                return Math.max(0, track.scrollWidth - inner);
-              };
-              gsap.to(track, {
-                x: () => -distance(),
-                ease: "none",
-                scrollTrigger: {
-                  trigger: wrap,
-                  start: "center center",
-                  end: () => `+=${distance()}`,
-                  pin: true,
-                  scrub: 0.8,
-                  anticipatePin: 1,
-                  invalidateOnRefresh: true,
-                },
-              });
-            });
-
             return release;
           },
         );
 
         // Images and fonts settle after first paint; recompute trigger positions once they do.
-        const refresh = () => ScrollTrigger.refresh();
+        const refresh = () => {
+          if (!disposed) ScrollTrigger.refresh();
+        };
+        refresh();
         window.addEventListener("load", refresh, { once: true });
         void document.fonts?.ready.then(refresh);
 
