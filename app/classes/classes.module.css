@@ -1,0 +1,237 @@
+.content {
+  --bg: #fafaf8;
+  --fg: #171b1d;
+  --fg-2: #3d4447;
+  --fg-3: #596164;
+  --line: #e1e3e0;
+  --line-strong: #cfd3cf;
+  --link: #066e98;
+  --color-surface: #fff;
+  --color-paper-2: #eef1ee;
+  --color-focus: #066e98;
+  --font-mono: var(--font-geist-mono), monospace;
+  color: var(--fg);
+}
+
+.content::before,
+.content::after { content: none; }
+
+.content :global(.shell) {
+  width: auto;
+  max-width: none;
+  margin-inline: 48px;
+  padding-inline: 0;
+}
+
+.content h1,
+.content h2,
+.content h3 {
+  color: var(--fg);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+.content h2 {
+  max-width: 19ch;
+  margin: 0;
+  font-size: clamp(34px, 3.4vw, 48px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.content :global(.section) {
+  padding-block: 64px;
+  border-top: 1px solid var(--line);
+}
+
+.content :global(.class-hero) { padding-block: 24px 64px; }
+.content :global(.back-link) { margin-bottom: 32px; font-size: 14px; }
+
+.content :global(.class-hero-grid) {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.content :global(.class-hero) h1 {
+  margin-top: 20px;
+  font-size: clamp(44px, 5vw, 72px);
+  letter-spacing: -0.055em;
+  line-height: 1.04;
+}
+
+.content :global(.class-hero-sub) {
+  max-width: 44ch;
+  margin-block: 24px 28px;
+  color: var(--fg-3);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.content :global(.eyebrow) {
+  margin: 0;
+  color: var(--fg-3);
+  font-size: 12px;
+}
+
+.content :global(.btn) {
+  min-height: 48px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.content :global(.class-hero-figure) {
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 20px;
+  aspect-ratio: 1.15;
+  background: #073139;
+}
+
+.content :global(.class-hero-figure) img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% center;
+}
+
+.content :global(.course-notice) {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 24px;
+}
+
+.content :global(.course-notice .mono) {
+  color: var(--fg);
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.content :global(.course-notice) p { font-size: 14px; line-height: 1.6; }
+
+.content :global(.section-heading) {
+  align-items: start;
+  gap: 32px 64px;
+  margin-bottom: 32px;
+}
+
+.content :global(.section-heading) p {
+  max-width: 48ch;
+  color: var(--fg-3);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.content :global(.course-timeline) { margin: 0; padding: 0; list-style: none; }
+.content :global(.course-timeline > li) {
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 40px;
+  padding-block: 28px;
+}
+
+.content :global(.course-timeline) h3 { margin-bottom: 12px; font-size: 26px; }
+.content :global(.course-timeline) p { max-width: 64ch; color: var(--fg-3); line-height: 1.65; }
+.content :global(.reconciliation) { margin-top: 24px; color: var(--fg-3); font-size: 13px; }
+
+.content :global(.class-grid) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 64px;
+}
+
+.content :global(.class-intro) {
+  max-width: 56ch;
+  margin-top: 24px;
+  color: var(--fg-3);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.content :global(.parts-list) { margin-top: 32px; padding: 0; }
+.content :global(.parts-list) li { padding-block: 16px; font-size: 15px; }
+.content :global(.parts-list) li > span:last-child { font-size: 13px; }
+
+.content :global(.class-code) {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #19343f;
+  border-radius: 16px;
+  background: #071b26;
+  color: #f4f8fa;
+}
+
+.content :global(.code-caption) {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgb(255 255 255 / 14%);
+  color: #c3d0d6;
+  font-size: 12px;
+}
+
+.content :global(.class-code) pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 24px;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.content :global(.class-code) code { color: inherit; background: transparent; }
+.content :global(.code-footnote) {
+  padding: 20px 24px;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+  color: #c3d0d6;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.content :global(.specs) { margin-top: 32px; }
+.content :global(.specs > div) { padding-block: 20px; }
+.content :global(.specs) dt { color: var(--fg-3); }
+.content :global(.specs) dd { color: var(--fg); font-size: 16px; line-height: 1.6; }
+.content :global(.class-faq) details { border-bottom: 1px solid var(--line); }
+.content :global(.class-faq) summary { min-height: 72px; padding-block: 20px; color: var(--fg); font-size: 18px; }
+.content :global(.class-faq) details p { padding-bottom: 24px; color: var(--fg-3); font-size: 16px; line-height: 1.65; }
+.content :global(.class-contact) p { max-width: 56ch; font-size: 17px; line-height: 1.65; }
+
+@media (max-width: 1100px) {
+  .content :global(.shell) { margin-inline: 40px; }
+  .content :global(.class-hero-grid),
+  .content :global(.class-grid) { gap: 32px; }
+}
+
+@media (max-width: 900px) {
+  .content :global(.section) { padding-block: 48px; }
+  .content :global(.class-hero-grid),
+  .content :global(.class-grid),
+  .content :global(.course-notice) { grid-template-columns: minmax(0, 1fr); }
+  .content :global(.class-hero-figure) { aspect-ratio: 16 / 9; }
+  .content :global(.course-notice) { gap: 12px; }
+  .content :global(.course-timeline > li) { grid-template-columns: 170px minmax(0, 1fr); gap: 24px; }
+}
+
+@media (max-width: 640px) {
+  .content :global(.shell) { margin-inline: 24px; }
+  .content :global(.class-hero) { padding-block: 12px 32px; }
+  .content :global(.section) { padding-block: 32px; }
+  .content :global(.back-link) { margin-bottom: 24px; }
+  .content :global(.class-hero) h1 { font-size: clamp(36px, 10.5vw, 54px); }
+  .content :global(.class-hero-sub) { font-size: 16px; }
+  .content :global(.class-hero-figure) { border-radius: 16px; }
+  .content :global(.course-timeline > li) { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 24px; }
+  .content :global(.course-timeline) h3 { font-size: 24px; }
+  .content :global(.parts-list) li { gap: 10px; font-size: 14px; }
+  .content :global(.parts-list) li > span:last-child { font-size: 11px; }
+  .content :global(.class-code) pre { padding: 20px; font-size: 12px; }
+  .content :global(.code-caption),
+  .content :global(.code-footnote) { padding: 16px 20px; }
+  .content :global(.btn) { gap: 8px; padding-inline: 14px; font-size: 13px; }
+}
