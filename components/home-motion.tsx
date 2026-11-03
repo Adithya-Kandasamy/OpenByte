@@ -19,7 +19,6 @@ import s from "../app/home.module.css";
  *   [data-count]        figures count up once
  *   [data-draw]         hairline draws left to right
  *   [data-pin-rail]     photo rail pinned and driven horizontally (wide screens)
- *   [data-letters]      footer wordmark letters rise
  *   [data-rise]         larger lift for floating panels
  */
 export function HomeMotion() {
@@ -283,17 +282,6 @@ export function HomeMotion() {
                   scrollTrigger: { trigger: el, start: "top 90%", once: true },
                 },
               );
-            });
-
-            /* Footer wordmark. */
-            all("[data-letters]").forEach((word) => {
-              gsap.from(all("[data-l]", word), {
-                yPercent: 105,
-                duration: 1.2,
-                ease: "expo.out",
-                stagger: 0.05,
-                scrollTrigger: { trigger: word, start: "top 95%", once: true },
-              });
             });
 
             /* Band photos drift inside their frames. */

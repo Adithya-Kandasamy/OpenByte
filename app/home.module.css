@@ -1715,7 +1715,7 @@
 
 
 /* ======================================================================
- * Final pass: motion hooks, merged flows, sticky bar, footer wordmark.
+ * Final pass: motion hooks, merged flows, sticky bar.
  * ====================================================================== */
 
 /* Masked words for heading reveals. Plain inline text without JS. */
@@ -1875,7 +1875,7 @@
   transform: translateY(-6px);
 }
 
-/* Footer: brand line, columns, giant wordmark. */
+/* Footer: brand line and columns. */
 .footerCta {
   display: inline-flex;
   align-items: center;
@@ -1891,29 +1891,6 @@
 
 .footerCta:hover {
   border-color: var(--h-navy-ink);
-}
-
-.footerGiant {
-  display: flex;
-  margin: 96px 0 0;
-  color: var(--h-navy-ink);
-  font-family: var(--h-sans);
-  font-size: min(19.6vw, 380px);
-  font-weight: 500;
-  letter-spacing: -0.07em;
-  line-height: 0.8;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.footerGiantMask {
-  display: inline-block;
-  padding-bottom: 0.06em;
-  clip-path: inset(-0.3em -0.3em 0 -0.3em);
-}
-
-.footerGiantMask > [data-l] {
-  display: inline-block;
 }
 
 .footer .footerMeta {
@@ -2026,7 +2003,6 @@
 
 @media (max-width: 640px) {
   .joinStrip { padding: 24px; border-radius: 16px; }
-  .footerGiant { margin-top: 64px; }
   .bar { top: 8px; width: calc(100% - 16px); }
   .barLogo img { width: 84px; }
 }

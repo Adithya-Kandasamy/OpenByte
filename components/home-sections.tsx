@@ -613,12 +613,6 @@ export function HomeFooter({ homePath = "" }: { homePath?: string }) {
         </nav>
       </div>
 
-      <p className={s.footerGiant} aria-hidden="true" data-letters>
-        {"OpenByte".split("").map((letter, index) => (
-          <span key={index} className={s.footerGiantMask}><span data-l>{letter}</span></span>
-        ))}
-      </p>
-
       <div className={s.footerMeta}>
         <span>© 2026 OpenByte Non-Profit</span>
         <a href="mailto:team@openbyte-np.org">team@openbyte-np.org</a>
