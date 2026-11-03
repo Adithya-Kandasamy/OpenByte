@@ -223,7 +223,7 @@
 .statementText {
   grid-column: 1 / -1;
   justify-self: center;
-  max-width: 24ch;
+  max-width: 32ch;
   margin: 0;
   color: var(--h-ink);
   font-family: var(--h-sans);
@@ -1626,7 +1626,7 @@
     grid-column: 1 / -1 !important;
   }
   .splitHead { row-gap: 8px; margin-bottom: 48px; }
-  .statementText { max-width: 22ch; }
+  .statementText { max-width: 28ch; }
   .sponsors { margin-top: 40px; }
   .sponsorRow { row-gap: 18px; }
   .explorerHead { margin-bottom: 48px; }
