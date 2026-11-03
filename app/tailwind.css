@@ -1,0 +1,16 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "./";
+@source "../components";
+@theme inline {
+  --color-canvas: var(--color-paper);
+  --color-panel: var(--color-surface);
+  --color-content: var(--color-ink);
+  --color-muted: var(--color-ink-3);
+  --color-hairline: var(--color-rule);
+  --color-brand: var(--color-accent);
+  --font-sans: var(--font-body);
+  --font-code: var(--font-mono);
+  --radius-button: var(--radius-control);
+}

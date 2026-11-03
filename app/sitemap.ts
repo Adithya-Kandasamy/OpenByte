@@ -3,7 +3,22 @@ import type { MetadataRoute } from "next";
 export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: "https://openbyte-np.org/", lastModified: new Date("2026-10-26"), changeFrequency: "weekly", priority: 1 },
-    { url: "https://openbyte-np.org/privacy/", lastModified: new Date("2026-10-26"), changeFrequency: "yearly", priority: 0.2 },
+    {
+      url: "https://openbyte-np.org/classes/",
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://openbyte-np.org/",
+      lastModified: new Date("2026-10-26"),
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
+      url: "https://openbyte-np.org/privacy/",
+      lastModified: new Date("2026-10-26"),
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
   ];
 }

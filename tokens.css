@@ -1,0 +1,79 @@
+/* OpenByte · shared dark design system. See DESIGN.md. */
+:root {
+  color-scheme: dark;
+  --color-paper: #08090a;
+  --color-surface: #0f1113;
+  --color-paper-2: #14171a;
+  --color-ink: #f7f8f8;
+  --color-ink-2: #b4b8bf;
+  --color-ink-3: #8a8f98;
+  --color-rule: rgb(255 255 255 / 8%);
+  --color-rule-strong: rgb(255 255 255 / 18%);
+  --color-accent: #10b8f8;
+  --color-accent-ink: var(--color-accent);
+  --color-link: var(--color-accent);
+  --color-focus: var(--color-accent);
+  --color-accent-soft: rgb(16 184 248 / 12%);
+  --color-accent-faint: rgb(16 184 248 / 4%);
+  --color-figure-side: #171b1e;
+  --color-figure-edge: #737b84;
+  --color-panel-inset: var(--color-surface);
+  --color-muted-on-dark: var(--color-ink-2);
+  --color-rule-on-dark: var(--color-rule-strong);
+  --color-transparent: transparent;
+  --color-nav: rgb(8 9 10 / 86%);
+  --bg: var(--color-paper);
+  --fg: var(--color-ink);
+  --fg-2: var(--color-ink-2);
+  --fg-3: var(--color-ink-3);
+  --line: var(--color-rule);
+  --line-strong: var(--color-rule-strong);
+  --sky: var(--color-accent);
+  --sky-ink: var(--color-accent);
+  --link: var(--color-link);
+  --sky-tint: var(--color-accent-faint);
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --space-3xs: 4px;
+  --space-2xs: 8px;
+  --space-xs: 12px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 40px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 80px;
+  --space-5xl: 96px;
+  --space-6xl: 128px;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 16px;
+  --text-md: 18px;
+  --text-lg: 22px;
+  --text-xl: 28px;
+  --text-heading: clamp(36px, 4vw, 48px);
+  --text-display: clamp(46px, 5.05vw, 80px);
+  --radius-control: 6px;
+  --radius-small: 6px;
+  --radius-panel: 6px;
+  --radius-frame: 6px;
+  --radius-image: 2px;
+  --rule-width: 1px;
+  --dur-short: 160ms;
+  --dur-reveal: 250ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --max: 1360px;
+  --gutter: 24px;
+  --section-y: 80px;
+}
+@media (min-width: 768px) {
+  :root {
+    --gutter: 40px;
+    --section-y: 128px;
+  }
+}
