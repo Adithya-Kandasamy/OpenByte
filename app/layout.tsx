@@ -51,12 +51,16 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   icons: {
     icon: {
-      url: "/openbyte-favicon.png?v=2",
+      url: "/openbyte-favicon.png?v=3",
       type: "image/png",
       sizes: "128x128",
     },
-    shortcut: "/openbyte-favicon.png?v=2",
-    apple: "/openbyte-favicon.png?v=2",
+    shortcut: "/openbyte-favicon.png?v=3",
+    apple: {
+      url: "/apple-touch-icon.png?v=3",
+      type: "image/png",
+      sizes: "180x180",
+    },
   },
 };
 

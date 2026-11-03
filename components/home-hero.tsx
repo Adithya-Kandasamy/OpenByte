@@ -8,13 +8,12 @@ import { Devices } from "@phosphor-icons/react/dist/csr/Devices";
 import { HandHeart } from "@phosphor-icons/react/dist/csr/HandHeart";
 import { List } from "@phosphor-icons/react/dist/csr/List";
 import { X } from "@phosphor-icons/react/dist/csr/X";
-import { DEVICE_FORM_URL, DONATE_URL, TRIBUNE_URL } from "../lib/site-content";
 import styles from "../app/page.module.css";
 
 const navigation = [
   { label: "Our programs", href: "#programs" },
-  { label: "Our story", href: TRIBUNE_URL },
-  { label: "Get in touch", href: "mailto:team@openbyte-np.org" },
+  { label: "Our story", href: "#team" },
+  { label: "Get in touch", href: "#contact" },
 ];
 
 export function HomeHero({ children, footer }: { children?: React.ReactNode; footer?: React.ReactNode }) {
@@ -86,8 +85,8 @@ export function HomeHero({ children, footer }: { children?: React.ReactNode; foo
           {navigation.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}
         </nav>
         <div className={styles.headerActions}>
-          <a className={styles.donateLink} href={DONATE_URL}>Donate</a>
-          <a className={styles.deviceButton} href={DEVICE_FORM_URL}>
+          <a className={styles.donateLink} href="#donate">Donate</a>
+          <a className={styles.deviceButton} href="#tech-donation">
             Give a device <ArrowUpRight size={17} aria-hidden="true" />
           </a>
           <button ref={menuButtonRef} className={styles.menuButton} type="button"
@@ -103,7 +102,7 @@ export function HomeHero({ children, footer }: { children?: React.ReactNode; foo
               {item.label} <ArrowUpRight size={18} aria-hidden="true" />
             </a>
           ))}
-          <a href={DONATE_URL}>Donate to OpenByte</a>
+          <a href="#donate" onClick={() => setMenuOpen(false)}>Donate to OpenByte</a>
         </nav>
       </header>
       <main id="main-content" tabIndex={-1}>
@@ -142,7 +141,7 @@ export function HomeHero({ children, footer }: { children?: React.ReactNode; foo
                 </a>
               </div>
             </div>
-            <a className={styles.teamLink} href={TRIBUNE_URL}>
+            <a className={styles.teamLink} href="#team">
               <img src="/media/hero/openbyte-team.webp" width={72} height={64} loading="lazy" decoding="async" alt="" />
               <span className={styles.teamText}>
                 <strong>Meet the founders <ArrowUpRight size={18} aria-hidden="true" /></strong>
@@ -156,12 +155,12 @@ export function HomeHero({ children, footer }: { children?: React.ReactNode; foo
             <span>Coding &amp; electronics</span>
             <ArrowRight className={styles.programArrow} size={19} aria-hidden="true" />
           </a>
-          <a href="mailto:team@openbyte-np.org?subject=Digital%20help">
+          <a href="#contact">
             <HandHeart className={styles.programIcon} size={26} weight="duotone" aria-hidden="true" />
             <span>Everyday tech help</span>
             <ArrowRight className={styles.programArrow} size={19} aria-hidden="true" />
           </a>
-          <a href={DEVICE_FORM_URL}>
+          <a href="#drives">
             <Devices className={styles.programIcon} size={26} weight="duotone" aria-hidden="true" />
             <span>Community device drives</span>
             <ArrowRight className={styles.programArrow} size={19} aria-hidden="true" />

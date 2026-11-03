@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/csr/ArrowUpRight";
-import { DEVICE_FORM_URL, DONATE_URL } from "../lib/site-content";
 import s from "../app/home.module.css";
 
 const LINKS = [
@@ -54,8 +53,8 @@ export function StickyBar() {
           ))}
         </nav>
         <div className={s.barActions}>
-          <a className={s.barGhost} href={DONATE_URL} target="_blank" rel="noopener noreferrer">Donate</a>
-          <a className={s.barSolid} href={DEVICE_FORM_URL} target="_blank" rel="noopener noreferrer">
+          <a className={s.barGhost} href="#donate">Donate</a>
+          <a className={s.barSolid} href="#tech-donation">
             Give a device <ArrowUpRight size={16} aria-hidden="true" />
           </a>
         </div>

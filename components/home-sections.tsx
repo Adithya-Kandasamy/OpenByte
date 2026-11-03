@@ -560,7 +560,7 @@ export function HomeSections() {
   );
 }
 
-export function HomeFooter() {
+export function HomeFooter({ homePath = "" }: { homePath?: string }) {
   return (
     <footer className={s.footer}>
       <div className={s.footerGrid}>
@@ -587,27 +587,27 @@ export function HomeFooter() {
           <div>
             <p className={s.caption}>Programs</p>
             <ul>
-              <li><a href="#programs">Programs</a></li>
+              <li><a href={`${homePath}#programs`}>Programs</a></li>
               <li><a href="/classes/">Arduino classes</a></li>
-              <li><a href="#progress">Progress</a></li>
-              <li><a href="#drives">Device drives</a></li>
+              <li><a href={`${homePath}#progress`}>Progress</a></li>
+              <li><a href={`${homePath}#drives`}>Device drives</a></li>
             </ul>
           </div>
           <div>
             <p className={s.caption}>Organization</p>
             <ul>
-              <li><a href="#team">Our team</a></li>
-              <li><a href="#sponsors">Sponsors</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href={`${homePath}#team`}>Our team</a></li>
+              <li><a href={`${homePath}#sponsors`}>Sponsors</a></li>
+              <li><a href={`${homePath}#contact`}>Contact</a></li>
               <li><a href="/privacy/">Privacy</a></li>
             </ul>
           </div>
           <div>
             <p className={s.caption}>Get involved</p>
             <ul>
-              <li><a href="#tech-donation">Give a device</a></li>
-              <li><a href="#donate">Donate</a></li>
-              <li><a href="#apply">OpenByte Positions</a></li>
+              <li><a href={`${homePath}#tech-donation`}>Give a device</a></li>
+              <li><a href={`${homePath}#donate`}>Donate</a></li>
+              <li><a href={`${homePath}#apply`}>OpenByte Positions</a></li>
             </ul>
           </div>
         </nav>

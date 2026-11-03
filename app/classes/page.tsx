@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { SiteNav } from "../../components/site-nav";
-import { SiteFooter } from "../../components/site-footer";
-import { Reveal } from "../../components/reveal";
+import { HomeFooter } from "../../components/home-sections";
+import { HomeMotion } from "../../components/home-motion";
 import { BLINK_CODE, CLASS_INQUIRY_URL, LESSONS } from "../../lib/site-content";
-import { BreadboardFigure } from "../../components/figures";
+import shell from "../page.module.css";
+import s from "./classes.module.css";
+
+export const viewport: Viewport = { themeColor: "#fafaf8" };
 
 export const metadata: Metadata = {
   title: "Beginner Arduino & Electronics Classes | OpenByte",
@@ -14,13 +17,13 @@ export const metadata: Metadata = {
 
 export default function Classes() {
   return (
-    <>
-      <a className="skip-link" href="#main-content">
+    <div className={shell.page}>
+      <a className={shell.skipLink} href="#main-content">
         Skip to main content
       </a>
       <SiteNav />
-      <Reveal />
-      <main id="main-content" tabIndex={-1} className="classes-page">
+      <HomeMotion />
+      <main id="main-content" tabIndex={-1} className={s.content}>
         <section className="class-hero">
           <div className="shell">
             <a className="back-link" href="/#programs">
@@ -28,7 +31,7 @@ export default function Classes() {
             </a>
             <div className="class-hero-grid">
               <div>
-                <p className="mono eyebrow">OpenByte education / Grades 6–9</p>
+                <p className="mono eyebrow">OpenByte education · Grades 6–9</p>
                 <h1>
                   Beginner Arduino
                   <br />
@@ -43,10 +46,15 @@ export default function Classes() {
                 </a>
               </div>
               <figure className="class-hero-figure">
-                <BreadboardFigure />
-                <figcaption className="mono">
-                  FIG 0.2 / Build an LED circuit
-                </figcaption>
+                <img
+                  src="/media/hero/arduino-900.webp"
+                  srcSet="/media/hero/arduino-560.webp 560w, /media/hero/arduino-900.webp 900w, /media/hero/arduino-1400.webp 1400w"
+                  sizes="(max-width: 900px) calc(100vw - 72px), 42vw"
+                  width={900}
+                  height={506}
+                  fetchPriority="high"
+                  alt="A close-up of the components and connections on a blue Arduino circuit board"
+                />
               </figure>
             </div>
             <div className="course-notice">
@@ -63,7 +71,6 @@ export default function Classes() {
           <div className="shell">
             <div className="section-heading">
               <div>
-                <p className="mono eyebrow">01 / Lesson timeline</p>
                 <h2 id="timeline-title">Learning by building.</h2>
               </div>
               <p>
@@ -94,7 +101,6 @@ export default function Classes() {
         <section className="section" aria-labelledby="parts-title">
           <div className="shell class-grid">
             <div data-reveal>
-              <p className="mono eyebrow">02 / On the workbench</p>
               <h2 id="parts-title">
                 A few parts.
                 <br />A first working circuit.
@@ -131,8 +137,8 @@ export default function Classes() {
                 <code>{BLINK_CODE}</code>
               </pre>
               <p className="code-footnote">
-                500 ms on. 500 ms off. Try the editable preview on the{" "}
-                <a href="/">homepage ↗</a>.
+                500 ms on. 500 ms off. This example switches an LED on and off
+                repeatedly.
               </p>
             </div>
           </div>
@@ -140,7 +146,6 @@ export default function Classes() {
         <section className="section" aria-labelledby="details-title">
           <div className="shell class-grid">
             <div>
-              <p className="mono eyebrow">03 / Before you ask</p>
               <h2 id="details-title">Class details.</h2>
               <dl className="specs">
                 <div>
@@ -202,9 +207,6 @@ export default function Classes() {
         </section>
         <section className="section class-contact">
           <div className="shell">
-            <p className="mono eyebrow">
-              Talk to the students behind the class
-            </p>
             <h2>
               We can start with
               <br />a conversation.
@@ -219,7 +221,7 @@ export default function Classes() {
           </div>
         </section>
       </main>
-      <SiteFooter />
-    </>
+      <HomeFooter homePath="/" />
+    </div>
   );
 }

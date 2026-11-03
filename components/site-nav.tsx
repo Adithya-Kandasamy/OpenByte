@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/csr/ArrowUpRight";
+import { List } from "@phosphor-icons/react/dist/csr/List";
+import { X } from "@phosphor-icons/react/dist/csr/X";
+import s from "../app/page.module.css";
 
 const LINKS = [
-  { href: "/#programs", label: "Programs" },
-  { href: "/classes/", label: "Classes" },
-  { href: "/#progress", label: "Progress" },
-  { href: "/#team", label: "Team" },
-  { href: "/#donate", label: "Donate" },
+  { href: "/#programs", label: "Our programs" },
+  { href: "/#team", label: "Our story" },
+  { href: "/#contact", label: "Get in touch" },
 ];
 
 export function SiteNav() {
@@ -29,76 +31,56 @@ export function SiteNav() {
   const close = () => setOpen(false);
 
   return (
-    <header className="site-header">
-      <div className="shell nav-inner">
-        <a
-          className="wordmark"
-          href="/"
-          onClick={close}
-          aria-label="OpenByte, home"
-        >
-          <span className="brand-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-          </span>
-          OpenByte
-        </a>
+    <header className={s.header}>
+      <a
+        className={s.wordmark}
+        href="/"
+        onClick={close}
+        aria-label="OpenByte, home"
+      >
+        <img className={s.brandLogo} src="/media/brand/openbyte-logo.webp"
+          width={640} height={191} alt="OpenByte — Innovate, Connect, Empower" />
+      </a>
 
-        <nav className="nav-links" aria-label="Main">
-          {LINKS.map((link) => (
-            <a key={link.href} href={link.href}>
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="nav-actions">
-          <a className="btn btn-primary btn-sm" href="/#tech-donation">
-            Give a device
+      <nav className={s.desktopNav} aria-label="Main navigation">
+        {LINKS.map((link) => (
+          <a key={link.href} href={link.href}>
+            {link.label}
           </a>
-        </div>
+        ))}
+      </nav>
 
+      <div className={s.headerActions}>
+        <a className={s.donateLink} href="/#donate">Donate</a>
+        <a className={s.deviceButton} href="/#tech-donation">
+          Give a device <ArrowUpRight size={17} aria-hidden="true" />
+        </a>
         <button
           ref={toggleRef}
-          className="nav-toggle"
+          className={s.menuButton}
           type="button"
           aria-expanded={open}
           aria-controls="nav-panel"
+          aria-label={open ? "Close navigation" : "Open navigation"}
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
+          {open ? <X size={23} aria-hidden="true" /> : <List size={23} aria-hidden="true" />}
         </button>
       </div>
 
       <nav
         id="nav-panel"
-        className="nav-panel"
-        aria-label="Mobile"
+        className={s.mobileNav}
+        aria-label="Mobile navigation"
         hidden={!open}
       >
-        <div className="shell">
-          {LINKS.map((link) => (
-            <a key={link.href} href={link.href} onClick={close}>
-              {link.label}
-            </a>
-          ))}
-          <div className="actions">
-            <a
-              className="btn btn-primary"
-              href="/#tech-donation"
-              onClick={close}
-            >
-              Give a device
-            </a>
-            <a className="btn btn-secondary" href="/#apply" onClick={close}>
-              Positions
-            </a>
-          </div>
-        </div>
+        {LINKS.map((link) => (
+          <a key={link.href} href={link.href} onClick={close}>
+            {link.label} <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
+        ))}
+        <a href="/#donate" onClick={close}>Donate to OpenByte</a>
+        <a href="/#tech-donation" onClick={close}>Give a device</a>
       </nav>
     </header>
   );
