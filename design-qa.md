@@ -1,58 +1,183 @@
-# OpenByte design QA
+# OpenByte design QA — current light photographic homepage
 
-## Target and implementation
+Verified November 3, 2026. At the user's request, the rejected Split Studio
+post-hero redesign was disconnected and the preceding photographic/editorial
+homepage sections were restored. The approved hero remains unchanged. The
+standalone “Why this matters” block stays removed, and section intervals remain
+at the previously tightened 120px desktop, 96px tablet, and 80px phone rhythm.
 
-- Source visual truth: `design-references/openbyte-restored-1440.png`
-- Source responsive truth: `design-references/openbyte-restored-mobile-390.png`
-- The source captures represent the earlier OpenByte direction the user preferred: dark header, transparent logo, sharp rectangular controls, cobalt/cyan accents, lime information rail, and a clear audience selector. The implementation intentionally keeps that first-screen language while extending the page with mission, programs, device drives, live giving, FAQ, and sign-up content.
-- Implementation screenshot path: unavailable. The local implementation responded with HTTP 200 from the workspace, but the in-app browser capture could not be opened after the dev server restart because Browser Use rejected the localhost navigation by URL policy.
-- Intended desktop viewport: 1440 x 1024 CSS px, device scale factor 1
-- Intended mobile viewport: 390 x 844 CSS px, device scale factor 1
-- Source capture pixels: desktop 1425 x 1013; mobile 375 x 811
-- Implementation capture pixels: not available; density normalization was not performed
-- State: homepage at the top, Kids and families selected, mobile navigation closed
+## Current verification
 
-## Full-view comparison evidence
+- `npm run typecheck` and the production `npm run build` pass.
+- The static export contains `/`, `/classes/`, `/privacy/`, robots, and sitemap.
+- Fresh Chromium rendering passes at 320, 375, 390, 414, 768, 1280, 1440, and
+  1920px with no horizontal overflow or page errors.
+- At 1280×800, the hero headline, supporting sentence, primary action, and image
+  focal point all fit without scrolling.
+- The current full-page captures are `artifacts/openbyte-home-1440.png` and
+  `artifacts/openbyte-home-390.png`. Machine-readable viewport results are in
+  `artifacts/final-qa.json`.
+- The live Hack Club Bank tracker and leaderboard, device donation form, classes
+  route, privacy route, real photography, and verified facts remain connected.
 
-The source was opened and inspected. It establishes the accepted brand direction and above-the-fold composition. A same-viewport implementation screenshot could not be captured because the browser policy blocked localhost navigation, so a visual pass/fail comparison is not valid.
+---
 
-## Focused-region comparison evidence
+# Previous dark production baseline
 
-Not completed. Without an implementation capture, the logo, audience-selector icon alignment, responsive wrapping, photo treatment, and live tracker cannot be compared visually at pixel level.
+Verified November 2, 2026. The latest dark-first brief governs the current
+implementation. Earlier light-mode studies below are historical.
 
-## Required fidelity surfaces
+## Current design and implementation
 
-- Fonts and typography: the redesign uses the existing system UI stack and preserves the source hierarchy: compact uppercase labels, large high-contrast headline, restrained body copy, and dense utility text.
-- Spacing and layout rhythm: the first screen uses the source's two-column hero, sharp panel rows, rectangular controls, lime rail, and dark three-column audience strip. Lower sections use the same border-led editorial rhythm rather than rounded card grids.
-- Colors and visual tokens: navy, off-white, cobalt, cyan, teal, lime, and muted blue-gray are centralized in `app/globals.css`.
-- Image quality and asset fidelity: the supplied transparent OpenByte logo and generated favicon are used. The page contains two small event images; no video element is rendered.
-- Copy and content: the page clearly states the three-part mission—kids' technology learning, patient support for older adults, and community device drives—and retains the live Hack Club Bank total and donor leaderboard.
+One dark design system serves the homepage, `/classes/`, and `/privacy/`.
+The reference research combines Linear's alignment and hierarchy, Resend's
+single strong focal subject, and Cursor's emphasis on a working demonstration.
+The live OpenByte site supplies the facts, people, lessons, links, and photos.
+See `DESIGN.md`, `tokens.css`, and `design-references/dark/research.md`.
 
-## Interaction and runtime checks
+The homepage follows the requested order: split hero, supporters, mission,
+three illustrated programs, documented progress, Arduino specification,
+three real photos, founders, funding, and footer. Existing supporting copy,
+community details, device/positions forms, and contact information remain
+available through native disclosures. The device form uses its original
+external Google Forms URL. The classes route contains completed lessons,
+documented parts, class specifications, FAQ, and contact links.
 
-- Audience selector state is wired through `aria-pressed` and updates the next-step link.
-- Mobile navigation has `aria-expanded`, `aria-controls`, and closes when a navigation link is selected.
-- FAQ sections use native disclosure behavior.
-- `DonationTracker` remains mounted and retains its live Hack Club Bank API and leaderboard behavior.
-- Favicon metadata points to `/openbyte-favicon.png` for standard, shortcut, and Apple icons.
-- Workspace checks passed: `npm run typecheck`, `npm run build`, `npm audit --omit=dev`, and `git diff --check` (the only diff-check output is the existing README line-ending warning).
-- HTTP smoke checks passed for `/`, the favicon, the transparent logo, and the referenced WebP images.
-- Console/runtime interaction checks could not be completed because the browser capture was blocked before the page could be loaded in the in-app browser.
+The hero Blink editor is editable. Its supported delay values control a browser
+LED simulation; the default alternates every 500ms. Typing, pause/run, reset,
+and unsupported-sketch states work. The interface identifies it as a simulation.
+GSAP supplies short section entrances, program staggering, and SVG line drawing.
+Reduced motion disables typing, blinking, and spatial animation. Content stays
+available without the animation library or JavaScript.
 
-## Findings
+## Production verification
 
-- [Blocked] Browser-rendered visual evidence is missing. The local Next.js page is served and passes build/type checks, but Browser Use rejected the localhost navigation, so responsive screenshots and interaction state cannot be independently verified in the browser.
+- Clean `npm run build`: Next.js compilation, TypeScript, and static export pass.
+- Home and classes at 320, 375, 390, 414, 768, 1440, and 1920px: no horizontal
+  overflow or page JavaScript errors. Privacy also checked at 390 and 1440px.
+- Automated axe checks: zero violations on home, classes, privacy, and expanded
+  supporting disclosures at desktop/mobile sizes. These checks are not a full
+  manual WCAG certification.
+- Mobile navigation, Escape/focus return, disclosure hash links, keyboard funding
+  tabs, and stable total/leaderboard panel height pass.
+- Default LED timing measured at 499–500ms. Edited 750/250ms delays, pause,
+  reset, reduced motion, and complete code without JavaScript pass.
+- HCB funding loaded its live total and ten leaderboard rows. Totals are fetched
+  at runtime; they are not hardcoded. Forced API failure shows an unavailable
+  value rather than a misleading zero. No donation or form was submitted.
+- Existing donor-parser tests pass, 2/2.
+- Final normal-motion screenshots of home and classes at 1440 and 390px were
+  inspected, including mobile program spacing and the shared funding styling.
+- Tailwind source scanning is explicitly scoped to app/components. A clean
+  build was used after identifying a stale compiler cache; the exported CSS and
+  rendered donation surface were verified after rebuilding.
 
-## Comparison history
+Evidence is in `design-references/dark/`: `qa-results.json`,
+`states-results.json`, `final-home-check.json`, `final-visual-results.json`,
+and the final desktop/mobile PNGs. `screenshots.html` provides a self-contained
+viewer for all four full-page captures.
 
-- Earlier P1 visual-drift finding: a previous revision used a dominant video and oversized imagery. The current implementation removes video usage and limits imagery to small supporting photos.
-- Earlier P2 alignment finding: selector icons were not centered because a broad text selector overrode the icon wrapper's flex display. The current selector keeps icon wrappers as explicit `inline-flex` grids with fixed tracks.
-- Earlier P1 visual-drift finding: rounded cards and soft lifted surfaces weakened the boxy OpenByte direction. The current implementation uses square controls, line-separated rows, crisp borders, and a restrained offset shadow only for the live tracker.
-- Latest layout adjustment: widened the shared shell from 1180px to 1360px, increased the desktop hero headline scale, widened the hero grid, and enlarged the audience-selector rows so the hero occupies more of a wide viewport. The mobile gutter and stacked layout remain explicitly overridden at the responsive breakpoint.
-- Current blocker: no post-fix browser screenshot was available to confirm those changes visually at desktop and mobile sizes.
+## Final Lighthouse mobile audit
 
-## Follow-up polish
+| Route | Performance | Accessibility | Best practices | SEO | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `/` | 97 | 100 | 100 | 100 | 0 |
+| `/classes/` | 98 | 100 | 100 | 100 | 0 |
 
-- Capture the local page at 1440 x 1024 and 390 x 844 after refreshing the dev server, then compare the implementation against the source captures and resolve any remaining P0/P1/P2 drift.
+Home: FCP/LCP 1.5s, total blocking time 180ms. Classes: FCP/LCP 1.2s,
+total blocking time 140ms. Reports: `lighthouse-summary.json`,
+`lighthouse-home-mobile.json`, and `lighthouse-classes-mobile.json` in the dark
+evidence directory. These are local static-export measurements; deployed CDN
+caching, network conditions, and external API timing can differ.
 
-final result: blocked
+## Delivery state and remaining assets
+
+Built and verified locally, not deployed. Next.js static export is compatible
+with Vercel, and the existing GitHub Pages workflow/custom domain remain.
+OpenByte's typeset wordmark and the five supporter/press text identities are
+explicit placeholders pending approved monochrome SVGs: Adeept, Ashburn Art
+Classes, Robeks of Loudoun, Hack Club, and Bulldog Tribune. Real workshop photos
+and custom code-native SVG illustrations are present.
+
+Hallmark self-critique: philosophy 5, hierarchy 5, execution 4, specificity 5,
+restraint 5, variety 4. The user's requested section order and dark design system
+govern the composition.
+
+---
+
+# Historical QA — superseded light implementation, November 2, 2026
+
+## Current implementation
+
+The latest request selects Linear, in light mode, as the direct structural
+reference. Its downloaded homepage, external CSS, light-theme variables,
+Inter font, measured 64px/510 headline, navigation and feature-section rhythm
+inform this implementation. Earlier Vercel and centered-photo compositions are
+superseded. Reference provenance is in
+`design-references/linear-light/reference-notes.md`.
+
+The homepage uses a left-aligned hero, a wide actual Arduino lesson preview,
+monochrome text supporters, a mission statement and three illustrated purpose
+columns, then three wide product-style program sections, documented progress,
+real community evidence, team, centered funding invitation and directory
+footer. All surfaces are light; OpenByte blue remains the graphic accent.
+
+## Verification
+
+The production static export was built successfully with Next.js and its
+TypeScript check. It was rendered in local Chromium using Playwright. T3's
+shared browser/HTML preview is unavailable because required host libraries are
+missing; local Chromium uses the existing extracted-library setup.
+
+- Responsive widths 320, 375, 390, 414, 768, 1280, 1440, 1920px: no horizontal overflow,
+  page JavaScript errors or illustration/caption overlap.
+- Actual screenshots at 390, 768, and 1440px are in `design-references/linear-light/`.
+  `desktop-hero.png` and `mobile-hero.png` provide focused hero views.
+- axe WCAG A/AA scans report zero violations on the homepage, privacy route,
+  and expanded supporting disclosures. These are automated checks, not a
+  certification of every WCAG requirement.
+- Mobile menu opens, closes on selection, and handles Escape with focus return.
+- Direct application/device links open their native disclosures. Completed
+  lesson links in the hero open and scroll to the corresponding real lesson.
+- Content remains visible without JS, and native disclosures remain usable.
+  Reduced motion stops LED animation and scroll translations.
+- HCB live total loaded as $2,240.30 with 10 ranked contributions in the captured
+  state. These are observations, never hardcoded totals or inferred identities.
+- Both funding tabs work with pointer and arrow keys. Total and leaderboard
+  have the same height at 320, 390, 768, and 1440px; focusable panel scrolling exposes
+  every contribution and public donor record.
+- Forced HCB API failure shows an unavailable dash, never a misleading zero.
+- Existing public donor-parser tests pass 2/2.
+- Comparison against the saved prior source found no missing paragraphs or
+  external URLs. The attendance and kit-handoff reconciliation note remains.
+- CRLF-aware Git whitespace checks pass for the changed source files.
+
+Machine-readable evidence: `qa-results.json`, `states-results.json`,
+`funding-stability.json`, and `content-preservation.json` in the same directory.
+
+## Performance
+
+The final Lighthouse mobile audit of the local static export reports:
+
+- Performance: 99/100.
+- Accessibility: 100/100.
+- Best practices: 100/100.
+- SEO: 100/100.
+- First contentful paint and largest contentful paint: 1.7s.
+- Cumulative layout shift: 0.
+- Total blocking time: 80ms.
+
+The self-hosted Inter source is subset from 344 KB to 101 KB. Optional display
+prevents a late primary-font repaint on slow connections. Photo variants are
+pre-generated for the static export. This is a local audit, not a deployed
+production-domain measurement; CDN cache and external API timing can differ.
+
+## Delivery limits
+
+Built and verified locally; no deployment, payment, application, or message
+submission was performed. OpenByte and sponsor wordmarks are text placeholders;
+approved monochrome brand SVGs listed in DESIGN.md remain outstanding.
+
+Hallmark self-critique: philosophy 4, hierarchy 4, execution 4, specificity 5,
+restraint 5, variety 4. The user's explicit Linear structure, typography and
+light-theme request governs the composition.
