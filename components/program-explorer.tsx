@@ -11,8 +11,8 @@ const PROGRAMS = [
     tags: "Websites / Arduino / circuits / coding",
     href: "/classes/",
     cta: "See the Arduino class",
-    image: "program-kids",
-    alt: "An Arduino Uno with red, yellow, and green LEDs plugged into its headers",
+    image: "/media/openbyte-workshops/workshop-arduino-build.webp",
+    alt: "Student building an Arduino breadboard circuit at an OpenByte workshop",
   },
   {
     title: "Digital confidence for older adults",
@@ -113,8 +113,8 @@ export function ProgramExplorer() {
               key={program.image}
               data-program-image={index}
               className={index === active ? s.frameOn : s.frameOff}
-              src={`/media/home/${program.image}-640.webp`}
-              srcSet={`/media/home/${program.image}-640.webp 640w, /media/home/${program.image}-960.webp 960w`}
+              src={program.image.startsWith("/") ? program.image : `/media/home/${program.image}-640.webp`}
+              srcSet={program.image.startsWith("/") ? undefined : `/media/home/${program.image}-640.webp 640w, /media/home/${program.image}-960.webp 960w`}
               sizes="(max-width: 900px) calc(100vw - 48px), 44vw"
               width={640}
               height={800}

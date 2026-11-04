@@ -47,13 +47,11 @@ export default function Classes() {
               </div>
               <figure className="class-hero-figure">
                 <img
-                  src="/media/hero/arduino-900.webp"
-                  srcSet="/media/hero/arduino-560.webp 560w, /media/hero/arduino-900.webp 900w, /media/hero/arduino-1400.webp 1400w"
-                  sizes="(max-width: 900px) calc(100vw - 72px), 42vw"
-                  width={900}
-                  height={506}
+                  src="/media/openbyte-workshops/workshop-arduino-build.webp"
+                  width={640}
+                  height={853}
                   fetchPriority="high"
-                  alt="A close-up of the components and connections on a blue Arduino circuit board"
+                  alt="Student assembling an Arduino breadboard circuit during an OpenByte workshop"
                 />
               </figure>
             </div>

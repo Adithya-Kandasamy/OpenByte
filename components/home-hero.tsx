@@ -108,17 +108,11 @@ export function HomeHero({ children, footer }: { children?: React.ReactNode; foo
       <main id="main-content" tabIndex={-1}>
         <section className={styles.hero} aria-labelledby="hero-title" data-hero-scene>
           <picture className={styles.photograph} ref={photoRef}>
-            <source media="(max-width: 640px)" type="image/avif"
-              srcSet="/media/hero/arduino-mobile-480.avif 480w, /media/hero/arduino-mobile-800.avif 800w"
-              sizes="calc(100vw - 24px)" />
             <source media="(max-width: 640px)" type="image/webp"
-              srcSet="/media/hero/arduino-mobile-480.webp 480w, /media/hero/arduino-mobile-800.webp 800w"
-              sizes="calc(100vw - 24px)" />
-            <img src="/media/hero/arduino-1400.webp"
-              srcSet="/media/hero/arduino-560.webp 560w, /media/hero/arduino-900.webp 900w, /media/hero/arduino-1400.webp 1400w, /media/hero/arduino-2000.webp 2000w"
-              sizes="(min-width: 1920px) 1872px, calc(100vw - 48px)"
-              width={2000} height={1125} fetchPriority="high" loading="eager" decoding="async"
-              alt="A close-up of the components and connections on a blue Arduino circuit board" data-hero-depth />
+              srcSet="/media/openbyte-workshops/workshop-hero-mobile.webp" />
+            <img src="/media/openbyte-workshops/workshop-hero.webp"
+              width={1280} height={720} fetchPriority="high" loading="eager" decoding="async"
+              alt="Students collaborating on Arduino electronics projects during an OpenByte workshop" data-hero-depth />
           </picture>
           <div className={styles.photoShade} aria-hidden="true" />
           <div className={styles.heroMeta}>

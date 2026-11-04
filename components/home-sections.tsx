@@ -32,13 +32,17 @@ const ASHBURN_POST =
   "https://d2ol7oe51mr4n9.cloudfront.net/user_3K77yucLkXD8gM0VHqAnyMSm9U2/37a2de9b-6d01-427a-a2d6-c50f8b85f2d1.png";
 const ROBEKS_POST = "https://www.canva.com/design/DAHZzstU38Y/SwgYxNDxCYcTTIwcrSMyNg/view";
 
-const ROOM = [
+const ROOM: { name: string; caption: string; alt: string; src?: string }[] = [
   { name: "room-website", caption: "Made by students.", alt: "Students demonstrating an interactive website they built" },
-  { name: "room-recognition", caption: "A little recognition goes a long way.", alt: "Students receiving recognition after their presentations" },
+  { name: "workshop-mentoring", src: "/media/openbyte-workshops/workshop-mentoring.webp", caption: "Working through an Arduino circuit together.", alt: "Two OpenByte workshop participants working together on an Arduino circuit" },
+  { name: "workshop-classroom", src: "/media/openbyte-workshops/workshop-classroom.webp", caption: "Hands-on electronics learning at an OpenByte workshop.", alt: "OpenByte workshop students collaborating around tables of laptops and Arduino kits" },
   { name: "room-workshop", caption: "One of our early coding workshops, photographed during Demo Day.", alt: "Real participants and student instructors at an OpenByte coding workshop" },
+  { name: "workshop-arduino-build", src: "/media/openbyte-workshops/workshop-arduino-build.webp", caption: "Connecting components and testing a circuit.", alt: "Student connecting wires on a breadboard beside an Arduino board" },
+  { name: "workshop-group", src: "/media/openbyte-workshops/workshop-group.webp", caption: "Collaborating on an electronics project.", alt: "A group of students working together on an electronics project" },
+  { name: "workshop-overview", src: "/media/openbyte-workshops/workshop-overview.webp", caption: "Learning and building with Arduino kits.", alt: "Students using electronics kits and laptops during an OpenByte class" },
+  { name: "workshop-coding", src: "/media/openbyte-workshops/workshop-coding.webp", caption: "Programming an Arduino in the IDE.", alt: "Student coding an Arduino project on a laptop at an electronics workshop" },
+  { name: "room-recognition", caption: "A little recognition goes a long way.", alt: "Students receiving recognition after their presentations" },
   { name: "room-demo-day", caption: "Our team presenting at a student coding Demo Day.", alt: "OpenByte team members and volunteers presenting together at a coding Demo Day" },
-  { name: "room-coding", caption: "Code on the big screen at Demo Day.", alt: "Students presenting code on a projector screen to a seated audience" },
-  { name: "room-presenters", caption: "Students explaining what they built.", alt: "Student presenters at the front of a room during an OpenByte Demo Day" },
 ];
 
 /** Heading words wrapped for a masked rise-in. Plain text without JS. */
@@ -88,14 +92,13 @@ function Chip({ name, alt }: { name: string; alt: string }) {
   );
 }
 
-/** Full-bleed photographic band: portrait crop on phones, wide crop elsewhere. */
-function Band({ name, alt }: { name: string; alt: string }) {
+/** Full-bleed workshop photograph: portrait crop on phones, wide crop elsewhere. */
+function Band({ src, mobileSrc, alt }: { src: string; mobileSrc: string; alt: string }) {
   return (
     <picture className={s.bandPhoto} data-parallax>
-      <source media="(max-width: 640px)" srcSet={`/media/home/${name}-m-720.webp`} />
+      <source media="(max-width: 640px)" srcSet={mobileSrc} />
       <img
-        src={`/media/home/${name}-1200.webp`}
-        srcSet={`/media/home/${name}-1200.webp 1200w, /media/home/${name}-2000.webp 2000w`}
+        src={src}
         sizes="calc(100vw - 48px)"
         width={1200}
         height={600}
@@ -241,7 +244,7 @@ export function HomeSections() {
 
       {/* ---------- Class feature band (Radiating Hope) ---------- */}
       <section id="arduino" className={s.feature} aria-labelledby="class-title" data-grow>
-        <Band name="band-class" alt="A breadboard circuit with glowing green LEDs and jumper wires" />
+        <Band src="/media/openbyte-workshops/workshop-mentoring-wide.webp" mobileSrc="/media/openbyte-workshops/workshop-mentoring.webp" alt="OpenByte students working together to build an Arduino circuit" />
         <div className={s.featureShade} aria-hidden="true" />
         <div className={s.featureInner}>
           <Circuitry className={s.featureMark} size={64} weight="duotone" aria-hidden="true" />
@@ -289,8 +292,8 @@ export function HomeSections() {
               <figure key={photo.name}>
                 <div className={s.railPhoto}>
                   <img
-                    src={`/media/home/${photo.name}-480.webp`}
-                    srcSet={`/media/home/${photo.name}-480.webp 480w, /media/home/${photo.name}-800.webp 800w`}
+                    src={photo.src ?? `/media/home/${photo.name}-480.webp`}
+                    srcSet={photo.src ? undefined : `/media/home/${photo.name}-480.webp 480w, /media/home/${photo.name}-800.webp 800w`}
                     sizes="(max-width: 640px) 74vw, 340px"
                     width={480}
                     height={600}
@@ -458,7 +461,7 @@ export function HomeSections() {
 
       {/* ---------- Donate: live tracker on photography (Radiating Hope) ---------- */}
       <section id="donate" className={s.donate} aria-labelledby="donate-title" data-grow>
-        <Band name="band-donate" alt="A single LED glowing above a breadboard in a dark room" />
+        <Band src="/media/openbyte-workshops/workshop-group-wide.webp" mobileSrc="/media/openbyte-workshops/workshop-group.webp" alt="Students collaborating on a hands-on Arduino project at an OpenByte workshop" />
         <div className={s.donateShade} aria-hidden="true" />
         <div className={s.donateInner}>
           <div className={s.donateCopy}>
@@ -521,7 +524,7 @@ export function HomeSections() {
 
       {/* ---------- Contact (Stellar "Let's talk") + positions strip ---------- */}
       <section id="contact" className={s.contact} aria-labelledby="contact-title" data-grow>
-        <Band name="band-contact" alt="A laptop on a wooden desk beside a stack of books and a yellow chair" />
+        <Band src="/media/openbyte-workshops/workshop-overview-wide.webp" mobileSrc="/media/openbyte-workshops/workshop-overview.webp" alt="Students learning electronics with laptops and Arduino kits at an OpenByte class" />
         <div className={s.contactInner}>
           <h2 id="contact-title" className={s.contactTitle} data-split>
             <Split text="Have a question? Get in touch." />
@@ -622,21 +625,12 @@ export function HomeFooter({ homePath = "" }: { homePath?: string }) {
       <details id="photo-credits" className={s.credits}>
         <summary>Photo credits</summary>
         <p>
-          Program and background photos from Wikimedia Commons:{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:Arduino_semaforo_no-breadboard.jpg" {...external}>Mattruffoni</a>{" "}
-          (<a href="https://creativecommons.org/licenses/by-sa/4.0/" {...external}>CC BY-SA 4.0</a>),{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:Man_with_smartphone_and_laptop_(Unsplash).jpg" {...external}>Alejandro Escamilla</a> (CC0),{" "}
+          OpenByte workshop and Demo Day photos show our students and programs.
+          Illustrative photos used for older-adult technology help and device reuse come from Wikimedia Commons:{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Man_with_smartphone_and_laptop_(Unsplash).jpg" {...external}>Alejandro Escamilla</a> (CC0) and{" "}
           <a href="https://commons.wikimedia.org/wiki/File:Apple_MacBookPros_13-15-17_stacked_08-2009.jpg" {...external}>Benjamin.nagel</a>{" "}
-          (<a href="https://creativecommons.org/licenses/by-sa/3.0/" {...external}>CC BY-SA 3.0</a>),{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:Breadboard_with_4008B.jpg" {...external}>Eeppeliteloop</a>{" "}
-          (<a href="https://creativecommons.org/licenses/by-sa/3.0/" {...external}>CC BY-SA 3.0</a>),{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:RGB_LED_mounted_over_a_breadboard.jpg" {...external}>Viferico</a>{" "}
-          (<a href="https://creativecommons.org/licenses/by-sa/4.0/" {...external}>CC BY-SA 4.0</a>),{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:Laptop_and_books_(Unsplash).jpg" {...external}>Kari Shea</a> (CC0).
-          Cropped and resized; versions shared under the same licenses. Hero photo:{" "}
-          <a href="https://unsplash.com/photos/blue-t16000-circuit-board-cuqTg0PElRI" {...external}>Harrison Broadbent</a>,{" "}
-          <a href="https://unsplash.com/license" {...external}>Unsplash License</a>.
-          These images illustrate our programs; they do not depict OpenByte events.
+          (<a href="https://creativecommons.org/licenses/by-sa/3.0/" {...external}>CC BY-SA 3.0</a>).
+          These illustrative photos do not depict OpenByte events.
           Map outlines: U.S. Census Bureau state boundaries (public domain).
         </p>
       </details>
